@@ -106,6 +106,20 @@ def recipe_create():
     db.session.commit()
     return jsonify(new_recipe.serialize()), 201
 
+@api.route('/updateRecipe', methods=['PUT'])
+def recipe_update():
+    data = request.get_json()
+    updated_recipe = Recipe.query.filter(id=data["id"]).first()
+    updated_recipe["name"] = data["name"]
+    updated_recipe["description"] = data["description"]
+    updated_recipe["is_active"] = data["is_active"]
+    updated_recipe["elaboration"] = data["elaboration"]
+    updated_recipe["image"] = data["image"]
+    updated_recipe["category_id"] = data["category_id"]
+
+    db.session.commit()
+    return jsonify(updated_recipe.serialize()), 200
+
 @api.route('/call-chatGPT', methods=['GET'])
 def generateChatResponse(prompt):
     return call_chatGPTApi(prompt)
