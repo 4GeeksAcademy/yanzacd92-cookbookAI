@@ -7,6 +7,7 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
+import openai
 
 api = Blueprint('api', __name__)
 app = Flask(__name__)
@@ -63,6 +64,21 @@ def user_password_recovery():
     user = User(email=user_email, password=secure_password, is_active=True, security_question=user_security_question, security_answer=user_security_answer)
     db.session.commit()
     return jsonify(user.serialize()), 200
+
+@api.route('/call-chatGPT', methods=['GET'])
+def generateChatResponse(prompt):
+    messages = []
+    messages.append({"role": "system", "content": "Your name is Karabo. You are a helpful assistant."})
+    question = {}
+    question['role'] = 'user'
+    question['content'] = prompt
+    messages.append(question)
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo",messages=messages)
+    try:
+        answer = response['choices'][0]['message']['content'].replace('\n', '<br>')
+    except:
+        answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
+    return answer
 
 @api.route('/helloprotected', methods=['GET'])
 @jwt_required()
