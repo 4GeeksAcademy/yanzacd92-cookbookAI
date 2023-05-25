@@ -21,7 +21,7 @@ def user_create():
             "message": "Registered user"
         }), 400
     secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
-    new_user = User(email=data["email"], password=secure_password, is_active=True)
+    new_user = User(email=data["email"], password=secure_password, is_active=True, security_question=data["security_question"],security_answer=data["security_answer"])
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.serialize()), 201
@@ -45,17 +45,24 @@ def user_login():
 
 @api.route('/passwordRecovery', methods=['POST'])
 def user_password_recovery():
-    data = request.get_json()
-    new_user = User.query.filter_by(email=data["email"]).first()
-    if(new_user is not None):
+    user_email = request.json.get("email")
+    user_password = request.json.get("password")
+    user_security_question = request.json.get("security_question")
+    user_security_answer = request.json.get("security_answer")
+    user = User.query.filter_by(email=user_email).first()
+    if(user is None):
         return jsonify({
-            "message": "Registered user"
-        }), 400
-    secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
-    new_user = User(email=data["email"], password=secure_password, is_active=True)
-    db.session.add(new_user)
+            "message": "User not found"
+        }), 401
+    # verify security question and security answer
+    if not (user_security_question == user.security_question and user_security_answer == user.security_answer):
+        return jsonify({"message": "Security question and answer do not match"}), 401
+    
+    # change password
+    secure_password = bcrypt.generate_password_hash(user_password, rounds=None).decode("utf-8")
+    user = User(email=user_email, password=secure_password, is_active=True, security_question=user_security_question, security_answer=user_security_answer)
     db.session.commit()
-    return jsonify(new_user.serialize()), 201
+    return jsonify(user.serialize()), 200
 
 @api.route('/helloprotected', methods=['GET'])
 @jwt_required()
