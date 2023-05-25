@@ -120,7 +120,7 @@ def recipe_update(recipeId):
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
 
-@app.route("/deleteRecipe/<Integer:recipeId>", methods=["DELETE"])
+@api.route("/deleteRecipe/<Integer:recipeId>", methods=["DELETE"])
 def recipe_delete(recipeId):
     recipe = Recipe.query.get(recipeId)
     db.session.delete(recipe)
