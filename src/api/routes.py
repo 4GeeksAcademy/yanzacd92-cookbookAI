@@ -66,7 +66,7 @@ def user_password_recovery():
     return jsonify(user.serialize()), 200
 
 @api.route('/showRecipes/<Integer:categoryId>', methods=['GET'])
-def recipe_show():
+def recipe_show(categoryId):
     data = request.get_json()
     new_user = User.query.filter_by(email=data["email"]).first()
     if(new_user is not None):
@@ -80,7 +80,7 @@ def recipe_show():
     return jsonify(new_user.serialize()), 201
 
 @api.route('/showRecipe/<Integer:categoryId>/<Integer:recipeId>', methods=['GET'])
-def recipe_show():
+def recipe_show(categoryId, recipeId):
     data = request.get_json()
     new_user = User.query.filter_by(email=data["email"]).first()
     if(new_user is not None):
@@ -106,10 +106,10 @@ def recipe_create():
     db.session.commit()
     return jsonify(new_recipe.serialize()), 201
 
-@api.route('/updateRecipe', methods=['PUT'])
-def recipe_update():
+@api.route('/updateRecipe/<Integer:recipeId>', methods=['PUT'])
+def recipe_update(recipeId):
     data = request.get_json()
-    updated_recipe = Recipe.query.filter(id=data["id"]).first()
+    updated_recipe = Recipe.query.filter(id=recipeId).first()
     updated_recipe["name"] = data["name"]
     updated_recipe["description"] = data["description"]
     updated_recipe["is_active"] = data["is_active"]
@@ -119,6 +119,14 @@ def recipe_update():
 
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
+
+@app.route("/deleteRecipe/<Integer:recipeId>", methods=["DELETE"])
+def recipe_delete(recipeId):
+    recipe = Recipe.query.get(recipeId)
+    db.session.delete(recipe)
+    db.session.commit()
+
+    return jsonify(recipe.serialize()), 200
 
 @api.route('/call-chatGPT', methods=['GET'])
 def generateChatResponse(prompt):
