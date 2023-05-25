@@ -65,8 +65,8 @@ def user_password_recovery():
     db.session.commit()
     return jsonify(user.serialize()), 200
 
-@api.route('/showRecipes/<Integer:categoryId>', methods=['GET'])
-def recipe_show(categoryId):
+@api.route('/showRecipes/<int:categoryId>', methods=['GET'])
+def recipes_by_category_show(categoryId):
     data = request.get_json()
     new_user = User.query.filter_by(email=data["email"]).first()
     if(new_user is not None):
@@ -79,8 +79,8 @@ def recipe_show(categoryId):
     db.session.commit()
     return jsonify(new_user.serialize()), 201
 
-@api.route('/showRecipe/<Integer:categoryId>/<Integer:recipeId>', methods=['GET'])
-def recipe_show(categoryId, recipeId):
+@api.route('/showRecipe/<int:categoryId>/<int:recipeId>', methods=['GET'])
+def recipe_by_category_and_id_show(categoryId, recipeId):
     data = request.get_json()
     new_user = User.query.filter_by(email=data["email"]).first()
     if(new_user is not None):
@@ -106,7 +106,7 @@ def recipe_create():
     db.session.commit()
     return jsonify(new_recipe.serialize()), 201
 
-@api.route('/updateRecipe/<Integer:recipeId>', methods=['PUT'])
+@api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
 def recipe_update(recipeId):
     data = request.get_json()
     updated_recipe = Recipe.query.filter(id=recipeId).first()
@@ -120,7 +120,7 @@ def recipe_update(recipeId):
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
 
-@api.route("/deleteRecipe/<Integer:recipeId>", methods=["DELETE"])
+@api.route("/deleteRecipe/<int:recipeId>", methods=["DELETE"])
 def recipe_delete(recipeId):
     recipe = Recipe.query.get(recipeId)
     db.session.delete(recipe)
