@@ -12,11 +12,25 @@ api = Blueprint('api', __name__)
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
+@api.route('/signup', methods=['POST'])
+def user_create():
+    data = request.get_json()
+    new_user = User.query.filter_by(email=data["email"]).first()
+    if(new_user is not None):
+        return jsonify({
+            "message": "Registered user"
+        }), 400
+    secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
+    new_user = User(email=data["email"], password=secure_password, is_active=True)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify(new_user.serialize()), 201
+
 @api.route('/login', methods=['POST'])
 def user_login():
-    user_username = request.json.get("username")
+    user_email = request.json.get("email")
     user_password = request.json.get("password")
-    user = User.query.filter_by(username=user_username).first()
+    user = User.query.filter_by(email=user_email).first()
     if(user is None):
         return jsonify({
             "message": "User not found"
@@ -28,3 +42,23 @@ def user_login():
     # generate token
     access_token = create_access_token(identity = user.id)
     return jsonify({"accessToken": access_token})
+
+@api.route('/passwordRecovery', methods=['POST'])
+def user_password_recovery():
+    data = request.get_json()
+    new_user = User.query.filter_by(email=data["email"]).first()
+    if(new_user is not None):
+        return jsonify({
+            "message": "Registered user"
+        }), 400
+    secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
+    new_user = User(email=data["email"], password=secure_password, is_active=True)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify(new_user.serialize()), 201
+
+@api.route('/helloprotected', methods=['GET'])
+@jwt_required()
+def hello_protected_get():
+    user_id = get_jwt_identity()
+    return jsonify({"userId": user_id, "msg": "hello protected route"})
