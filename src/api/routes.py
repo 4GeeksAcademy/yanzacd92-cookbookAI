@@ -65,6 +65,14 @@ def user_password_recovery():
     db.session.commit()
     return jsonify(user.serialize()), 200
 
+@api.route("/deleteUser/<int:userId>", methods=["DELETE"])
+def user_delete(userId):
+    user = User.query.get(userId)
+    db.session.delete(userId)
+    db.session.commit()
+
+    return jsonify(user.serialize()), 200
+
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
 def recipes_by_category_show(categoryId):
     data = request.get_json()
