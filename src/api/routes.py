@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Recipe
+from api.models import db, User, Recipe, Category
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -77,6 +77,23 @@ def user_delete(userId):
     db.session.commit()
 
     return jsonify(user.serialize()), 200
+
+@api.route('/addCategory', methods=['POST'])
+def category_create():
+    data = request.get_json()
+
+    new_category = Category(
+        name=data["name"], description=data["description"]
+    )
+    db.session.add(new_category)
+    db.session.commit()
+    return jsonify(new_category.serialize()), 201
+
+@api.route('/showCategories', methods=['GET'])
+def category_show_all():
+    data = Category.query.all()
+    print("DATA:  " + str(data.get(0)))
+    return {"data": "3"}
 
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
 def recipes_by_category_show(categoryId):
