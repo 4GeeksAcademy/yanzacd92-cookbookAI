@@ -42,7 +42,7 @@ def user_login():
     
     # generate token
     access_token = create_access_token(identity = user.id)
-    return jsonify({"accessToken": access_token})
+    return jsonify({"accessToken": access_token, "id": user.id})
 
 @api.route('/passwordRecovery', methods=['PUT'])
 def user_password_recovery():
@@ -61,14 +61,19 @@ def user_password_recovery():
     
     # change password
     secure_password = bcrypt.generate_password_hash(user_new_password, rounds=None).decode("utf-8")
-    user = User(email=user_email, password=secure_password, is_active=True, security_question=user_security_question, security_answer=user_security_answer)
+    user.password = secure_password
+
     db.session.commit()
     return jsonify(user.serialize()), 200
 
 @api.route("/deleteUser/<int:userId>", methods=["DELETE"])
 def user_delete(userId):
-    user = User.query.get(userId)
-    db.session.delete(userId)
+    user = User.query.get(str(userId))
+    if(user is None):
+        return jsonify({
+            "message": "User not found"
+        }), 400
+    db.session.delete(user)
     db.session.commit()
 
     return jsonify(user.serialize()), 200
