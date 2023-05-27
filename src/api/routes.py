@@ -44,10 +44,10 @@ def user_login():
     access_token = create_access_token(identity = user.id)
     return jsonify({"accessToken": access_token})
 
-@api.route('/passwordRecovery', methods=['POST'])
+@api.route('/passwordRecovery', methods=['PUT'])
 def user_password_recovery():
     user_email = request.json.get("email")
-    user_password = request.json.get("password")
+    user_new_password = request.json.get("new_password")
     user_security_question = request.json.get("security_question")
     user_security_answer = request.json.get("security_answer")
     user = User.query.filter_by(email=user_email).first()
@@ -60,7 +60,7 @@ def user_password_recovery():
         return jsonify({"message": "Security question and answer do not match"}), 401
     
     # change password
-    secure_password = bcrypt.generate_password_hash(user_password, rounds=None).decode("utf-8")
+    secure_password = bcrypt.generate_password_hash(user_new_password, rounds=None).decode("utf-8")
     user = User(email=user_email, password=secure_password, is_active=True, security_question=user_security_question, security_answer=user_security_answer)
     db.session.commit()
     return jsonify(user.serialize()), 200

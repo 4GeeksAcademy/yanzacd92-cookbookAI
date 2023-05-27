@@ -66,11 +66,6 @@ class Recipe(db.Model):
 
 class Favorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    security_question = db.Column(db.String(100), unique=False, nullable=False)
-    security_answer = db.Column(db.String(150), unique=False, nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
     recipe = db.relationship(Recipe)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
