@@ -31,7 +31,7 @@ class Category(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
+            "name": self.name,
             "description": self.description
             # do not serialize the password, its a security breach
         }
@@ -51,12 +51,12 @@ class Recipe(db.Model):
 
 
     def __repr__(self):
-        return f'<Recipe {self.id}>'
+        return f'<Recipe {self.name}>'
 
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
+            "name": self.name,
             "description": self.description,
             "image": self.image,
             "elaboration": self.elaboration
@@ -77,6 +77,7 @@ class Favorite(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "user": self.user,
+            "category": self.recipe
             # do not serialize the password, its a security breach
         }

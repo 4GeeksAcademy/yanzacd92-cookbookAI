@@ -8,6 +8,7 @@ from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 import openai
+import json
 
 api = Blueprint('api', __name__)
 app = Flask(__name__)
@@ -91,23 +92,35 @@ def category_create():
 
 @api.route('/showCategories', methods=['GET'])
 def category_show_all():
-    data = Category.query.all()
-    print("DATA:  " + str(data.get(0)))
-    return {"data": "3"}
+    get_categories = Category.query.all()
+    #category_schema = Category(many=True)
+    #categories = json.dumps(get_categories)
+    return jsonify({"categories": str(get_categories)})
+
+
+@api.route('/showCategory/<int:categoryId>', methods=['GET'])
+def category_show_by_id(categoryId):
+    category = Category.query.filter_by(id=categoryId).first()
+    if(category is None):
+        return jsonify({
+            "message": "Category does not exist"
+        }), 400
+    return jsonify({"category": category.serialize()}), 200
+
+@api.route('/showRecipes', methods=['GET'])
+def recipes_all_show():
+    recipes = Recipe.query.all()
+    return jsonify({"recipes": str(recipes)}), 200
 
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
 def recipes_by_category_show(categoryId):
-    data = request.get_json()
-    new_user = User.query.filter_by(email=data["email"]).first()
-    if(new_user is not None):
+    recipe = Recipe.query.filter_by(category_id=categoryId).all()
+    print("RECIPE: " + str(recipe))
+    if(recipe is None):
         return jsonify({
-            "message": "Registered user"
+            "message": "Recipe does not exist with this category"
         }), 400
-    secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
-    new_user = User(email=data["email"], password=secure_password, is_active=True, security_question=data["security_question"],security_answer=data["security_answer"])
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify(new_user.serialize()), 201
+    return jsonify({"recipes": str(recipe)}), 201
 
 @api.route('/showRecipe/<int:categoryId>/<int:recipeId>', methods=['GET'])
 def recipe_by_category_and_id_show(categoryId, recipeId):
