@@ -14,6 +14,7 @@ api = Blueprint('api', __name__)
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
+# Register an user
 @api.route('/signup', methods=['POST'])
 def user_create():
     data = request.get_json()
@@ -28,6 +29,7 @@ def user_create():
     db.session.commit()
     return jsonify(new_user.serialize()), 201
 
+# Allow to login into the application
 @api.route('/login', methods=['POST'])
 def user_login():
     user_email = request.json.get("email")
@@ -45,6 +47,7 @@ def user_login():
     access_token = create_access_token(identity = user.id)
     return jsonify({"accessToken": access_token, "id": user.id})
 
+# Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])
 def user_password_recovery():
     user_email = request.json.get("email")
@@ -67,6 +70,7 @@ def user_password_recovery():
     db.session.commit()
     return jsonify(user.serialize()), 200
 
+# Deactivate an user by ID
 @api.route("/deleteUser/<int:userId>", methods=["DELETE"])
 def user_delete(userId):
     user = User.query.get(str(userId))
@@ -79,6 +83,7 @@ def user_delete(userId):
 
     return jsonify(user.serialize()), 200
 
+# Add a new category
 @api.route('/addCategory', methods=['POST'])
 def category_create():
     data = request.get_json()
@@ -90,6 +95,7 @@ def category_create():
     db.session.commit()
     return jsonify(new_category.serialize()), 201
 
+# Show the all categories
 @api.route('/showCategories', methods=['GET'])
 def category_show_all():
     get_categories = Category.query.all()
@@ -97,7 +103,7 @@ def category_show_all():
     #categories = json.dumps(get_categories)
     return jsonify({"categories": str(get_categories)})
 
-
+# Show a single category by ID
 @api.route('/showCategory/<int:categoryId>', methods=['GET'])
 def category_show_by_id(categoryId):
     category = Category.query.filter_by(id=categoryId).first()
@@ -107,11 +113,13 @@ def category_show_by_id(categoryId):
         }), 400
     return jsonify({"category": category.serialize()}), 200
 
+# Show the all recipes
 @api.route('/showRecipes', methods=['GET'])
 def recipes_all_show():
     recipes = Recipe.query.all()
     return jsonify({"recipes": str(recipes)}), 200
 
+# Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
 def recipes_by_category_show(categoryId):
     recipe = Recipe.query.filter_by(category_id=categoryId).all()
