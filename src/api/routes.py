@@ -145,6 +145,7 @@ def recipe_update(recipeId):
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
 
+# Add recipe with the information
 @api.route('/addRecipe', methods=['POST'])
 def recipe_create():
     data = request.get_json()
