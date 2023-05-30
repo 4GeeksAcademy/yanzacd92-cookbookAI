@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Recipe, Category, TokenBlockedList
+from api.models import db, User, Recipe, Category, TokenBlockedList, Favorite
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
@@ -205,6 +205,16 @@ def recipes_all_show():
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
     return jsonify({"recipes": dictionary_recipes}), 200
 
+# Show a single recipe by ID
+@api.route('/showRecipe/<int:recipeId>', methods=['GET'])
+def recipe_show_by_id(recipeId):
+    recipe = Recipe.query.filter_by(id=recipeId).first()
+    if(recipe is None):
+        return jsonify({
+            "message": "Recipe does not exist"
+        }), 400
+    return jsonify({"recipe": recipe.serialize()}), 200
+
 # Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
 def recipes_by_category_show(categoryId):
@@ -257,10 +267,31 @@ def recipe_create():
 @api.route("/deleteRecipe/<int:recipeId>", methods=["DELETE"])
 def recipe_delete(recipeId):
     recipe = Recipe.query.get(recipeId)
+    if(recipe is None):
+        return jsonify({
+                "message": "Recipe does not exist"
+            }), 400
     db.session.delete(recipe)
     db.session.commit()
 
     return jsonify(recipe.serialize()), 200
+
+# Add a recipe to favorite
+@api.route('/addRecipeToFavorite/<int:recipeId>/', methods=['POST'])
+@jwt_required()
+def favorite_add_recipe(recipeId):
+    user_id = get_jwt_identity()
+    recipe = Recipe.query.get(recipeId)
+    if(recipe is None):
+        return jsonify({
+                "message": "Recipe does not exist"
+            }), 400
+    new_favorite = Favorite(
+        recipe_id=recipeId, user_id=user_id
+    )
+    db.session.add(new_favorite)
+    db.session.commit()
+    return jsonify({"message": "Recipe added to favorites"}), 201
 
 @api.route('/call-chatGPT', methods=['GET'])
 def generateChatResponse(prompt):
