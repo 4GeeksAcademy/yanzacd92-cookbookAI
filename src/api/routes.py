@@ -92,6 +92,27 @@ def user_delete(userId):
 
     return jsonify(user.serialize()), 200
 
+# Edit an user by ID
+@api.route("/updateUser/<int:userId>", methods=["PUT"])
+def user_update(userId):
+    first_name = request.json['first_name']
+    last_name = request.json['last_name']
+    is_active = request.json['is_active']
+    is_admin = request.json['is_admin']
+    user = User.query.get(str(userId)).first()
+    if(user is None):
+        return jsonify({
+            "message": "User not found"
+        }), 400
+    user.first_name = first_name
+    user.last_name = last_name
+    user.is_active = is_active
+    user.is_admin = is_admin
+
+    db.session.commit()
+
+    return jsonify(user.serialize()), 200
+
 # Add a new category
 @api.route('/addCategory', methods=['POST'])
 def category_create():
@@ -142,19 +163,24 @@ def recipes_by_category_show(categoryId):
 # Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
 def recipe_update(recipeId):
-    data = request.get_json()
+    name = request.json['name']
+    description = request.json['description']
+    is_active = request.json['is_active']
+    elaboration = request.json['elaboration']
+    image = request.json['image']
+    category_id = request.json['category_id']
     updated_recipe = Recipe.query.filter_by(id=recipeId).first()
     if(updated_recipe is None):
         return jsonify({
             "message": "Recipe does not exist"
         }), 400
-    updated_recipe.name = data["name"]
-    updated_recipe.description = data["description"]
-    updated_recipe.is_active = data["is_active"]
-    updated_recipe.elaboration = data["elaboration"]
-    updated_recipe.image = data["image"]
-    updated_recipe.category_id = data["category_id"]
-
+    
+    updated_recipe.name = name
+    updated_recipe.description = description
+    updated_recipe.is_active = is_active
+    updated_recipe.elaboration = elaboration
+    updated_recipe.image = image
+    updated_recipe.category_id = category_id
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
 
@@ -184,11 +210,11 @@ def recipe_delete(recipeId):
 def generateChatResponse(prompt):
     return call_chatGPTApi(prompt)
 
-@api.route('/helloprotected', methods=['GET'])
+'''@api.route('/helloprotected', methods=['GET'])
 @jwt_required()
 def hello_protected_get():
     user_id = get_jwt_identity()
-    return jsonify({"userId": user_id, "msg": "hello protected route"})
+    return jsonify({"userId": user_id, "msg": "hello protected route"})'''
 
 
 def call_chatGPTApi(prompt):
