@@ -2,13 +2,12 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Recipe, Category
+from api.models import db, User, Recipe, Category, TokenBlockedList
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flask_bcrypt import Bcrypt
 import openai
-import json
 
 api = Blueprint('api', __name__)
 app = Flask(__name__)
@@ -46,6 +45,16 @@ def user_login():
     # generate token
     access_token = create_access_token(identity = user.id)
     return jsonify({"accessToken": access_token, "id": user.id})
+
+# Allow to logout into the application
+@api.route('/logout', methods=['POST'])
+@jwt_required()
+def user_logout():
+    jwt = get_jwt()["jti"]
+    tokenBlocked = TokenBlockedList(jti = jwt)
+    db.session.add(tokenBlocked)
+    db.session.commit()
+    return jsonify({"message": "Token revoked"})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])
@@ -99,9 +108,8 @@ def category_create():
 @api.route('/showCategories', methods=['GET'])
 def category_show_all():
     get_categories = Category.query.all()
-    #category_schema = Category(many=True)
-    #categories = json.dumps(get_categories)
-    return jsonify({"categories": str(get_categories)})
+    dictionary_categories = list(map(lambda c : c.serialize(), get_categories))
+    return jsonify({"categories": dictionary_categories})
 
 # Show a single category by ID
 @api.route('/showCategory/<int:categoryId>', methods=['GET'])
@@ -117,30 +125,35 @@ def category_show_by_id(categoryId):
 @api.route('/showRecipes', methods=['GET'])
 def recipes_all_show():
     recipes = Recipe.query.all()
-    return jsonify({"recipes": str(recipes)}), 200
+    dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
+    return jsonify({"recipes": dictionary_recipes}), 200
 
 # Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
 def recipes_by_category_show(categoryId):
-    recipe = Recipe.query.filter_by(category_id=categoryId).all()
-    print("RECIPE: " + str(recipe))
-    if(recipe is None):
+    recipes = Recipe.query.filter_by(category_id=categoryId).all()
+    if(recipes is None):
         return jsonify({
             "message": "Recipe does not exist with this category"
         }), 400
-    return jsonify({"recipes": str(recipe)}), 201
+    dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
+    return jsonify({"recipes": dictionary_recipes}), 201
 
 # Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
 def recipe_update(recipeId):
     data = request.get_json()
-    updated_recipe = Recipe.query.filter(id=recipeId).first()
-    updated_recipe["name"] = data["name"]
-    updated_recipe["description"] = data["description"]
-    updated_recipe["is_active"] = data["is_active"]
-    updated_recipe["elaboration"] = data["elaboration"]
-    updated_recipe["image"] = data["image"]
-    updated_recipe["category_id"] = data["category_id"]
+    updated_recipe = Recipe.query.filter_by(id=recipeId).first()
+    if(updated_recipe is None):
+        return jsonify({
+            "message": "Recipe does not exist"
+        }), 400
+    updated_recipe.name = data["name"]
+    updated_recipe.description = data["description"]
+    updated_recipe.is_active = data["is_active"]
+    updated_recipe.elaboration = data["elaboration"]
+    updated_recipe.image = data["image"]
+    updated_recipe.category_id = data["category_id"]
 
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
