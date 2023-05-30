@@ -23,7 +23,10 @@ def user_create():
             "message": "Registered user"
         }), 400
     secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
-    new_user = User(email=data["email"], password=secure_password, is_active=True, security_question=data["security_question"],security_answer=data["security_answer"])
+    new_user = User(email=data["email"], password=secure_password,
+                    first_name=data["first_name"], last_name=data["last_name"],
+                    is_active=True, security_question=data["security_question"],
+                    security_answer=data["security_answer"], is_admin=data["is_admin"])
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.serialize()), 201
@@ -79,6 +82,48 @@ def user_password_recovery():
     db.session.commit()
     return jsonify(user.serialize()), 200
 
+# Show all users
+@api.route("/allUsers", methods=["GET"])
+def user_show_all():
+    get_users = User.query.all()
+    user_list = list(map(lambda u : u.serialize(), get_users))
+    return jsonify({"users": user_list})
+
+# Show a single user by ID
+@api.route('/showUser/<int:userId>', methods=['GET'])
+def user_show_by_id(userId):
+    user = User.query.filter_by(id=userId).first()
+    if(user is None):
+        return jsonify({
+            "message": "User does not exist"
+        }), 400
+    return jsonify({"user": user.serialize()}), 200
+
+# Edit an user by ID
+@api.route("/updateUser/<int:userId>", methods=["PUT"])
+def user_update(userId):
+    first_name = request.json['first_name']
+    last_name = request.json['last_name']
+    is_active = request.json['is_active']
+    is_admin = request.json['is_admin']
+    security_question = request.json['security_question']
+    security_answer = request.json['security_answer']
+    user = User.query.get(userId)
+    if(user is None):
+        return jsonify({
+            "message": "User not found"
+        }), 400
+    user.first_name = first_name
+    user.last_name = last_name
+    user.is_active = is_active
+    user.is_admin = is_admin
+    user.security_question = security_question
+    user.security_answer = security_answer
+
+    db.session.commit()
+
+    return jsonify(user.serialize()), 200
+
 # Deactivate an user by ID
 @api.route("/deleteUser/<int:userId>", methods=["DELETE"])
 def user_delete(userId):
@@ -88,27 +133,6 @@ def user_delete(userId):
             "message": "User not found"
         }), 400
     db.session.delete(user)
-    db.session.commit()
-
-    return jsonify(user.serialize()), 200
-
-# Edit an user by ID
-@api.route("/updateUser/<int:userId>", methods=["PUT"])
-def user_update(userId):
-    first_name = request.json['first_name']
-    last_name = request.json['last_name']
-    is_active = request.json['is_active']
-    is_admin = request.json['is_admin']
-    user = User.query.get(str(userId)).first()
-    if(user is None):
-        return jsonify({
-            "message": "User not found"
-        }), 400
-    user.first_name = first_name
-    user.last_name = last_name
-    user.is_active = is_active
-    user.is_admin = is_admin
-
     db.session.commit()
 
     return jsonify(user.serialize()), 200
@@ -125,12 +149,44 @@ def category_create():
     db.session.commit()
     return jsonify(new_category.serialize()), 201
 
+# Edit a category by ID
+@api.route('/updateCategory/<int:categoryId>', methods=['PUT'])
+def category_update(categoryId):
+    name = request.json['name']
+    description = request.json['description']
+
+    category = Category.query.get(categoryId)
+    if(category is None):
+        return jsonify({
+            "message": "Category not found"
+        }), 400
+    category.name = name
+    category.description = description
+
+
+    db.session.commit()
+
+    return jsonify(category.serialize()), 200
+
+# Delete a category by ID
+@api.route("/deleteCategory/<int:categoryId>", methods=["DELETE"])
+def category_delete(categoryId):
+    category = Category.query.get(str(categoryId))
+    if(category is None):
+        return jsonify({
+            "message": "Category not found"
+        }), 400
+    db.session.delete(category)
+    db.session.commit()
+
+    return jsonify(category.serialize()), 200
+
 # Show the all categories
 @api.route('/showCategories', methods=['GET'])
 def category_show_all():
     get_categories = Category.query.all()
-    dictionary_categories = list(map(lambda c : c.serialize(), get_categories))
-    return jsonify({"categories": dictionary_categories})
+    category_list = list(map(lambda c : c.serialize(), get_categories))
+    return jsonify({"categories": category_list})
 
 # Show a single category by ID
 @api.route('/showCategory/<int:categoryId>', methods=['GET'])
