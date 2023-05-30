@@ -84,6 +84,7 @@ def user_password_recovery():
 
 # Show all users
 @api.route("/allUsers", methods=["GET"])
+@jwt_required()
 def user_show_all():
     get_users = User.query.all()
     user_list = list(map(lambda u : u.serialize(), get_users))
@@ -91,6 +92,7 @@ def user_show_all():
 
 # Show a single user by ID
 @api.route('/showUser/<int:userId>', methods=['GET'])
+@jwt_required()
 def user_show_by_id(userId):
     user = User.query.filter_by(id=userId).first()
     if(user is None):
@@ -101,6 +103,7 @@ def user_show_by_id(userId):
 
 # Edit an user by ID
 @api.route("/updateUser/<int:userId>", methods=["PUT"])
+@jwt_required()
 def user_update(userId):
     first_name = request.json['first_name']
     last_name = request.json['last_name']
@@ -126,6 +129,7 @@ def user_update(userId):
 
 # Deactivate an user by ID
 @api.route("/deleteUser/<int:userId>", methods=["DELETE"])
+@jwt_required()
 def user_delete(userId):
     user = User.query.get(str(userId))
     if(user is None):
@@ -139,6 +143,7 @@ def user_delete(userId):
 
 # Add a new category
 @api.route('/addCategory', methods=['POST'])
+@jwt_required()
 def category_create():
     data = request.get_json()
 
@@ -151,6 +156,7 @@ def category_create():
 
 # Edit a category by ID
 @api.route('/updateCategory/<int:categoryId>', methods=['PUT'])
+@jwt_required()
 def category_update(categoryId):
     name = request.json['name']
     description = request.json['description']
@@ -170,6 +176,7 @@ def category_update(categoryId):
 
 # Delete a category by ID
 @api.route("/deleteCategory/<int:categoryId>", methods=["DELETE"])
+@jwt_required()
 def category_delete(categoryId):
     category = Category.query.get(str(categoryId))
     if(category is None):
@@ -183,6 +190,7 @@ def category_delete(categoryId):
 
 # Show the all categories
 @api.route('/showCategories', methods=['GET'])
+@jwt_required()
 def category_show_all():
     get_categories = Category.query.all()
     category_list = list(map(lambda c : c.serialize(), get_categories))
@@ -190,6 +198,7 @@ def category_show_all():
 
 # Show a single category by ID
 @api.route('/showCategory/<int:categoryId>', methods=['GET'])
+@jwt_required()
 def category_show_by_id(categoryId):
     category = Category.query.filter_by(id=categoryId).first()
     if(category is None):
@@ -200,6 +209,7 @@ def category_show_by_id(categoryId):
 
 # Show the all recipes
 @api.route('/showRecipes', methods=['GET'])
+@jwt_required()
 def recipes_all_show():
     recipes = Recipe.query.all()
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
@@ -207,6 +217,7 @@ def recipes_all_show():
 
 # Show a single recipe by ID
 @api.route('/showRecipe/<int:recipeId>', methods=['GET'])
+@jwt_required()
 def recipe_show_by_id(recipeId):
     recipe = Recipe.query.filter_by(id=recipeId).first()
     if(recipe is None):
@@ -217,6 +228,7 @@ def recipe_show_by_id(recipeId):
 
 # Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
+@jwt_required()
 def recipes_by_category_show(categoryId):
     recipes = Recipe.query.filter_by(category_id=categoryId).all()
     if(recipes is None):
@@ -228,6 +240,7 @@ def recipes_by_category_show(categoryId):
 
 # Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
+@jwt_required()
 def recipe_update(recipeId):
     name = request.json['name']
     description = request.json['description']
@@ -252,6 +265,7 @@ def recipe_update(recipeId):
 
 # Add recipe with the information
 @api.route('/addRecipe', methods=['POST'])
+@jwt_required()
 def recipe_create():
     data = request.get_json()
 
@@ -266,6 +280,7 @@ def recipe_create():
 
 # Delete a recipe by recipe Id
 @api.route("/deleteRecipe/<int:recipeId>", methods=["DELETE"])
+@jwt_required()
 def recipe_delete(recipeId):
     recipe = Recipe.query.get(recipeId)
     if(recipe is None):
@@ -279,6 +294,7 @@ def recipe_delete(recipeId):
 
 # Show all recipes in favorites
 @api.route('/showRecipesFavorites', methods=['GET'])
+@jwt_required()
 def recipes_all_favorites_show():
     favorites = Favorite.query.join(Recipe).join(User).all()
     dictionary_recipes = list(map(lambda r : r.serialize(), favorites))
@@ -286,6 +302,7 @@ def recipes_all_favorites_show():
 
 # Show all recipes in favorites by user Id
 @api.route('/showRecipesFavoritesbyUserId/<int:userId>', methods=['GET'])
+@jwt_required()
 def recipes_all_favorites_by_userId_show(userId):
     favorites = Favorite.query.filter_by(user_id = userId)
     dictionary_recipes = list(map(lambda r : r.serialize(), favorites))
@@ -293,6 +310,7 @@ def recipes_all_favorites_by_userId_show(userId):
 
 # Add a recipe to favorite
 @api.route('/addRecipeToFavorite/<int:recipeId>/', methods=['POST'])
+
 @jwt_required()
 def favorite_add_recipe(recipeId):
     user_id = get_jwt_identity()
@@ -313,15 +331,17 @@ def favorite_add_recipe(recipeId):
 @jwt_required()
 def recipe_delete_from_favorites(recipeId):
     user_id = get_jwt_identity()
-    recipe = Favorite.query.filter_by(recipe_id = recipeId, user_id = user_id)
-    if(recipe is None):
+    #recipe = Favorite.query.filter_by("recipe_id" == recipeId, "user_id" == user_id)
+    recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id)
+    print("PASOOO: " + str(recipe_favorite))
+    if(recipe_favorite is None):
         return jsonify({
                 "message": "Recipe does not exist"
             }), 400
-    db.session.delete(recipe)
+    db.session.delete(recipe_favorite)
     db.session.commit()
 
-    return jsonify(recipe.serialize()), 200
+    return jsonify({"message": "Recipe deleted from favorites"}), 200
 
 @api.route('/call-chatGPT', methods=['GET'])
 def generateChatResponse(prompt):
