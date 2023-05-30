@@ -130,33 +130,7 @@ def recipes_by_category_show(categoryId):
         }), 400
     return jsonify({"recipes": str(recipe)}), 201
 
-@api.route('/showRecipe/<int:categoryId>/<int:recipeId>', methods=['GET'])
-def recipe_by_category_and_id_show(categoryId, recipeId):
-    data = request.get_json()
-    new_user = User.query.filter_by(email=data["email"]).first()
-    if(new_user is not None):
-        return jsonify({
-            "message": "Registered user"
-        }), 400
-    secure_password = bcrypt.generate_password_hash(data["password"], rounds=None).decode("utf-8")
-    new_user = User(email=data["email"], password=secure_password, is_active=True, security_question=data["security_question"],security_answer=data["security_answer"])
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify(new_user.serialize()), 201
-
-@api.route('/addRecipe', methods=['POST'])
-def recipe_create():
-    data = request.get_json()
-
-    new_recipe = Recipe(
-        name=data["name"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], category_id=data["category_id"],
-        user_id=data["user_id"]
-    )
-    db.session.add(new_recipe)
-    db.session.commit()
-    return jsonify(new_recipe.serialize()), 201
-
+# Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
 def recipe_update(recipeId):
     data = request.get_json()
@@ -170,6 +144,19 @@ def recipe_update(recipeId):
 
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
+
+@api.route('/addRecipe', methods=['POST'])
+def recipe_create():
+    data = request.get_json()
+
+    new_recipe = Recipe(
+        name=data["name"], description=data["description"], is_active=True,
+        elaboration=data["elaboration"], image=data["image"], category_id=data["category_id"],
+        user_id=data["user_id"]
+    )
+    db.session.add(new_recipe)
+    db.session.commit()
+    return jsonify(new_recipe.serialize()), 201
 
 @api.route("/deleteRecipe/<int:recipeId>", methods=["DELETE"])
 def recipe_delete(recipeId):
