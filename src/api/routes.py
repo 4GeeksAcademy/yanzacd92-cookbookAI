@@ -264,6 +264,7 @@ def recipe_create():
     db.session.commit()
     return jsonify(new_recipe.serialize()), 201
 
+# Delete a recipe by recipe Id
 @api.route("/deleteRecipe/<int:recipeId>", methods=["DELETE"])
 def recipe_delete(recipeId):
     recipe = Recipe.query.get(recipeId)
@@ -275,6 +276,20 @@ def recipe_delete(recipeId):
     db.session.commit()
 
     return jsonify(recipe.serialize()), 200
+
+# Show all recipes in favorites
+@api.route('/showRecipesFavorites', methods=['GET'])
+def recipes_all_favorites_show():
+    favorites = Favorite.query.join(Recipe).join(User).all()
+    dictionary_recipes = list(map(lambda r : r.serialize(), favorites))
+    return jsonify({"favorites": dictionary_recipes}), 200
+
+# Show all recipes in favorites by user Id
+@api.route('/showRecipesFavoritesbyUserId/<int:userId>', methods=['GET'])
+def recipes_all_favorites_by_userId_show(userId):
+    favorites = Favorite.query.filter_by(user_id = userId)
+    dictionary_recipes = list(map(lambda r : r.serialize(), favorites))
+    return jsonify({"favorites": dictionary_recipes}), 200
 
 # Add a recipe to favorite
 @api.route('/addRecipeToFavorite/<int:recipeId>/', methods=['POST'])
@@ -292,6 +307,21 @@ def favorite_add_recipe(recipeId):
     db.session.add(new_favorite)
     db.session.commit()
     return jsonify({"message": "Recipe added to favorites"}), 201
+
+# Delete recipe from favorites by recipeId
+@api.route("/deleteRecipeFromFavorites/<int:recipeId>", methods=["DELETE"])
+@jwt_required()
+def recipe_delete_from_favorites(recipeId):
+    user_id = get_jwt_identity()
+    recipe = Favorite.query.filter_by(recipe_id = recipeId, user_id = user_id)
+    if(recipe is None):
+        return jsonify({
+                "message": "Recipe does not exist"
+            }), 400
+    db.session.delete(recipe)
+    db.session.commit()
+
+    return jsonify(recipe.serialize()), 200
 
 @api.route('/call-chatGPT', methods=['GET'])
 def generateChatResponse(prompt):
