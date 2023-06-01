@@ -27,8 +27,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("accessToken", resp.data.accessToken)
 				return resp
 			},
-			userSignup: async(email, password) => {
-				const resp = await getActions().apiFetch("/api/signup", "POST", {'headers': { 'Access-Control-Allow-Origin': '*'},}, {email, password})
+			userSignup: async(email, password, first_name, last_name, security_question, security_answer, is_admin) => {
+				const resp = await getActions().apiFetch("/api/signup", "POST", {email, password, first_name, last_name, security_question, security_answer, is_admin})
 				if(resp.code >= 400) {
 					return resp
 				}
@@ -40,8 +40,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let response = await fetch(apiURL + endpoint, method == "GET" ? undefined: {
 					method,
 					body: JSON.stringify(body),
+					mode: 'cors',
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						'Access-Control-Allow-Origin': '*'
 					}
 				})
 				if(!response.ok) {

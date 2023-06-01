@@ -40,10 +40,6 @@ export const Home = () => {
 			<div className="signup-login">
             	<button onClick={signup} className="btn btn-primary" type="button">Signup</button>
         	</div>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}<br />
-				<code>{store.accessToken}</code>
-			</div>
 		</div>
 	);
 };
