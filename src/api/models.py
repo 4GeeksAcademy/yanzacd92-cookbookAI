@@ -90,7 +90,14 @@ class Favorite(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "user": self.user_id,
-            "recipe": self.recipe_id
+            "user_id": self.user_id,
+            "user_firstname": self.user.first_name,
+            "user_lastname": self.user.last_name,
+            "user_email": self.user.email,
+            "recipe_id": self.recipe_id,
+            "recipe_name": self.recipe.name,
+            "recipe_description": self.recipe.description,
+            "recipe_elaboration": self.recipe.elaboration,
+            "recipe_image": self.recipe.image
             # do not serialize the password, its a security breach
         }

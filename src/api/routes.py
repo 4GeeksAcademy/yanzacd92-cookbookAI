@@ -297,15 +297,16 @@ def recipe_delete(recipeId):
 @jwt_required()
 def recipes_all_favorites_show():
     favorites = Favorite.query.join(Recipe).join(User).all()
-    dictionary_recipes = list(map(lambda r : r.serialize(), favorites))
+    dictionary_recipes = list(map(lambda f : f.serialize(), favorites))
     return jsonify({"favorites": dictionary_recipes}), 200
 
 # Show all recipes in favorites by user Id
-@api.route('/showRecipesFavoritesbyUserId/<int:userId>', methods=['GET'])
+@api.route('/showRecipesFavoritesbyUserId', methods=['GET'])
 @jwt_required()
-def recipes_all_favorites_by_userId_show(userId):
-    favorites = Favorite.query.filter_by(user_id = userId)
-    dictionary_recipes = list(map(lambda r : r.serialize(), favorites))
+def recipes_all_favorites_by_userId_show():
+    user_id = get_jwt_identity()
+    favorites = Favorite.query.filter_by(user_id = user_id)
+    dictionary_recipes = list(map(lambda f : f.serialize(), favorites))
     return jsonify({"favorites": dictionary_recipes}), 200
 
 # Add a recipe to favorite
@@ -331,8 +332,7 @@ def favorite_add_recipe(recipeId):
 @jwt_required()
 def recipe_delete_from_favorites(recipeId):
     user_id = get_jwt_identity()
-    #recipe = Favorite.query.filter_by("recipe_id" == recipeId, "user_id" == user_id)
-    recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id)
+    recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id).first()
     print("PASOOO: " + str(recipe_favorite))
     if(recipe_favorite is None):
         return jsonify({
