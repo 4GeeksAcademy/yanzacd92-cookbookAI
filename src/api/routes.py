@@ -320,6 +320,11 @@ def favorite_add_recipe(recipeId):
         return jsonify({
                 "message": "Recipe does not exist"
             }), 400
+    recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id).first()
+    if(recipe_favorite is not None):
+        return jsonify({
+                "message": "Recipe already exist in favorites"
+            }), 400
     new_favorite = Favorite(
         recipe_id=recipeId, user_id=user_id
     )
@@ -333,7 +338,6 @@ def favorite_add_recipe(recipeId):
 def recipe_delete_from_favorites(recipeId):
     user_id = get_jwt_identity()
     recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id).first()
-    print("PASOOO: " + str(recipe_favorite))
     if(recipe_favorite is None):
         return jsonify({
                 "message": "Recipe does not exist"
