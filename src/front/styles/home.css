@@ -1,7 +1,44 @@
-/*
-    home.css: This website contains selectors only used in home.css
+.signup-login {
+    text-align: left;
+    margin-left: 25px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.login-form {
+    margin: 25px;
+    padding: 12px;
+    border: 3px solid black;
+    text-align: left;
+}
+
+.login-button {
+    width: 100%;
+}
+
+.login {
+    text-align: center;
+}
+
+.signup-button {
+    width: 100%;
+}
+
+.signup {
+    text-align: center;
+}
+
+.signup-form {
+    margin: 25px;
+    padding: 12px;
+    border: 3px solid blue;
+    text-align: left;
+}
+
+.signup-title {
+    color: blue;
+}
+
+.info {
+    color: blue;
+}

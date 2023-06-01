@@ -4,9 +4,12 @@ db = SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(120), unique=True, nullable=True)
+    last_name = db.Column(db.String(120), unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_admin = db.Column(db.Boolean(), unique=False, nullable=False)
     security_question = db.Column(db.String(100), unique=False, nullable=False)
     security_answer = db.Column(db.String(150), unique=False, nullable=False)
 
@@ -16,9 +19,19 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "email": self.email,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "is_active": self.is_active,
+            "is_admin": self.is_admin
             # do not serialize the password, its a security breach
         }
+
+
+class TokenBlockedList(db.Model):
+    __tablename__ = "token_blocked_list"
+    id = db.Column(db.Integer, primary_key=True)
+    jti = db.Column(db.String(40), nullable=False)
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -72,12 +85,19 @@ class Favorite(db.Model):
     user = db.relationship(User)
 
     def __repr__(self):
-        return f'<User {self.email}>'
+        return f'<Favorite {self.id}>'
 
     def serialize(self):
         return {
             "id": self.id,
-            "user": self.user,
-            "category": self.recipe
+            "user_id": self.user_id,
+            "user_firstname": self.user.first_name,
+            "user_lastname": self.user.last_name,
+            "user_email": self.user.email,
+            "recipe_id": self.recipe_id,
+            "recipe_name": self.recipe.name,
+            "recipe_description": self.recipe.description,
+            "recipe_elaboration": self.recipe.elaboration,
+            "recipe_image": self.recipe.image
             # do not serialize the password, its a security breach
         }
