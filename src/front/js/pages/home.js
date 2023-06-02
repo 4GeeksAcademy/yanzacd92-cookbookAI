@@ -22,7 +22,7 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1>Login Form</h1>
+			<h1>Login</h1>
 			<form className="login-form" onSubmit={submitForm}>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
@@ -38,7 +38,8 @@ export const Home = () => {
 				</div>
 			</form>
 			<div className="signup-login">
-            	<button onClick={signup} className="btn btn-primary" type="button">Signup</button>
+				<span className="mx-2">Not a member?</span>
+            	<button onClick={signup} className="signup-btn btn" type="button">Signup</button>
         	</div>
 		</div>
 	);
