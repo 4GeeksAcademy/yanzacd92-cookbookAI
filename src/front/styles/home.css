@@ -19,6 +19,7 @@
     border-radius: 20px;
     background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
     margin-top: 15px;
+    font-size: 20px;
 }
 
 .login {
@@ -89,4 +90,8 @@
     color: #adadad;
     padding-left: 0;
     padding-bottom: 10px;
+}
+
+#app {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
 }
