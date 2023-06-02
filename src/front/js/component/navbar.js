@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import cookbookAILogo from './../../img/cookbookAI-logo.jpg'
+import { Favorite } from "./favorite";
 
 export const Navbar = () => {
 	return (
@@ -26,7 +28,13 @@ export const Navbar = () => {
 						</ul>
 					</div>
 				</div>
-				<a className="navbar-brand" href="#">CookBookAI</a>
+				<div>
+					<button className="profile" type="button">
+						<span>Profile</span>
+					</button>
+					<Favorite />
+					<a className="navbar-brand" href="/">CookBook AI</a>
+				</div>
 			</div>
 		</nav>
 	);

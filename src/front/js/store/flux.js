@@ -3,16 +3,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			demo: [
+			favorites: [
 				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
+					id: "if_1",
+					name: "white",
+					description: "white",
+					elaboration: "white",
+					image: "white",
+					is_active: "white",
+					category: "Italian Food"
+
 				},
 				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
+					id: "cf_1",
+					name: "white",
+					description: "white",
+					elaboration: "white",
+					image: "white",
+					category: "China Food"
 				}
 			]
 		},

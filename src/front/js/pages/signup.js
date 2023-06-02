@@ -45,12 +45,12 @@ export const Signup = () => {
 				<div className="info mb-3">
 					<label htmlFor="exampleInputQuestion" className="form-label">Security questions</label>
 					<input type="button" className="form-control dropdown-toggle" name="security_question" id="exampleInputQuestion" data-bs-toggle="dropdown" aria-expanded="false" />
-					<ul class="dropdown-menu sec-question-signup">
-						<li><a class="dropdown-item sec-question-signup" href="#">What is your pet's name?</a></li>
-						<li><a class="dropdown-item sec-question-signup" href="#">In what city were you born?</a></li>
-						<li><a class="dropdown-item sec-question-signup" href="#">In what city was your first job?</a></li>
-						<li><a class="dropdown-item sec-question-signup" href="#">What is your favorite sport?</a></li>
-						<li><a class="dropdown-item sec-question-signup" href="#">How many pets do you have?</a></li>
+					<ul className="dropdown-menu sec-question-signup">
+						<li><a className="dropdown-item sec-question-signup" href="#">What is your pet's name?</a></li>
+						<li><a className="dropdown-item sec-question-signup" href="#">In what city were you born?</a></li>
+						<li><a className="dropdown-item sec-question-signup" href="#">In what city was your first job?</a></li>
+						<li><a className="dropdown-item sec-question-signup" href="#">What is your favorite sport?</a></li>
+						<li><a className="dropdown-item sec-question-signup" href="#">How many pets do you have?</a></li>
 					</ul>
 				</div>
 				<div className="info mb-3">
