@@ -23,13 +23,12 @@ export const Signup = () => {
 	}
 
 	return (
-		<div className="text-center mt-5">
+		<div className="container-login text-center mt-5">
 			<form className="signup-form" onSubmit={submitForm}>
-				<h1 className="signup-title">Signup Form</h1>
+				<h1 className="signup-title">Signup</h1>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputPassword1" className="form-label">Password</label>
@@ -45,7 +44,14 @@ export const Signup = () => {
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputQuestion" className="form-label">Security questions</label>
-					<input type="text" className="form-control" name="security_question" id="exampleInputQuestion" />
+					<input type="button" className="form-control dropdown-toggle" name="security_question" id="exampleInputQuestion" data-bs-toggle="dropdown" aria-expanded="false" />
+					<ul class="dropdown-menu sec-question-signup">
+						<li><a class="dropdown-item sec-question-signup" href="#">What is your pet's name?</a></li>
+						<li><a class="dropdown-item sec-question-signup" href="#">In what city were you born?</a></li>
+						<li><a class="dropdown-item sec-question-signup" href="#">In what city was your first job?</a></li>
+						<li><a class="dropdown-item sec-question-signup" href="#">What is your favorite sport?</a></li>
+						<li><a class="dropdown-item sec-question-signup" href="#">How many pets do you have?</a></li>
+					</ul>
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputAnswer" className="form-label">Answer</label>

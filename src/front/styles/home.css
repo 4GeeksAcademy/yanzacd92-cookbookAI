@@ -28,6 +28,10 @@
 
 .signup-button {
     width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 16px;
 }
 
 .signup {
@@ -46,6 +50,9 @@
 
 .signup-title {
     color: black;
+    text-align: center;
+    padding-bottom: 25px;
+    font-size: 25px;
 }
 
 .info {
@@ -61,9 +68,17 @@
 .login-title {
     text-align: center;
     padding-bottom: 25px;
+    font-size: 25px;
 }
 
 .container-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+}
+
+.container-signup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -97,4 +112,12 @@
 
 #app {
     background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+}
+
+.dropdown-menu-sec-question-signup.show {
+    font-size: 14px;
+}
+
+.dropdown-item.sec-question-signup {
+    color: #adadad !important;
 }
