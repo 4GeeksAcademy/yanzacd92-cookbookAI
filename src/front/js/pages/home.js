@@ -29,7 +29,7 @@ export const Home = () => {
 			<form className="login-form" onSubmit={submitForm}>
 				<h1 className="login-title">Login</h1>
 				<div className="mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
 				</div>
 				<div className="mb-3">

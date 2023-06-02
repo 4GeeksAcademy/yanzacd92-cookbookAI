@@ -24,10 +24,10 @@ export const Signup = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1 className="signup-title">Signup Form</h1>
 			<form className="signup-form" onSubmit={submitForm}>
+				<h1 className="signup-title">Signup Form</h1>
 				<div className="info mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
 					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
 				</div>
