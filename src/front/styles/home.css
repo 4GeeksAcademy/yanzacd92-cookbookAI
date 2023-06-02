@@ -10,10 +10,13 @@
     padding: 12px;
     border: 1px solid black;
     text-align: left;
+    border-radius: 15px;
+    width: 40%;
 }
 
 .login-button {
     width: 100%;
+    border-radius: 20px;
 }
 
 .login {
@@ -47,4 +50,14 @@
     color: blueviolet;
     padding-left: 0;
     padding-bottom: 10px;
+}
+
+.login-title {
+    text-align: center;
+}
+
+.container-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -21,9 +21,9 @@ export const Home = () => {
 	}
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Login</h1>
+		<div className="container-login text-center mt-5">
 			<form className="login-form" onSubmit={submitForm}>
+				<h1 className="login-title">Login</h1>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
