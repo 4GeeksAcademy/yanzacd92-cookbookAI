@@ -1,22 +1,24 @@
 .signup-login {
     text-align: center;
-    margin-left: 25px;
     margin-top: 40px;
     margin-bottom: 20px;
 }
 
 .login-form {
     margin: 25px;
-    padding: 12px;
-    border: 1px solid black;
+    padding: 30px;
+    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
     text-align: left;
     border-radius: 15px;
     width: 40%;
+    background: white;
 }
 
 .login-button {
     width: 100%;
     border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
 }
 
 .login {
@@ -47,17 +49,44 @@
 }
 
 .signup-btn {
-    color: blueviolet;
+    color: blue;
     padding-left: 0;
     padding-bottom: 10px;
 }
 
 .login-title {
     text-align: center;
+    padding-bottom: 25px;
 }
 
 .container-login {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+}
+
+.navbar {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+}
+
+.form-control {
+    border: none;
+    border-bottom: 2px solid #adadad !important;
+    padding: 0px;
+}
+
+.form-control:active ~ form-label {
+        top: 140px;
+}
+
+.form-label {
+    color: #adadad;
+    font-size: 16px;
+}
+
+.password-recovery-btn {
+    color: #adadad;
+    padding-left: 0;
+    padding-bottom: 10px;
 }
