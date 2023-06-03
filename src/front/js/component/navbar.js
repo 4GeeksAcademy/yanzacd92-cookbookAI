@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import cookbookAILogo from './../../img/cookbookAI-logo.jpg'
 import { Favorite } from "./favorite";
 
+
 export const Navbar = () => {
 	return (
 		<nav className="navbar navbar-dark bg-primary">
