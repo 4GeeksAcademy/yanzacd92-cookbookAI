@@ -43,15 +43,15 @@ export const Signup = () => {
 					<input type="text" className="form-control" name="last_name" id="exampleInputLastName" />
 				</div>
 				<div className="info mb-3">
-					<label htmlFor="exampleInputQuestion" className="form-label">Security questions</label>
-					<input type="button" className="form-control dropdown-toggle" name="security_question" id="exampleInputQuestion" data-bs-toggle="dropdown" aria-expanded="false" />
-					<ul className="dropdown-menu sec-question-signup">
-						<li><a className="dropdown-item sec-question-signup" href="#">What is your pet's name?</a></li>
-						<li><a className="dropdown-item sec-question-signup" href="#">In what city were you born?</a></li>
-						<li><a className="dropdown-item sec-question-signup" href="#">In what city was your first job?</a></li>
-						<li><a className="dropdown-item sec-question-signup" href="#">What is your favorite sport?</a></li>
-						<li><a className="dropdown-item sec-question-signup" href="#">How many pets do you have?</a></li>
-					</ul>
+					<label htmlFor="exampleInputQuestion" className="form-label">Security question</label>
+					<select class="form-select" aria-label="Default select example" name="security_question">
+						<option selected></option>
+						<option value="What is your pet's name?">What is your pet's name?</option>
+						<option value="In what city were you born?">In what city were you born?</option>
+						<option value="In what city was your first job?">In what city was your first job?</option>
+						<option value="What is your favorite sport?">What is your favorite sport?</option>
+						<option value="How many pets do you have?">How many pets do you have?</option>
+					</select>
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputAnswer" className="form-label">Answer</label>
