@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import profileLogo from './../../img/profile-logo.png'
 import { Favorite } from "./favorite";
 
+
 export const Navbar = () => {
 	return (
 		<nav className="navbar navbar-dark bg-primary">
