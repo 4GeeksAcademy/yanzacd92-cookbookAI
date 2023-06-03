@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			favorites: [
 				{
 					id: "if_1",
-					name: "white",
+					name: "whiteaaaaaaaaappp",
 					description: "white",
 					elaboration: "white",
 					image: "white",
@@ -16,7 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 				{
 					id: "cf_1",
-					name: "white",
+					name: "whiteaaaaaaaaappp",
 					description: "white",
 					elaboration: "white",
 					image: "white",

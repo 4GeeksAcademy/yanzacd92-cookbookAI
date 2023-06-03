@@ -186,3 +186,26 @@ body {
 .navbar-brand {
     align-self: center;
 }
+
+.dropdown-menu.show {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    color: white
+}
+
+.dropdown-item {
+    color: white;
+}
+
+button.btn.col-4.dropdown-item {
+    width: auto;
+}
+
+.navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
+    color: white;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
