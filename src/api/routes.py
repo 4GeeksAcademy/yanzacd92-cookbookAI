@@ -7,8 +7,10 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti
 from flask_bcrypt import Bcrypt
+import os
 import openai
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
 api = Blueprint('api', __name__)
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -375,7 +377,8 @@ def recipe_delete_from_favorites(recipeId):
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 
 @api.route('/call-chatGPT', methods=['GET'])
-def generateChatResponse(prompt):
+def generateChatResponse():
+    prompt = request.json.get("prompt")
     return call_chatGPTApi(prompt)
 
 '''@api.route('/helloprotected', methods=['GET'])
@@ -392,9 +395,15 @@ def call_chatGPTApi(prompt):
     question['role'] = 'user'
     question['content'] = prompt
     messages.append(question)
-    response = openai.ChatCompletion.create(model="gpt-3.5-turbo",messages=messages)
+    #response = openai.ChatCompletion.create(model="gpt-3.5-turbo",messages=messages)
+    response = completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
     try:
-        answer = response['choices'][0]['message']['content'].replace('\n', '<br>')
+        answer = completion['choices'][0]['message']['content'].replace('\n', '<br>')
     except:
         answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
     return answer
