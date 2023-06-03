@@ -28,7 +28,7 @@ export const Navbar = () => {
 						</ul>
 					</div>
 				</div>
-				<div>
+				<div className="content-navbar">
 					<button className="profile" type="button">
 						<span>Profile</span>
 					</button>

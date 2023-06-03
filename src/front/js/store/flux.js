@@ -36,7 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return resp
 			},
 			userSignup: async(email, password, first_name, last_name, security_question, security_answer, is_admin) => {
-				const resp = await getActions().apiFetch("/api/signup", "POST", {email, password, first_name, last_name, security_question, security_answer, is_admin})
+				const resp = await getActions().apiFetch("/api/signup", "POST", {email, password, first_name, last_name, security_question: 'question 1', security_answer, is_admin})
 				if(resp.code >= 400) {
 					return resp
 				}
