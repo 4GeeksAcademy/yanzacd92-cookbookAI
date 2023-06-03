@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe, Category, TokenBlockedList, Favorite
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti
 from flask_bcrypt import Bcrypt
 import openai
 
@@ -47,7 +47,34 @@ def user_login():
     
     # generate token
     access_token = create_access_token(identity = user.id)
-    return jsonify({"accessToken": access_token, "id": user.id})
+    access_jti = get_jti(access_token)
+    refresh_token = create_access_token(identity=user.id, additional_claims={"accessToken": access_jti})
+
+    return jsonify({"accessToken": access_token, "id": user.id, "refreshToken": refresh_token})
+
+# Refresh token
+@api.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def user_refresh():
+    # Get old tokens
+    jti_refresh = get_jwt()["jti"]
+    jti_access = get_jwt()["accessToken"]
+
+    # Block old tokens
+    accessRevoked = TokenBlockedList(jti = jti_access)
+    refreshRevoked = TokenBlockedList(jti = jti_refresh)
+    db.session.add(accessRevoked)
+    db.session.add(refreshRevoked)
+    db.session.commit()
+
+    # Generate new token
+    user_id = get_jwt_identity()
+    access_token = create_access_token(identity = user_id)
+    access_jti = get_jti(access_token)
+    refresh_token = create_refresh_token(identity= user_id, additional_claims={"accessToken": access_jti})
+
+    # Return new token
+    return jsonify({"accessToken": access_token, "id": user_id, "refreshToken": refresh_token})
 
 # Allow to logout into the application
 @api.route('/logout', methods=['POST'])
