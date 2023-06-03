@@ -23,7 +23,7 @@ export const Signup = () => {
 	}
 
 	return (
-		<div className="container-login text-center mt-5">
+		<div className="container-signup text-center">
 			<form className="signup-form" onSubmit={submitForm}>
 				<h1 className="signup-title">Signup</h1>
 				<div className="info mb-3">

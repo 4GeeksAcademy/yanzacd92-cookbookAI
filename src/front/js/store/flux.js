@@ -33,6 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				setStore({accessToken: resp.data.accessToken})
 				localStorage.setItem("accessToken", resp.data.accessToken)
+				localStorage.setItem("id", resp.data.id)
 				return resp
 			},
 			userSignup: async(email, password, first_name, last_name, security_question, security_answer, is_admin) => {

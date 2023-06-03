@@ -2,17 +2,18 @@ import React, {useContext} from "react";
 import {Context} from '../store/appContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const Favorite = () => {
     const {store, actions} = useContext(Context)
 	const favorites = store.favorites
 
     return(
-        <div className="ml-auto">
+        <div className="favorite-content">
             <div className="btn-group">
-                <button type="button" className="btn btn-primary dropdown-toggle d-flex" data-bs-toggle="dropdown" aria-expanded="false">
-                    Favorites
-                    <div className="counter"> {favorites.length}</div>
+                <button type="button" className="favorite-btn btn btn-primary dropdown-toggle d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div className="counter"> <FontAwesomeIcon className="add-favorite" icon={faHeart}>{favorites.length}</FontAwesomeIcon></div>
                 </button>
                 <ul className="dropdown-menu">
                     {favorites.map((favorite) =>
