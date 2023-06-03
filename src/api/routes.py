@@ -379,29 +379,28 @@ def recipe_delete_from_favorites(recipeId):
 @api.route('/create-recipe-chatGPT', methods=['GET'])
 def generateChatResponse():
     prompt = request.json.get("prompt")
-    return call_chatGPTApi("create a recipe with the following ingredients: ", prompt)
-
-@api.route('/create-image-chatGPT', methods=['GET'])
-def generateImageResponse():
-    prompt = request.json.get("prompt")
-    return call_chatGPTApi("get an image with the following ingredients: ", prompt)
-
-def call_chatGPTApi(initial_message, prompt):
-    messages = []
-    messages.append({"role": "system", "content": "Your name is Karabo. You are a helpful assistant."})
-    question = {}
-    question['role'] = 'user'
-    question['content'] = prompt
-    messages.append(question)
-    #response = openai.ChatCompletion.create(model="gpt-3.5-turbo",messages=messages)
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": initial_message + prompt + " and response in json"}
-        ]
-    )
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": "Create a recipe with the following ingredients: " + prompt + " and response in json"}
+            ]
+        )
     try:
         answer = response['choices'][0]['message']['content'].replace('\n', '<br>')
     except:
         answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
     return answer
+
+@api.route('/create-image-chatGPT', methods=['GET'])
+def generateImageResponse():
+    prompt = request.json.get("prompt")
+    response = openai.Image.create(
+        prompt = "Recipe with the following ingredients: " + prompt,
+        n = 1,
+        size = "256x256"
+    )
+    try:
+        image_url = response['data'][0]['url']
+    except:
+        image_url = {"message": "Oops you beat the AI, try a different question, if the problem persists, come back later."}
+    return {"image_recipe_url": image_url}, 201
