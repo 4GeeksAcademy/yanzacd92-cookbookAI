@@ -376,19 +376,17 @@ def recipe_delete_from_favorites(recipeId):
 
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 
-@api.route('/call-chatGPT', methods=['GET'])
+@api.route('/create-recipe-chatGPT', methods=['GET'])
 def generateChatResponse():
     prompt = request.json.get("prompt")
-    return call_chatGPTApi(prompt)
+    return call_chatGPTApi("create a recipe with the following ingredients: ", prompt)
 
-'''@api.route('/helloprotected', methods=['GET'])
-@jwt_required()
-def hello_protected_get():
-    user_id = get_jwt_identity()
-    return jsonify({"userId": user_id, "msg": "hello protected route"})'''
+@api.route('/create-image-chatGPT', methods=['GET'])
+def generateImageResponse():
+    prompt = request.json.get("prompt")
+    return call_chatGPTApi("get an image with the following ingredients: ", prompt)
 
-
-def call_chatGPTApi(prompt):
+def call_chatGPTApi(initial_message, prompt):
     messages = []
     messages.append({"role": "system", "content": "Your name is Karabo. You are a helpful assistant."})
     question = {}
@@ -396,14 +394,14 @@ def call_chatGPTApi(prompt):
     question['content'] = prompt
     messages.append(question)
     #response = openai.ChatCompletion.create(model="gpt-3.5-turbo",messages=messages)
-    response = completion = openai.ChatCompletion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": initial_message + prompt + " and response in json"}
         ]
     )
     try:
-        answer = completion['choices'][0]['message']['content'].replace('\n', '<br>')
+        answer = response['choices'][0]['message']['content'].replace('\n', '<br>')
     except:
         answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
     return answer
