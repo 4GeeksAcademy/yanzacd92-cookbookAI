@@ -48,7 +48,7 @@ def user_login():
     # generate token
     access_token = create_access_token(identity = user.id)
     access_jti = get_jti(access_token)
-    refresh_token = create_access_token(identity=user.id, additional_claims={"accessToken": access_jti})
+    refresh_token = create_refresh_token(identity=user.id, additional_claims={"accessToken": access_jti})
 
     return jsonify({"accessToken": access_token, "id": user.id, "refreshToken": refresh_token})
 
