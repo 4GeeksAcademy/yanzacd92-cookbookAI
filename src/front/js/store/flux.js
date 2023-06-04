@@ -54,10 +54,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return resp
 			},
 			userAllRecipes: async() => {
+				console.log("ENTROO A userAllRecipes")
 				const resp = await getActions().apiFetch("/api/showRecipes", "GET")
 				if(resp.code >= 400) {
 					return resp
 				}
+				console.log("ENTROO A userAllRecipes it will setStore: ----->  "  + resp.data)
 				setStore({allRecipes: JSON.stringify(resp.data)})
 				return resp
 			},

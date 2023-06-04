@@ -6,10 +6,6 @@ import { Context } from "../store/appContext";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
-	useEffect(() => {
-		actions.userAllRecipes(),
-		actions.userMyRecipes()
-	}, [])
 	return (
 		<nav className="navbar navbar-dark bg-primary">
 			<div className="container-fluid">
@@ -29,7 +25,7 @@ export const Navbar = () => {
 								<a className="nav-link" href="/myrecipes">My recipes</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/allrecipes" tabIndex="-1" aria-disabled="true">All recipes by users</a>
+								<a className="nav-link" href="/allrecipes" tabIndex="-1" aria-disabled="true" onClick={() => actions.userAllRecipes()}>All recipes by users</a>
 							</li>
 						</ul>
 					</div>
