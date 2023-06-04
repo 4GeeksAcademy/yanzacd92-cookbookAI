@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
+			allRecipes: [],
 			favorites: [
 				{
 					id: "if_1",
@@ -43,6 +44,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				//setStore({accessToken: resp.data.accessToken})
 				localStorage.setItem("accessToken", resp.data.accessToken)
+				return resp
+			},
+			userMyRecipes: async(user_id) => {
+				const resp = await getActions().apiFetch("/api/showRecipe/" + user_id, "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				return resp
+			},
+			userAllRecipes: async() => {
+				const resp = await getActions().apiFetch("/api/showRecipes", "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				setStore({allRecipes: resp})
+				return resp
+			},
+			userCreateRecipes: async(name, description, user_id, prompt) => {
+				const image = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
+				const elaboration = await getActions().apiFetch("/api/createRecipeChatGPT", "GET", {prompt})
+				const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration, user_id})
+				if(resp.code >= 400) {
+					return resp
+				}
 				return resp
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {

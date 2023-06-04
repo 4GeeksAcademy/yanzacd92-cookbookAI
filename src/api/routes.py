@@ -376,7 +376,7 @@ def recipe_delete_from_favorites(recipeId):
 
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 
-@api.route('/create-recipe-chatGPT', methods=['GET'])
+@api.route('/createRecipeChatGPT', methods=['GET'])
 def generateChatResponse():
     prompt = request.json.get("prompt")
     response = openai.ChatCompletion.create(
@@ -391,7 +391,7 @@ def generateChatResponse():
         answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
     return answer
 
-@api.route('/create-image-chatGPT', methods=['GET'])
+@api.route('/createImageChatGPT', methods=['GET'])
 def generateImageResponse():
     prompt = request.json.get("prompt")
     response = openai.Image.create(
