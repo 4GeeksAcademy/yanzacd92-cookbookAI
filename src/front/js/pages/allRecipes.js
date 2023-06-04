@@ -7,11 +7,11 @@ import { Navbar } from "../component/navbar";
 export const AllRecipes = () => {
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
-  useEffect(() => {
+ /*  useEffect(() => {
     actions.userAllRecipes()
-  }, [])
+  }, []) */
   const allRecipes = store.allRecipes
-  console.log("ALL RECIPES AFTER: ------------------------>  " + allRecipes)
+  console.log("ALL RECIPES AFTER: ------------------------>  " + (allRecipes))
   const handleMouseEnter = (index) => {
     setHoveredImg(index);
   };
@@ -28,7 +28,7 @@ export const AllRecipes = () => {
         <h1 className="text-center mt-4 re-title">All Recipes</h1>
         <div className="container mt-4 mb-4"></div>
         <div className="row">
-          {allRecipes.map(recipe => 
+          {allRecipes?.map(recipe => 
             <div className="col-md-4">
               <Link to='/${recipe}'>
                 <div

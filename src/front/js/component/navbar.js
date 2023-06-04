@@ -1,10 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
 import profileLogo from './../../img/profile-logo.png'
 import { Favorite } from "./favorite";
+import { Context } from "../store/appContext";
 
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context);
+	useEffect(() => {
+		actions.userAllRecipes(),
+		actions.userMyRecipes()
+	}, [])
 	return (
 		<nav className="navbar navbar-dark bg-primary">
 			<div className="container-fluid">
