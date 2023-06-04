@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 
-export const Recommend = () => {
+export const AllRecipes = () => {
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
 
@@ -21,7 +21,7 @@ export const Recommend = () => {
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">Recommend Recipes</h1>
+        <h1 className="text-center mt-4 re-title">All Recipes</h1>
         <div className="container mt-4 mb-4"></div>
         <div className="row">
           <div className="col-md-4">
