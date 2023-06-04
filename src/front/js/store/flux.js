@@ -58,7 +58,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-				setStore({allRecipes: resp})
+				setStore({allRecipes: JSON.stringify(resp.data)})
 				return resp
 			},
 			userCreateRecipes: async(name, description, user_id, prompt) => {

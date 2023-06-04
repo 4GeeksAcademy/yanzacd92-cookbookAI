@@ -238,11 +238,11 @@ def category_show_by_id(categoryId):
 
 # Show the all recipes
 @api.route('/showRecipes', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def recipes_all_show():
     recipes = Recipe.query.all()
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
-    return jsonify({"recipes": dictionary_recipes}), 200
+    return jsonify(dictionary_recipes), 200
 
 # Show a single recipe by ID
 @api.route('/showRecipe/<int:recipeId>', methods=['GET'])

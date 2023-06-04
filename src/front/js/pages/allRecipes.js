@@ -1,4 +1,4 @@
-import React, { useContext , useState} from "react";
+import React, { useContext , useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
@@ -7,8 +7,11 @@ import { Navbar } from "../component/navbar";
 export const AllRecipes = () => {
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
+  useEffect(() => {
+    actions.userAllRecipes()
+  }, [])
   const allRecipes = store.allRecipes
-
+  console.log("ALL RECIPES AFTER: ------------------------>  " + allRecipes)
   const handleMouseEnter = (index) => {
     setHoveredImg(index);
   };
