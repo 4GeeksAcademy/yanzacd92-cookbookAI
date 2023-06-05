@@ -60,7 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return resp
 				}
 				console.log("ENTROO A userAllRecipes it will setStore: ----->  "  + resp.data)
-				setStore({allRecipes: JSON.stringify(resp.data)})
+				setStore({allRecipes: resp.data})
 				return resp
 			},
 			userCreateRecipes: async(name, description, user_id, prompt) => {
