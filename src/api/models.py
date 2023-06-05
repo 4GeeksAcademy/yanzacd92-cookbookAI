@@ -72,7 +72,9 @@ class Recipe(db.Model):
             "name": self.name,
             "description": self.description,
             "image": self.image,
-            "elaboration": self.elaboration
+            "elaboration": self.elaboration,
+            "user_id": self.user.id,
+            "user_first_name": self.user.first_name
             # do not serialize the password, its a security breach
         }
 

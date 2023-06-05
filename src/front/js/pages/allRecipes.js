@@ -5,17 +5,16 @@ import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 
 export const AllRecipes = () => {
-  const { store, actions } = useContext(Context);
-  const [hoveredImg, setHoveredImg] = useState(null);
-  const allRecipes = store.allRecipes?.length > 0 ? store.allRecipes : []
-  console.log("ALL RECIPES AFTER: ------------------------>  " + allRecipes)
-  const handleMouseEnter = (index) => {
-    setHoveredImg(index);
-  };
-
   useEffect( () => {
     actions.userAllRecipes()
   }, [])
+
+  const { store, actions } = useContext(Context);
+  const [hoveredImg, setHoveredImg] = useState(null);
+  const allRecipes = store.allRecipes
+  const handleMouseEnter = (index) => {
+    setHoveredImg(index);
+  };
 
   const handleMouseLeave = () => {
     setHoveredImg(null);

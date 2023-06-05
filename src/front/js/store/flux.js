@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			message: null,
 			allRecipes: [],
+			myRecipes: [],
 			favorites: [
 				{
 					id: "if_1",
@@ -46,20 +47,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("accessToken", resp.data.accessToken)
 				return resp
 			},
-			userMyRecipes: async(user_id) => {
-				const resp = await getActions().apiFetch("/api/showRecipe/" + user_id, "GET")
+			userMyRecipes: async() => {
+				const resp = await getActions().apiFetch("/api/showRecipesByUserId", "GET")
 				if(resp.code >= 400) {
 					return resp
 				}
+				setStore({myRecipes: resp.data})
 				return resp
 			},
 			userAllRecipes: async() => {
-				console.log("ENTROO A userAllRecipes")
 				const resp = await getActions().apiFetch("/api/showRecipes", "GET")
 				if(resp.code >= 400) {
 					return resp
 				}
-				console.log("ENTROO A userAllRecipes it will setStore: ----->  "  + resp.data)
 				setStore({allRecipes: resp.data})
 				return resp
 			},

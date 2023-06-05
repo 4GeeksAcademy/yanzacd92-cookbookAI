@@ -267,6 +267,19 @@ def recipes_by_category_show(categoryId):
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
     return jsonify({"recipes": dictionary_recipes}), 201
 
+# Show the all recipes by User ID
+@api.route('/showRecipesByUserId', methods=['GET'])
+@jwt_required()
+def recipes_by_user_ID_show():
+    user_id = get_jwt_identity()
+    recipes = Recipe.query.filter_by(user_id=user_id).all()
+    if(recipes is None):
+        return jsonify({
+            "message": "Recipe does not exist with this user"
+        }), 400
+    dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
+    return jsonify({"recipes": dictionary_recipes}), 201
+
 # Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
 @jwt_required()
