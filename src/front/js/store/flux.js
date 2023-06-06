@@ -5,26 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			allRecipes: [],
 			myRecipes: [],
-			favorites: [
-				{
-					id: "if_1",
-					name: "whiteaaaaaaaaappp",
-					description: "white",
-					elaboration: "white",
-					image: "white",
-					is_active: "white",
-					category: "Italian Food"
-
-				},
-				{
-					id: "cf_1",
-					name: "whiteaaaaaaaaappp",
-					description: "white",
-					elaboration: "white",
-					image: "white",
-					category: "China Food"
-				}
-			]
+			favorites: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -52,7 +33,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-				console.log("MY RECIPES: ---------------->  " + resp.data)
 				setStore({myRecipes: resp.data})
 				return resp
 			},
@@ -73,37 +53,47 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				return resp
 			},
+			showRecipesInFavoritesByUser: async() => {
+				let store = getStore();
+				const resp = await getActions().apiFetch("/api/showRecipesFavoritesbyUserId/", "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				store.favorites = resp.data
+				setStore({favorites: resp.data})
+			},
 			addRecipeToFavorites: async(recipeId) => {
+				let store = getStore();
 				const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
 				if(resp.code >= 400) {
 					return resp
 				}
-				setStore({favorites: resp.data})
+				store.favorites = [...store.favorites, resp.data]
+				setStore({favorites: favorites})
 			},
 			removeRecipeFromFavorites: async(recipeId) => {
+				let store = getStore();
 				const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
 				if(resp.code >= 400) {
 					return resp
 				}
-				setStore({favorites: resp.data})
+				const index = favorites.indexOf(recipeId)
+				delete favorites[index];
+				setStore({favorites: favorites})
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
-				console.log("LOCAL STORE - ACCESS TOKEN: ---------------->  " + localStorage.getItem('accessToken'))
+				const headers = {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
+					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+				}
 				let response = await fetch(apiURL + endpoint, method == "GET" ? {
-					headers: {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*",
-						"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-					}
+					headers: headers
 				} : {
 					method,
 					body: JSON.stringify(body),
 					mode: 'cors',
-					headers: {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*",
-						"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
-					}
+					headers: headers
 				})
 				if(!response.ok) {
 					console.error(`${response.status}: ${response.statusText}`)

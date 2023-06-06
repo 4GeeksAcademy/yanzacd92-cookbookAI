@@ -351,7 +351,7 @@ def recipes_all_favorites_by_userId_show():
     user_id = get_jwt_identity()
     favorites = Favorite.query.filter_by(user_id = user_id)
     dictionary_recipes = list(map(lambda f : f.serialize(), favorites))
-    return jsonify({"favorites": dictionary_recipes}), 200
+    return jsonify(dictionary_recipes), 200
 
 # Add a recipe to favorite
 @api.route('/addRecipeToFavorite/<int:recipeId>/', methods=['POST'])
@@ -373,7 +373,7 @@ def favorite_add_recipe(recipeId):
     )
     db.session.add(new_favorite)
     db.session.commit()
-    return jsonify({"message": "Recipe added to favorites"}), 201
+    return jsonify(new_favorite), 201
 
 # Delete recipe from favorites by recipeId
 @api.route("/deleteRecipeFromFavorites/<int:recipeId>", methods=["DELETE"])

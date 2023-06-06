@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {Context} from '../store/appContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +7,9 @@ import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const Favorite = () => {
     const {store, actions} = useContext(Context)
+    useEffect(() => {
+        actions.showRecipesInFavoritesByUser()
+    }, [])
 	const favorites = store.favorites
 
     return(
@@ -18,8 +21,8 @@ export const Favorite = () => {
                 <ul className="dropdown-menu">
                     {favorites.map((favorite) =>
                         <div className="favorite-list d-flex" key={favorite.id}>
-                            <li><a className="dropdown-item" href="#">{favorite.name}</a></li>
-                            <button className="btn col-4 dropdown-item" type="button" onClick={() => actions.addToFavorites(favorite.id, favorite.name, favorite.element)}>
+                            <li><a className="dropdown-item" href="#">{favorite.recipe_name}</a></li>
+                            <button className="btn col-4 dropdown-item" type="button" onClick={() => actions.removeRecipeFromFavorites(favorite.id)}>
                                 <FontAwesomeIcon className="remove-favorite" icon={faTrash} />
                             </button>
                         </div>

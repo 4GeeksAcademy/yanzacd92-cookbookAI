@@ -1,18 +1,19 @@
 import React, { useContext , useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 
 export const MyRecipes = () => {
+  const location = useLocation();
   useEffect( () => {
+    console.log('Location changed');
     actions.userMyRecipes()
-  }, [])
+  }, [location])
 
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
   const myRecipes = store.myRecipes
-  console.log("MY RECIPES FROM REACT: ---------------->  " + myRecipes)
 
   const handleMouseEnter = (index) => {
     setHoveredImg(index);
