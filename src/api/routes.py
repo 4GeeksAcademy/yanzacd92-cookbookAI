@@ -111,6 +111,34 @@ def user_password_recovery():
     db.session.commit()
     return jsonify(user.serialize()), 200
 
+# Recovery the password
+@api.route('/changePassword', methods=['POST'])
+@jwt_required()
+def change_password():
+    new_password = request.json.get("password")
+    user_id = get_jwt_identity()
+    secure_password = bcrypt.generate_password_hash(new_password, rounds=None).decode("utf-8")
+    user =  User.query.get(user_id)
+    user.password = secure_password
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({"msg": "password updated"})
+
+@api.route('/passwordRecovery2', methods=['POST'])
+def password_required_2():
+    user_email = request.json.get("email")
+    user = User.query.filter_by(email=user_email).first()
+    if(user is None):
+        return jsonify({
+            "message": "User not found"
+        }), 401
+    
+    # Generate temporal token in order to change password
+    access_token = create_access_token(identity = user.id, additional_claims={"type": "password"})
+    return jsonify({"recoveryToken": access_token}), 200
+
+    # Send token link via email in order to change password
+
 # Show all users
 @api.route("/allUsers", methods=["GET"])
 @jwt_required()
