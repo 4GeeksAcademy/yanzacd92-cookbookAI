@@ -88,14 +88,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				console.log("LOCAL STORE - ACCESS TOKEN: ---------------->  " + localStorage.getItem('accessToken'))
-				let response = await fetch(apiURL + endpoint, method == "GET" ? undefined: {
+				let response = await fetch(apiURL + endpoint, method == "GET" ? {
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+						"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+					}
+				} : {
 					method,
 					body: JSON.stringify(body),
 					mode: 'cors',
 					headers: {
 						"Content-Type": "application/json",
 						"Access-Control-Allow-Origin": "*",
-						"Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
+						"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
 					}
 				})
 				if(!response.ok) {
