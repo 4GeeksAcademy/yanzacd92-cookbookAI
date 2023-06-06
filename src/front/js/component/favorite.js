@@ -16,7 +16,7 @@ export const Favorite = () => {
         <div className="favorite-content">
             <div className="btn-group">
                 <button type="button" className="favorite-btn btn btn-primary dropdown-toggle d-flex" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div className="counter"> <FontAwesomeIcon className="add-favorite" icon={faHeart}>{favorites.length}</FontAwesomeIcon></div>
+                    <div className="counter"> <FontAwesomeIcon className="add-favorite-navbar" icon={faHeart}>{favorites.length}</FontAwesomeIcon></div>
                 </button>
                 <ul className="dropdown-menu">
                     {favorites.map((favorite) =>

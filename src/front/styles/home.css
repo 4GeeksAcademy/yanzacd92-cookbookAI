@@ -209,3 +209,26 @@ button.btn.col-4.dropdown-item {
 .navbar-dark .navbar-nav .nav-link {
     color: white;
 }
+
+.add-favorite {
+    font-size: 20px !important;
+    margin: 0px;
+    color: white !important;
+}
+
+.add-favorite-navbar {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-btn {
+    background: none;
+    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+}
+
+.add-favorite-btn:hover {
+    background: none;
+    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    box-shadow: 0 0 0 0.25rem black;
+}

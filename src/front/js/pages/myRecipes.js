@@ -3,9 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const MyRecipes = () => {
   const location = useLocation();
@@ -31,7 +28,7 @@ export const MyRecipes = () => {
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">My recipes <button className="add-favorite-btn btn btn-primary" type="submit"><FontAwesomeIcon className="add-favorite" icon={farHeartRegular} /></button></h1>
+        <h1 className="text-center mt-4 re-title">My recipes</h1>
         <div className="container mt-4 mb-4">
           <div className="row">
             {myRecipes.map((recipe) => 

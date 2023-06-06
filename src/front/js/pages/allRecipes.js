@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const AllRecipes = () => {
   useEffect( () => {
@@ -42,8 +45,12 @@ export const AllRecipes = () => {
                       alt={recipe.name}
                       className="img-fluid rounded shadow zoom-image"
                     />
+                    <button className="add-favorite-btn btn btn-primary" type="submit"><FontAwesomeIcon className="add-favorite" icon={farHeartRegular} /></button> 
                     {hoveredImg === 0 && (
-                      <div className="img-title">{recipe.name}</div>
+                      <div className="img-title">
+                        {recipe.name} 
+                      </div>
+                      
                     )}
                   </div>
                 </Link>
