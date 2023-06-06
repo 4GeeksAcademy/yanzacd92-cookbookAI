@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe, Category, TokenBlockedList, Favorite
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
 import os
 import openai
@@ -271,6 +271,7 @@ def recipes_by_category_show(categoryId):
 @api.route('/showRecipesByUserId', methods=['GET'])
 @jwt_required()
 def recipes_by_user_ID_show():
+    #verify_jwt_in_request()
     user_id = get_jwt_identity()
     recipes = Recipe.query.filter_by(user_id=user_id).all()
     if(recipes is None):
@@ -353,7 +354,6 @@ def recipes_all_favorites_by_userId_show():
 
 # Add a recipe to favorite
 @api.route('/addRecipeToFavorite/<int:recipeId>/', methods=['POST'])
-
 @jwt_required()
 def favorite_add_recipe(recipeId):
     user_id = get_jwt_identity()

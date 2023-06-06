@@ -72,14 +72,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				return resp
 			},
+			addRecipeToFavorites: async(recipeId) => {
+				const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
+				if(resp.code >= 400) {
+					return resp
+				}
+				setStore({favorites: resp.data})
+			},
+			removeRecipeFromFavorites: async(recipeId) => {
+				const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
+				if(resp.code >= 400) {
+					return resp
+				}
+				setStore({favorites: resp.data})
+			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
+				console.log("LOCAL STORE - ACCESS TOKEN: ---------------->  " + localStorage.getItem('accessToken'))
 				let response = await fetch(apiURL + endpoint, method == "GET" ? undefined: {
 					method,
 					body: JSON.stringify(body),
 					mode: 'cors',
 					headers: {
 						"Content-Type": "application/json",
-						'Access-Control-Allow-Origin': '*'
+						"Access-Control-Allow-Origin": "*",
+						"Authorization" : `Bearer ${localStorage.getItem('accessToken')}`
 					}
 				})
 				if(!response.ok) {

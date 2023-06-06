@@ -13,6 +13,7 @@ export const Home = () => {
 		if(resp >= 400) {
 			return
 		}
+		navigate('/recommend', { replace: true })
 		console.log("Login exitoso!!")
 	}
 

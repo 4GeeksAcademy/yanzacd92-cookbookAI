@@ -26,7 +26,7 @@ export const MyRecipes = () => {
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">All recipes</h1>
+        <h1 className="text-center mt-4 re-title">My recipes</h1>
         <div className="container mt-4 mb-4">
           <div className="row">
             {myRecipes.map((recipe) => 
