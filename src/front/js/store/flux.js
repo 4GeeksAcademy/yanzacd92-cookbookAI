@@ -77,9 +77,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-				const index = favorites.indexOf(recipeId)
-				delete favorites[index];
+				const index = store.favorites.indexOf(recipeId)
+				delete store.favorites[index];
 				setStore({favorites: favorites})
+			},
+			userLogout: async() => {
+				const resp = await getActions().apiFetch("/api/logout", "POST")
+				if(resp.code >= 400) {
+					return resp
+				}
+
+				return resp;
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {

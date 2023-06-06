@@ -2,9 +2,15 @@ import React, { useContext, useEffect } from "react";
 import profileLogo from './../../img/profile-logo.png'
 import { Favorite } from "./favorite";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 
 export const Navbar = () => {
+	const navigate = useNavigate();
+	const logout = () => {
+		actions.userLogout()
+		navigate('/', { replace: true })
+	}
 	const { store, actions } = useContext(Context);	
 	return (
 		<nav className="navbar navbar-dark bg-primary">
@@ -26,6 +32,9 @@ export const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<a className="nav-link" href="/allrecipes" tabIndex="-1" aria-disabled="true">All recipes by users</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" onClick={logout} tabIndex="-1" aria-disabled="true">Logout</a>
 							</li>
 						</ul>
 					</div>
