@@ -11,7 +11,7 @@ export const AllRecipes = () => {
   useEffect( () => {
     actions.userAllRecipes()
   }, [])
-
+  
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
   const allRecipes = store.allRecipes
@@ -24,6 +24,10 @@ export const AllRecipes = () => {
     setHoveredImg(null);
   };
 
+  function checkFavorites(id) {
+    if(store.favorites.some(recipe => recipe.id == id)) return faHeart
+    return farHeartRegular
+  }
 
   return (
     <div>
@@ -34,6 +38,9 @@ export const AllRecipes = () => {
           <div className="row">
             {allRecipes.map((recipe) => 
               <div className="col-md-4" key={recipe.id}>
+                <div className="icon-favorite">
+                  <button className="add-favorite-btn btn btn-primary" type="submit" onClick={() => actions.addRecipeToFavorites(recipe.id)}><FontAwesomeIcon className="add-favorite" icon={checkFavorites(recipe.id)} /></button>
+                </div>
                 <Link to="/descripcion-imagen1">
                   <div
                     className={`img-wrapper ${hoveredImg === 0 ? "hovered" : ""}`}
@@ -45,7 +52,6 @@ export const AllRecipes = () => {
                       alt={recipe.name}
                       className="img-fluid rounded shadow zoom-image"
                     />
-                    <button className="add-favorite-btn btn btn-primary" type="submit"><FontAwesomeIcon className="add-favorite" icon={farHeartRegular} /></button> 
                     {hoveredImg === 0 && (
                       <div className="img-title">
                         {recipe.name} 

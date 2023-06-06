@@ -404,11 +404,11 @@ def favorite_add_recipe(recipeId):
     return jsonify(new_favorite), 201
 
 # Delete recipe from favorites by recipeId
-@api.route("/deleteRecipeFromFavorites/<int:recipeId>", methods=["DELETE"])
+@api.route("/deleteRecipeFromFavorites/<int:id>", methods=["DELETE"])
 @jwt_required()
-def recipe_delete_from_favorites(recipeId):
+def recipe_delete_from_favorites(id):
     user_id = get_jwt_identity()
-    recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id).first()
+    recipe_favorite = Favorite.query.filter_by(id = id).filter_by(user_id = user_id).first()
     if(recipe_favorite is None):
         return jsonify({
                 "message": "Recipe does not exist"

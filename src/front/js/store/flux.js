@@ -79,7 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				const index = store.favorites.indexOf(recipeId)
 				delete store.favorites[index];
-				setStore({favorites: favorites})
+				setStore({favorites: store.favorites})
 			},
 			userLogout: async() => {
 				const resp = await getActions().apiFetch("/api/logout", "POST")
