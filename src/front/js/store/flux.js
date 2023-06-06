@@ -52,6 +52,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
+				console.log("MY RECIPES: ---------------->  " + resp.data)
 				setStore({myRecipes: resp.data})
 				return resp
 			},

@@ -12,6 +12,7 @@ export const AllRecipes = () => {
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
   const allRecipes = store.allRecipes
+  
   const handleMouseEnter = (index) => {
     setHoveredImg(index);
   };

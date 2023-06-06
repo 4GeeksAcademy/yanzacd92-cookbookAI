@@ -265,7 +265,7 @@ def recipes_by_category_show(categoryId):
             "message": "Recipe does not exist with this category"
         }), 400
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
-    return jsonify({"recipes": dictionary_recipes}), 201
+    return jsonify({"recipes": dictionary_recipes}), 200
 
 # Show the all recipes by User ID
 @api.route('/showRecipesByUserId', methods=['GET'])
@@ -279,7 +279,8 @@ def recipes_by_user_ID_show():
             "message": "Recipe does not exist with this user"
         }), 400
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
-    return jsonify({"recipes": dictionary_recipes}), 201
+    return jsonify(dictionary_recipes), 200
+
 
 # Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
