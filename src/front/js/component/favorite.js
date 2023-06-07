@@ -22,7 +22,7 @@ export const Favorite = () => {
                     {favorites.map((favorite) =>
                         <div className="favorite-list d-flex" key={favorite.id}>
                             <li><a className="dropdown-item" href="#">{favorite.recipe_name}</a></li>
-                            <button className="btn col-4 dropdown-item" type="button" onClick={() => actions.removeRecipeFromFavorites(favorite.id)}>
+                            <button className="btn col-4 dropdown-item" type="button" onClick={() => actions.removeRecipeFromFavorites(favorite.recipe_id)}>
                                 <FontAwesomeIcon className="remove-favorite" icon={faTrash} />
                             </button>
                         </div>
