@@ -243,6 +243,6 @@ button.btn.col-4.dropdown-item {
 .icon-favorite {
     width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: left;
     margin-bottom: 6px;
 }
