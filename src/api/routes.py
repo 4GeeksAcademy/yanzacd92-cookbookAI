@@ -404,7 +404,8 @@ def favorite_add_recipe(recipeId):
         db.session.commit()
     except:
         return jsonify({"message": "Recipe does not exist"}), 400
-    return jsonify(new_favorite), 201
+
+    return jsonify(new_favorite.serialize()), 201
 
 # Delete recipe from favorites by recipeId
 @api.route("/deleteRecipeFromFavorites/<int:recipeId>", methods=["DELETE"])

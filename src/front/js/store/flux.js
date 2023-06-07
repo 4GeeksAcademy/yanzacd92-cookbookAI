@@ -69,7 +69,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return resp
 				}
 				store.favorites = [...store.favorites, resp.data]
-				console.log("ADDING RECIPE TO FAVORITE --->  " + resp.data)
 				setStore({favorites: store.favorites})
 			},
 			removeRecipeFromFavorites: async(recipeId) => {
