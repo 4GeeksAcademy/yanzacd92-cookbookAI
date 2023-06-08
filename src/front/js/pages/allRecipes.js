@@ -24,8 +24,8 @@ export const AllRecipes = () => {
     setHoveredImg(null);
   };
 
-  function checkFavorites(id) {
-    if(store.favorites.some(recipe => recipe.id == id)) return faHeart
+  function checkFavorites(recipeId) {
+    if(store.favorites.some(favorite => favorite.recipe_id == recipeId)) return faHeart
     return farHeartRegular
   }
 
@@ -56,7 +56,6 @@ export const AllRecipes = () => {
                       <div className="img-title">
                         {recipe.name} 
                       </div>
-                      
                     )}
                   </div>
                 </Link>
