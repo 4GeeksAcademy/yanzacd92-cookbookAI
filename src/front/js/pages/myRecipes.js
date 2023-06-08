@@ -33,7 +33,7 @@ export const MyRecipes = () => {
           <div className="row">
             {myRecipes.map((recipe) => 
               <div className="col-md-4" key={recipe.id}>
-                <Link to="/descripcion-imagen1">
+                <Link to={`/recipeDetail/${recipe.id}`}>
                   <div
                     className={`img-wrapper ${hoveredImg === 0 ? "hovered" : ""}`}
                     onMouseEnter={() => handleMouseEnter(0)}

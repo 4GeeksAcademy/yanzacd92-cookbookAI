@@ -240,6 +240,18 @@ button.btn.col-4.dropdown-item {
     box-shadow: 0 0 0 0.25rem orange;
 }
 
+.add-favorite-detail-btn {
+    background: none;
+    border-color: white;
+    border: none;
+}
+
+.add-favorite-detail-btn:hover {
+    background: none;
+    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    box-shadow: 0 0 0 0.25rem orange;
+}
+
 .icon-favorite {
     width: 100%;
     display: flex;
