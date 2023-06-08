@@ -13,6 +13,7 @@ import { Footer } from "./component/footer";
 import { Signup } from "./pages/signup";
 import { MyRecipes } from "./pages/myRecipes";
 import { AllRecipes } from "./pages/allRecipes";
+import { RecipeDetail } from "./pages/recipeDetail";
 
 //create your first component
 const Layout = () => {
@@ -33,6 +34,8 @@ const Layout = () => {
                         <Route element={<AllRecipes />} path="/allrecipes" />
                         <Route element={<Signup />} path="/api/signup" />
                         <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<RecipeDetail />} path="/recipeDetail/:recipeId" />
+                        RecipeDetail
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
