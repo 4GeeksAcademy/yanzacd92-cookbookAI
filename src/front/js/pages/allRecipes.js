@@ -39,7 +39,7 @@ export const AllRecipes = () => {
             {allRecipes.map((recipe) => 
               <div className="col-md-4" key={recipe.id}>
                 <div className="icon-favorite">
-                  <button className="add-favorite-btn btn btn-primary" type="submit" onClick={() => actions.addRecipeToFavorites(recipe.id)}><FontAwesomeIcon className="add-favorite" icon={checkFavorites(recipe.id)} /></button>
+                  <button className="add-favorite-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipe.id)}><FontAwesomeIcon className="add-favorite" icon={checkFavorites(recipe.id)} /></button>
                 </div>
                 <Link to="/descripcion-imagen1">
                   <div

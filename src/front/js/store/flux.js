@@ -62,23 +62,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				store.favorites = resp.data
 				setStore({favorites: resp.data})
 			},
-			addRecipeToFavorites: async(recipeId) => {
+			addOrRemoveFavorites: async (recipeId) => {
 				let store = getStore();
-				const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
-				if(resp.code >= 400) {
-					return resp
+				if(store.favorites.some(f => f.recipe_id === recipeId)){
+					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
+					if(resp.code >= 400) {
+						return resp
+					}
+					const index = store.favorites.indexOf(recipeId)
+					delete store.favorites[index];					
+				} else {
+					const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
+					if(resp.code >= 400) {
+						return resp
+					}
+					store.favorites = [...store.favorites, resp.data]
 				}
-				store.favorites = [...store.favorites, resp.data]
-				setStore({favorites: store.favorites})
-			},
-			removeRecipeFromFavorites: async(recipeId) => {
-				let store = getStore();
-				const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
-				if(resp.code >= 400) {
-					return resp
-				}
-				const index = store.favorites.indexOf(recipeId)
-				delete store.favorites[index];
 				setStore({favorites: store.favorites})
 			},
 			userLogout: async() => {

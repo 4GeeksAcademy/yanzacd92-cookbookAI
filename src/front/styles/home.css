@@ -246,3 +246,7 @@ button.btn.col-4.dropdown-item {
     justify-content: left;
     margin-bottom: 6px;
 }
+
+.favorite-list {
+    justify-content: space-between;
+}
