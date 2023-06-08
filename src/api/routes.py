@@ -281,7 +281,7 @@ def recipe_show_by_id(recipeId):
         return jsonify({
             "message": "Recipe does not exist"
         }), 400
-    return jsonify({"recipe": recipe.serialize()}), 200
+    return jsonify(recipe.serialize()), 200
 
 # Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])

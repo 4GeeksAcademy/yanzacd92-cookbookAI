@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			allRecipes: [],
 			myRecipes: [],
+			recipeDetail: [],
 			favorites: []
 		},
 		actions: {
@@ -87,6 +88,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 				return resp;
+			},
+			getDetailRecipe: async(recipeId) => {
+				let store = getStore();
+				const resp = await getActions().apiFetch("/api/showRecipe/" + recipeId, "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				store.recipeDetail = resp.data
+				setStore({recipeDetail: store.recipeDetail})
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
