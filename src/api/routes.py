@@ -112,7 +112,7 @@ def user_password_recovery():
     return jsonify(user.serialize()), 200
 
 # Recovery the password
-""" @api.route('/changePassword', methods=['POST'])
+@api.route('/changePassword', methods=['POST'])
 @jwt_required()
 def change_password():
     new_password = request.json.get("password")
@@ -135,7 +135,7 @@ def password_required_2():
     
     # Generate temporal token in order to change password
     access_token = create_access_token(identity = user.id, additional_claims={"type": "password"})
-    return jsonify({"recoveryToken": access_token}), 200 """
+    return jsonify({"recoveryToken": access_token}), 200
 
     # Send token link via email in order to change password
 
@@ -281,7 +281,7 @@ def recipe_show_by_id(recipeId):
         return jsonify({
             "message": "Recipe does not exist"
         }), 400
-    return jsonify({"recipe": recipe.serialize()}), 200
+    return jsonify(recipe.serialize()), 200
 
 # Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
@@ -399,22 +399,29 @@ def favorite_add_recipe(recipeId):
     new_favorite = Favorite(
         recipe_id=recipeId, user_id=user_id
     )
-    db.session.add(new_favorite)
-    db.session.commit()
-    return jsonify(new_favorite), 201
+    try:
+        db.session.add(new_favorite)
+        db.session.commit()
+    except:
+        return jsonify({"message": "Recipe does not exist"}), 400
+
+    return jsonify(new_favorite.serialize()), 201
 
 # Delete recipe from favorites by recipeId
-@api.route("/deleteRecipeFromFavorites/<int:id>", methods=["DELETE"])
+@api.route("/deleteRecipeFromFavorites/<int:recipeId>", methods=["DELETE"])
 @jwt_required()
-def recipe_delete_from_favorites(id):
+def recipe_delete_from_favorites(recipeId):
     user_id = get_jwt_identity()
-    recipe_favorite = Favorite.query.filter_by(id = id).filter_by(user_id = user_id).first()
+    recipe_favorite = Favorite.query.filter_by(recipe_id = recipeId).filter_by(user_id = user_id).first()
     if(recipe_favorite is None):
         return jsonify({
                 "message": "Recipe does not exist"
             }), 400
-    db.session.delete(recipe_favorite)
-    db.session.commit()
+    try:
+        db.session.delete(recipe_favorite)
+        db.session.commit()
+    except:
+        return jsonify({"message": "Recipe does not exist"}), 400
 
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 

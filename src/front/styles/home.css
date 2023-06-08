@@ -243,6 +243,10 @@ button.btn.col-4.dropdown-item {
 .icon-favorite {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     margin-bottom: 6px;
+}
+
+.favorite-list {
+    justify-content: space-between;
 }

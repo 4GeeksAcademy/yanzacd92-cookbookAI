@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			allRecipes: [],
 			myRecipes: [],
+			recipeDetail: [],
 			favorites: []
 		},
 		actions: {
@@ -62,23 +63,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				store.favorites = resp.data
 				setStore({favorites: resp.data})
 			},
-			addRecipeToFavorites: async(recipeId) => {
+			addOrRemoveFavorites: async (recipeId) => {
 				let store = getStore();
-				const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
-				if(resp.code >= 400) {
-					return resp
+				if(store.favorites.some(f => f.recipe_id === recipeId)){
+					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
+					if(resp.code >= 400) {
+						return resp
+					}
+					const index = store.favorites.indexOf(recipeId)
+					delete store.favorites[index];					
+				} else {
+					const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
+					if(resp.code >= 400) {
+						return resp
+					}
+					store.favorites = [...store.favorites, resp.data]
 				}
-				store.favorites = [...store.favorites, resp.data]
-				setStore({favorites: favorites})
-			},
-			removeRecipeFromFavorites: async(recipeId) => {
-				let store = getStore();
-				const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
-				if(resp.code >= 400) {
-					return resp
-				}
-				const index = store.favorites.indexOf(recipeId)
-				delete store.favorites[index];
 				setStore({favorites: store.favorites})
 			},
 			userLogout: async() => {
@@ -86,8 +86,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-
+				setStore({accessToken: null})
+				localStorage.removeItem("accessToken")
 				return resp;
+			},
+			getDetailRecipe: async(recipeId) => {
+				let store = getStore();
+				const resp = await getActions().apiFetch("/api/showRecipe/" + recipeId, "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				store.recipeDetail = resp.data
+				setStore({recipeDetail: store.recipeDetail})
+			},
+			recoveryPassword: async(email) => {
+				const resp = await getActions().apiFetch("/api/passwordRecovery2/" + email, "POST")
+				return resp
+			},
+			changeRecoveryPassword: async(passwordToken, password) => {
+				const headers = {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
+					"Authorization": `Bearer ${passwordToken}`
+				}
+				const resp = await fetch(apiURL + "/api/changePassword/", {
+					method: "POST",
+					body: JSON.stringify(password),
+					headers: headers})
+				return resp
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
