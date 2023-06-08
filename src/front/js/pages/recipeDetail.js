@@ -43,7 +43,7 @@ export const RecipeDetail = () => {
                                 <li className="list-group-item">An item</li>
                             </ul>
                             <div className="icon-favorite card-body">
-                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeDetail.id)}><FontAwesomeIcon className="add-favorite" icon={checkFavorites(recipeDetail.id)} /></button>
+                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id)} /></button>
                             </div>
                         </div>
                     </div>

@@ -222,6 +222,18 @@ button.btn.col-4.dropdown-item {
     color: orange !important;
 }
 
+.add-favorite-detail {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-detail:hover {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
 .add-favorite-navbar {
     font-size: 20px !important;
     margin: 0px;

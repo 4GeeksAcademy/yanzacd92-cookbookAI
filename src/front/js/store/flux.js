@@ -45,10 +45,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({allRecipes: resp.data})
 				return resp
 			},
-			userCreateRecipes: async(name, description, user_id, prompt) => {
+			userCreateRecipes: async(name, description, prompt) => {
 				const image = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
 				const elaboration = await getActions().apiFetch("/api/createRecipeChatGPT", "GET", {prompt})
-				const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration, user_id})
+				const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration})
 				if(resp.code >= 400) {
 					return resp
 				}
