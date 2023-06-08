@@ -112,7 +112,7 @@ def user_password_recovery():
     return jsonify(user.serialize()), 200
 
 # Recovery the password
-""" @api.route('/changePassword', methods=['POST'])
+@api.route('/changePassword', methods=['POST'])
 @jwt_required()
 def change_password():
     new_password = request.json.get("password")
@@ -135,7 +135,7 @@ def password_required_2():
     
     # Generate temporal token in order to change password
     access_token = create_access_token(identity = user.id, additional_claims={"type": "password"})
-    return jsonify({"recoveryToken": access_token}), 200 """
+    return jsonify({"recoveryToken": access_token}), 200
 
     # Send token link via email in order to change password
 

@@ -86,7 +86,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-
+				setStore({accessToken: null})
+				localStorage.removeItem("accessToken")
 				return resp;
 			},
 			getDetailRecipe: async(recipeId) => {
@@ -97,6 +98,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				store.recipeDetail = resp.data
 				setStore({recipeDetail: store.recipeDetail})
+			},
+			recoveryPassword: async(email) => {
+				const resp = await getActions().apiFetch("/api/passwordRecovery2/" + email, "POST")
+				return resp
+			},
+			changeRecoveryPassword: async(passwordToken, password) => {
+				const headers = {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
+					"Authorization": `Bearer ${passwordToken}`
+				}
+				const resp = await fetch(apiURL + "/api/changePassword/", {
+					method: "POST",
+					body: JSON.stringify(password),
+					headers: headers})
+				return resp
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
