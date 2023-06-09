@@ -25,7 +25,7 @@ export const RecipeDetail = () => {
         <div>
         <Navbar />
         <div className="container mt-4 mb-4">
-            <h1 className="text-center mt-4 re-title">Recipe Details</h1>
+            <h1 className="text-center mt-4 re-title">{recipeDetail.name}</h1>
             <div className="container mt-4 mb-4">
                 <div className="row">
                     <div className="col-sm-6">

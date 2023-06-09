@@ -64,15 +64,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({favorites: resp.data})
 			},
 			addOrRemoveFavorites: async (recipeId) => {
+				console.log("RECIPEID --------->" + recipeId)
 				let store = getStore();
 				if(store.favorites.some(f => f.recipe_id === recipeId)){
+					console.log("DELETE --------->" + recipeId)
 					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
 					if(resp.code >= 400) {
 						return resp
 					}
 					const index = store.favorites.indexOf(recipeId)
-					delete store.favorites[index];					
+					delete store.favorites[index];
+					const new_favorites = store.favorites.splice(index, 1)
+					setStore({favorites: new_favorites})
 				} else {
+					console.log("ADD --------->" + recipeId)
 					const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
 					if(resp.code >= 400) {
 						return resp
