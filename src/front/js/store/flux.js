@@ -66,7 +66,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addOrRemoveFavorites: async (recipeId) => {
 				let new_favorites = []
 				let store = getStore();
-				if(store.favorites.some(f => f.recipe_id == recipeId) && store.favorites.some(f => f.user_id == localStorage.getItem("id"))){
+				const object = store.favorites.find(f => {
+					return f.recipe_id == recipeId && f.user_id == localStorage.getItem("id");
+				  });
+
+				const filtered = store.favorites.filter(obj => {
+				return obj.user_id === recipeId && obj.recipe_id === localStorage.getItem("id");
+				});
+
+				console.log("filtered --->>>> " + filtered)
+				console.log("object --->>>> " + object)
+				if(object){
 					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
 					if(resp.code >= 400) {
 						return resp
