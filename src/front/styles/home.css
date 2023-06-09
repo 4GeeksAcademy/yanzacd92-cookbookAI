@@ -271,6 +271,11 @@ button.btn.col-4.dropdown-item {
     margin-bottom: 6px;
 }
 
+.add-favorite-btn:focus-within {
+    background: none;
+    border: none;
+}
+
 .favorite-list {
     justify-content: space-between;
 }

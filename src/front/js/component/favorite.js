@@ -9,7 +9,6 @@ export const Favorite = () => {
     const {store, actions} = useContext(Context)
     useEffect(() => {
         actions.showRecipesInFavoritesByUser()
-        console.log("RUN FAVORITES")
     }, [])
 	const favorites = store.favorites
 
