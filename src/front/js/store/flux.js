@@ -46,9 +46,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return resp
 			},
 			userCreateRecipes: async(name, description, prompt) => {
-				const image = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
-				const elaboration = await getActions().apiFetch("/api/createRecipeChatGPT", "GET", {prompt})
-				const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration})
+				const imageResp = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
+				const recipeResp = await getActions().apiFetch("/api/createRecipeChatGPT", "GET", {prompt})
+				console.log("IMAGE CHATGPT ------> " + imageResp)
+				console.log("RECIPE CHATGPT ------> " + recipeResp)
+				//const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration})
 				if(resp.code >= 400) {
 					return resp
 				}
@@ -66,17 +68,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addOrRemoveFavorites: async (recipeId) => {
 				let new_favorites = []
 				let store = getStore();
-				const object = store.favorites.find(f => {
-					return f.recipe_id == recipeId && f.user_id == localStorage.getItem("id");
-				  });
-
 				const filtered = store.favorites.filter(obj => {
-				return obj.user_id === recipeId && obj.recipe_id === localStorage.getItem("id");
+					return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
 				});
 
 				console.log("filtered --->>>> " + filtered)
-				console.log("object --->>>> " + object)
-				if(object){
+				console.log("filtered size --->>>> " + filtered.length)
+
+				if(filtered.length > 0){
 					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
 					if(resp.code >= 400) {
 						return resp

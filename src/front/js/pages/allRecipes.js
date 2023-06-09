@@ -26,8 +26,10 @@ export const AllRecipes = () => {
   };
 
   function checkFavorites(recipeId) {
-    if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
-    store.favorites.some(favorite => favorite.user_id == localStorage.getItem("id"))) return faHeart
+    const filtered = store.favorites.filter(obj => {
+      return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
+    });
+    if(filtered.length > 0) return faHeart
     return farHeartRegular
   }
 
