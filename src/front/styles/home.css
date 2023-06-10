@@ -298,3 +298,26 @@ button.btn.col-4.dropdown-item {
     margin-top: 40px;
     margin-bottom: 15px !important;
 }
+
+.form-control[type=file] {
+    color: #adadad;
+    padding-left: 7px;
+}
+
+.content-save-gpt{
+    background: white;
+    padding: 35px;
+}
+
+.save-btn {
+    width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#save-gpt {
+    display: none;
+}

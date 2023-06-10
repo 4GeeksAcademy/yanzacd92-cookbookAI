@@ -16,12 +16,21 @@ export const CreateRecipe = () => {
   const recipeDetail = store.recipeDetail;
 
   async function createRecipe() {
+    console.log("WAITING FOR THE RESPONSE CHATGPT")
     let recipeChatGPT = await actions.userCreateRecipes(
       "text name",
       description,
       ingredient
     );
+    showHideDiv("block", "none")
     console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
+  }
+
+  function showHideDiv(saveBtn, generateBtn){
+    let divSaveContent = document.getElementById("save-gpt")
+    let divGenerateContent = document.getElementById("generate-gpt")
+    if (divSaveContent !== null) divSaveContent.style.display = saveBtn
+    if (divGenerateContent !== null) divGenerateContent.style.display = generateBtn
   }
 
   return (
@@ -30,7 +39,7 @@ export const CreateRecipe = () => {
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">Create your Recipe</h1>
         <div className="container mt-4 mb-4">
-          <div className="content-generate-gpt">
+          <div className="content-generate-gpt" id="generate-gpt">
           <h1 className="login-title">Your Ingredients</h1>
             <div className="mb-3">
               <label htmlFor="formGroupIngredients" className="label-add-recipe form-label">
@@ -43,7 +52,7 @@ export const CreateRecipe = () => {
                 name="ingredients"
                 ref={ingredientsRef}
                 value={ingredient}
-                placeholder="Ingrediente 1, ingrediente 2, ..."
+                placeholder="Ingredient 1, ingredient 2, ..."
                 onChange={(e) => setIngredient(e.target.value)}
               />
             </div>
@@ -54,7 +63,7 @@ export const CreateRecipe = () => {
               >
                 Description
               </label>
-              <textarea
+              <input
                 className="form-control"
                 id="exampleFormControlDescription"
                 name="description"
@@ -62,12 +71,12 @@ export const CreateRecipe = () => {
                 ref={descriptionRef}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
+              ></input>
             </div>
             <div className="mb-3">
               <label htmlFor="formFile" className="label-add-recipe form-label">
                 Choose an image for your recipe (if you don't have one we can
-                create it for you, so leave this field empty)
+                create it for you, so leave this field <strong>empty</strong>)
               </label>
               <input className="form-control" type="file" id="formFile" />
             </div>
@@ -82,9 +91,10 @@ export const CreateRecipe = () => {
             </div>
           </div>
 
-          <div className="content-save-gpt d-none">
+          <div className="content-save-gpt" id="save-gpt">
             <div className="mb-3">
-              <label htmlFor="exampleFormControlTextarea1" className="label-add-recipe form-label">
+            <h1 className="login-title">Congratulations on your new recipe</h1>
+              <label htmlFor="exampleFormControlTextarea1" className="label-add-recipe form-label" >
                 Quantities per ingredient
               </label>
               <textarea
@@ -104,8 +114,13 @@ export const CreateRecipe = () => {
               ></textarea>
             </div>
             <div className="col-12">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="save-btn btn btn-primary">
                 Save recipe
+              </button>
+            </div>
+            <div className="col-12">
+              <button type="submit" className="generate-btn btn btn-primary" onSubmit={showHideDiv("none", "block")}>
+                Generate new recipe
               </button>
             </div>
           </div>
