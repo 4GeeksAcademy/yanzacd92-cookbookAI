@@ -6,6 +6,7 @@ import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
+import { RecipeDetail } from "./recipeDetail";
 
 export const AllRecipes = () => {
   useEffect( () => {
@@ -25,7 +26,10 @@ export const AllRecipes = () => {
   };
 
   function checkFavorites(recipeId) {
-    if(store.favorites.some(favorite => favorite.recipe_id == recipeId)) return faHeart
+    const filtered = store.favorites.filter(obj => {
+      return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
+    });
+    if(filtered.length > 0) return faHeart
     return farHeartRegular
   }
 
@@ -41,7 +45,7 @@ export const AllRecipes = () => {
                 <div className="icon-favorite">
                   <button className="add-favorite-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipe.id)}><FontAwesomeIcon className="add-favorite" icon={checkFavorites(recipe.id)} /></button>
                 </div>
-                <Link to="/descripcion-imagen1">
+                <Link to={`/recipeDetail/${recipe.id}`}>
                   <div
                     className={`img-wrapper ${hoveredImg === 0 ? "hovered" : ""}`}
                     onMouseEnter={() => handleMouseEnter(0)}

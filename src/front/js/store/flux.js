@@ -45,14 +45,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({allRecipes: resp.data})
 				return resp
 			},
-			userCreateRecipes: async(name, description, user_id, prompt) => {
-				const image = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
-				const elaboration = await getActions().apiFetch("/api/createRecipeChatGPT", "GET", {prompt})
-				const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration, user_id})
-				if(resp.code >= 400) {
-					return resp
+			userCreateRecipes: async(name, description, messages) => {
+				//const imageResp = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
+				const recipeResp = await getActions().apiFetch("/api/createRecipeChatGPT", "POST", {messages})
+				//console.log("IMAGE CHATGPT ------> " + imageResp)
+				//console.log("RECIPE CHATGPT ------> " + JSON.stringify(recipeResp))
+				//const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration})
+				if(recipeResp.code >= 400) {
+					return recipeResp
 				}
-				return resp
+				return recipeResp
 			},
 			showRecipesInFavoritesByUser: async() => {
 				let store = getStore();
@@ -64,22 +66,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({favorites: resp.data})
 			},
 			addOrRemoveFavorites: async (recipeId) => {
+				let new_favorites = []
 				let store = getStore();
-				if(store.favorites.some(f => f.recipe_id === recipeId)){
+				const filtered = store.favorites.filter(obj => {
+					return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
+				});
+
+				console.log("filtered --->>>> " + filtered)
+				console.log("filtered size --->>>> " + filtered.length)
+
+				if(filtered.length > 0){
 					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
 					if(resp.code >= 400) {
 						return resp
 					}
-					const index = store.favorites.indexOf(recipeId)
-					delete store.favorites[index];					
+					store.favorites = store.favorites.filter(function( favorite ) {
+						return (favorite.recipe_id !== recipeId && favorite.user_id !== localStorage.getItem("id"));
+					});
 				} else {
 					const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
 					if(resp.code >= 400) {
 						return resp
 					}
-					store.favorites = [...store.favorites, resp.data]
+					new_favorites = [...store.favorites, resp.data]
 				}
-				setStore({favorites: store.favorites})
+				setStore({favorites: new_favorites})
 			},
 			userLogout: async() => {
 				const resp = await getActions().apiFetch("/api/logout", "POST")
@@ -114,6 +125,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify(password),
 					headers: headers})
 				return resp
+			},
+			uploadProfilePic: async(picture) => {
+				const headers = {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
+					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+				}
+				let response = await fetch(apiURL + "profilepic", method == "GET" ? {
+					headers: headers
+				} : {
+					method,
+					body: JSON.stringify(body),
+					mode: 'cors',
+					headers: headers
+				})
+				if(!response.ok) {
+					console.error(`${response.status}: ${response.statusText}`)
+					return { code: response.status }
+				}
+
+				let data = await response.json()
+				return { code: response.status, data }
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {

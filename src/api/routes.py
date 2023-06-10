@@ -7,8 +7,9 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
-import os
-import openai
+import os,tempfile
+import openai, requests, json
+from firebase_admin import storage
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 api = Blueprint('api', __name__)
@@ -87,6 +88,29 @@ def user_logout():
     db.session.add(tokenBlocked)
     db.session.commit()
     return jsonify({"message": "Token revoked"})
+
+@api.route("/profilepic", methods=["POST"])
+@jwt_required()
+def user_profile_pic():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    file = request.files["profilePic"]
+    ext = request.file.filename.split(".")[1]
+    temp = tempfile.NamedTemporaryFile(delete = False)
+    file.save(temp.name)
+
+    bucket = storage.bucket(name="clase-imagenes-flask-appsot.com")
+    filename = "profilesPics/" + str(user_id) + "." + ext
+    
+    resource = bucket.blob(filename)
+    resource.upload_from_filename(temp.name, content_type="image/" + ext)
+
+    user.profile_pic = filename
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify({"message" : "profile pic uploaded to firebase"})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])
@@ -425,31 +449,39 @@ def recipe_delete_from_favorites(recipeId):
 
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 
-@api.route('/createRecipeChatGPT', methods=['GET'])
+@api.route('/createRecipeChatGPT', methods=['POST'])
 def generateChatResponse():
-    prompt = request.json.get("prompt")
-    response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": "Create a recipe with the following ingredients: " + prompt + " and response in json"}
-            ]
-        )
-    try:
-        answer = response['choices'][0]['message']['content'].replace('\n', '<br>')
-    except:
-        answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
-    return answer
+    data = request.json
+    user_message = "Create recipe with the ingredients: " + data['messages'] + " in json format"
+
+    # Make a request to the ChatGPT API
+    response = requests.post(
+        'https://api.openai.com/v1/chat/completions',
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + openai.api_key  # Replace with your ChatGPT API key
+        },
+        json={
+            "model": "gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": user_message}]
+        }
+    )
+    if response.status_code == 200:
+        completion = response.json()['choices'][0]['message']['content']
+        return json.loads(completion)
+
+    return jsonify({'error': 'Something went wrong.'}), 500
 
 @api.route('/createImageChatGPT', methods=['GET'])
 def generateImageResponse():
     prompt = request.json.get("prompt")
+    print("PROMPT IMAGE---> " + str(prompt))
     response = openai.Image.create(
         prompt = "Recipe with the following ingredients: " + prompt,
         n = 1,
         size = "256x256"
     )
     try:
-        image_url = response['data'][0]['url']
+        return jsonify({response['data'][0]['url']}), 200
     except:
-        image_url = {"message": "Oops you beat the AI, try a different question, if the problem persists, come back later."}
-    return {"image_recipe_url": image_url}, 201
+        image_url = jsonify({"message": "Oops you beat the AI, try a different question, if the problem persists, come back later."}), 401

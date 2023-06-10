@@ -25,7 +25,7 @@ export const Navbar = () => {
 								<a className="nav-link active" aria-current="page" href="/recommend">Recommended recipes</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="#">Create your recipe</a>
+								<a className="nav-link" href="/createRecipe">Create your recipe</a>
 							</li>
 							<li className="nav-item">
 								<a className="nav-link" href="/myrecipes">My recipes</a>

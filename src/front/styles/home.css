@@ -222,6 +222,18 @@ button.btn.col-4.dropdown-item {
     color: orange !important;
 }
 
+.add-favorite-detail {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-detail:hover {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
 .add-favorite-navbar {
     font-size: 20px !important;
     margin: 0px;
@@ -240,11 +252,28 @@ button.btn.col-4.dropdown-item {
     box-shadow: 0 0 0 0.25rem orange;
 }
 
+.add-favorite-detail-btn {
+    background: none;
+    border-color: white;
+    border: none;
+}
+
+.add-favorite-detail-btn:hover {
+    background: none;
+    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    box-shadow: 0 0 0 0.25rem orange;
+}
+
 .icon-favorite {
     width: 100%;
     display: flex;
     justify-content: left;
     margin-bottom: 6px;
+}
+
+.add-favorite-btn:focus-within {
+    background: none;
+    border: none;
 }
 
 .favorite-list {

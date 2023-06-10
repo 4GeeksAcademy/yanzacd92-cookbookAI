@@ -17,7 +17,8 @@ export const RecipeDetail = () => {
     const recipeDetail = store.recipeDetail
 
     function checkFavorites(recipeId) {
-        if(store.favorites.some(favorite => favorite.recipe_id == recipeId)) return faHeart
+        if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
+        store.favorites.some(favorite => favorite.user_id == localStorage.getItem("id"))) return faHeart
         return farHeartRegular
     }
 
@@ -25,7 +26,7 @@ export const RecipeDetail = () => {
         <div>
         <Navbar />
         <div className="container mt-4 mb-4">
-            <h1 className="text-center mt-4 re-title">Recipe Detail</h1>
+            <h1 className="text-center mt-4 re-title">{recipeDetail.name}</h1>
             <div className="container mt-4 mb-4">
                 <div className="row">
                     <div className="col-sm-6">
@@ -43,7 +44,7 @@ export const RecipeDetail = () => {
                                 <li className="list-group-item">An item</li>
                             </ul>
                             <div className="icon-favorite card-body">
-                                <button className="add-favorite-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeDetail.id)}><FontAwesomeIcon className="add-favorite" icon={checkFavorites(recipeDetail.id)} /></button>
+                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id)} /></button>
                             </div>
                         </div>
                     </div>

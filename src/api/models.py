@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from firebase_admin import storage
+import datetime
 
 db = SQLAlchemy()
 
@@ -12,11 +14,15 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean(), unique=False, nullable=False)
     security_question = db.Column(db.String(100), unique=False, nullable=False)
     security_answer = db.Column(db.String(150), unique=False, nullable=False)
+    profile_pic = db.Column(db.String(150))
 
     def __repr__(self):
         return f'<User {self.email}>'
 
     def serialize(self):
+        bucket = storage.bucket(name = "dddd")
+        resource = bucket.blob(self.profile_pic)
+        picture_url = resource.generate_signed_url(version = "v4", expiration = datatime.timedelta(minutes=15), method = "GET")
         return {
             "id": self.id,
             "email": self.email,
