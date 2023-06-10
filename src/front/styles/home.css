@@ -279,3 +279,22 @@ button.btn.col-4.dropdown-item {
 .favorite-list {
     justify-content: space-between;
 }
+
+.content-generate-gpt {
+    background: white;
+    padding: 35px;
+}
+
+.generate-btn {
+    width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.label-add-recipe {
+    margin-top: 40px;
+    margin-bottom: 15px !important;
+}

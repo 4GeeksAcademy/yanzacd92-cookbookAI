@@ -30,79 +30,84 @@ export const CreateRecipe = () => {
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">Create your Recipe</h1>
         <div className="container mt-4 mb-4">
-          <div className="mb-3">
-            <label htmlFor="formGroupIngredients" className="form-label">
-              Add ingredients you have available separated by commas
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="formGroupIngredients"
-              name="ingredients"
-              ref={ingredientsRef}
-              value={ingredient}
-              placeholder="Ingrediente 1, ingrediente 2, ..."
-              onChange={(e) => setIngredient(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label
-              htmlFor="exampleFormControlDescription"
-              className="form-label"
-            >
-              Description
-            </label>
-            <textarea
-              className="form-control"
-              id="exampleFormControlDescription"
-              name="description"
-              rows="3"
-              ref={descriptionRef}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="formFile" className="form-label">
-              Choose an image for your recipe (if you don't have one we can
-              create it for you, so leave this field empty)
-            </label>
-            <input className="form-control" type="file" id="formFile" />
-          </div>
-          <div className="col-12">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={() => createRecipe()}
-            >
-              Generate recipe
-            </button>
+          <div className="content-generate-gpt">
+          <h1 className="login-title">Your Ingredients</h1>
+            <div className="mb-3">
+              <label htmlFor="formGroupIngredients" className="label-add-recipe form-label">
+                Add ingredients you have available separated by commas
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="formGroupIngredients"
+                name="ingredients"
+                ref={ingredientsRef}
+                value={ingredient}
+                placeholder="Ingrediente 1, ingrediente 2, ..."
+                onChange={(e) => setIngredient(e.target.value)}
+              />
+            </div>
+            <div className="label-add-recipe mb-3">
+              <label
+                htmlFor="exampleFormControlDescription"
+                className="form-label"
+              >
+                Description
+              </label>
+              <textarea
+                className="form-control"
+                id="exampleFormControlDescription"
+                name="description"
+                rows="1"
+                ref={descriptionRef}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="formFile" className="label-add-recipe form-label">
+                Choose an image for your recipe (if you don't have one we can
+                create it for you, so leave this field empty)
+              </label>
+              <input className="form-control" type="file" id="formFile" />
+            </div>
+            <div className="col-12">
+              <button
+                type="submit"
+                className="generate-btn btn btn-primary"
+                onClick={() => createRecipe()}
+              >
+                Generate recipe
+              </button>
+            </div>
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="exampleFormControlTextarea1" className="form-label">
-              Quantities per ingredient
-            </label>
-            <textarea
-              className="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleFormControlTextarea1" className="form-label">
-              Recipe preparation
-            </label>
-            <textarea
-              className="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
-          </div>
-          <div className="col-12">
-            <button type="submit" className="btn btn-primary">
-              Save recipe
-            </button>
+          <div className="content-save-gpt d-none">
+            <div className="mb-3">
+              <label htmlFor="exampleFormControlTextarea1" className="label-add-recipe form-label">
+                Quantities per ingredient
+              </label>
+              <textarea
+                className="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3"
+              ></textarea>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="exampleFormControlTextarea1" className="label-add-recipe form-label">
+                Recipe preparation
+              </label>
+              <textarea
+                className="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3"
+              ></textarea>
+            </div>
+            <div className="col-12">
+              <button type="submit" className="btn btn-primary">
+                Save recipe
+              </button>
+            </div>
           </div>
         </div>
       </div>
