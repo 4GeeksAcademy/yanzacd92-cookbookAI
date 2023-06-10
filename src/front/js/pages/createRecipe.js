@@ -15,13 +15,13 @@ export const CreateRecipe = () => {
   const [description, setDescription] = useState("");
   const recipeDetail = store.recipeDetail;
 
-  function createRecipe() {
-    actions.userCreateRecipes(
+  async function createRecipe() {
+    let recipeChatGPT = await actions.userCreateRecipes(
       "text name",
-      ingredient,
-      description
+      description,
+      ingredient
     );
-    console.log("Call to Chat GPT successful!!")
+    console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
   }
 
   return (

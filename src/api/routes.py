@@ -7,8 +7,9 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
-import os
+import os,tempfile
 import openai, requests, json
+from firebase_admin import storage
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 api = Blueprint('api', __name__)
@@ -87,6 +88,29 @@ def user_logout():
     db.session.add(tokenBlocked)
     db.session.commit()
     return jsonify({"message": "Token revoked"})
+
+@api.route("/profilepic", methods=["POST"])
+@jwt_required()
+def user_profile_pic():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    file = request.files["profilePic"]
+    ext = request.file.filename.split(".")[1]
+    temp = tempfile.NamedTemporaryFile(delete = False)
+    file.save(temp.name)
+
+    bucket = storage.bucket(name="clase-imagenes-flask-appsot.com")
+    filename = "profilesPics/" + str(user_id) + "." + ext
+    
+    resource = bucket.blob(filename)
+    resource.upload_from_filename(temp.name, content_type="image/" + ext)
+
+    user.profile_pic = filename
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify({"message" : "profile pic uploaded to firebase"})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])
@@ -425,24 +449,8 @@ def recipe_delete_from_favorites(recipeId):
 
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 
-@api.route('/createRecipeChatGPT', methods=['GET'])
+@api.route('/createRecipeChatGPT', methods=['POST'])
 def generateChatResponse():
-    prompt = request.json.get("prompt")
-    print("PROMPT ---> " + str(prompt))
-    response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": "Create a recipe with the following ingredients: " + prompt + " and response in json format"}
-            ]
-        )
-    try:
-        print("RESPONSEEEEEEEEE     " + response['choices'][0]['message']['content'].Response)
-        return response['choices'][0]['message']['content']
-    except:
-        answer = jsonify({"message" : "Oops you beat the AI, try a different question, if the problem persists, come back later."}), 401
-
-@api.route('/chat', methods=['POST'])
-def chat():
     data = request.json
     user_message = "Create recipe with the ingredients: " + data['messages'] + " in json format"
 

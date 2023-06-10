@@ -47,9 +47,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			userCreateRecipes: async(name, description, messages) => {
 				//const imageResp = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
-				const recipeResp = await getActions().apiFetch("/api/chat", "POST", {messages})
+				const recipeResp = await getActions().apiFetch("/api/createRecipeChatGPT", "POST", {messages})
 				//console.log("IMAGE CHATGPT ------> " + imageResp)
-				console.log("RECIPE CHATGPT ------> " + JSON.stringify(recipeResp))
+				//console.log("RECIPE CHATGPT ------> " + JSON.stringify(recipeResp))
 				//const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration})
 				if(recipeResp.code >= 400) {
 					return recipeResp
@@ -125,6 +125,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify(password),
 					headers: headers})
 				return resp
+			},
+			uploadProfilePic: async(picture) => {
+				const headers = {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
+					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+				}
+				let response = await fetch(apiURL + "profilepic", method == "GET" ? {
+					headers: headers
+				} : {
+					method,
+					body: JSON.stringify(body),
+					mode: 'cors',
+					headers: headers
+				})
+				if(!response.ok) {
+					console.error(`${response.status}: ${response.statusText}`)
+					return { code: response.status }
+				}
+
+				let data = await response.json()
+				return { code: response.status, data }
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
