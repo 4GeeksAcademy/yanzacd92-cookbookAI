@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,19 +9,18 @@ import { useParams } from "react-router-dom";
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
+  const ingredientsRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const [ingredient, setIngredient] = useState("");
+  const [description, setDescription] = useState("");
   const recipeDetail = store.recipeDetail;
 
-  async function createRecipe(e) {
-    let data = new FormData(e.target)
-    let response = await actions.userCreateRecipes(
+  function createRecipe() {
+    actions.userCreateRecipes(
       "text name",
-      data.get("description"),
-      data.get("ingredients")
+      ingredient,
+      description
     );
-
-    if(response >= 400) {
-        return
-    }
     console.log("Call to Chat GPT successful!!")
   }
 
@@ -40,7 +39,10 @@ export const CreateRecipe = () => {
               className="form-control"
               id="formGroupIngredients"
               name="ingredients"
+              ref={ingredientsRef}
+              value={ingredient}
               placeholder="Ingrediente 1, ingrediente 2, ..."
+              onChange={(e) => setIngredient(e.target.value)}
             />
           </div>
           <div className="mb-3">
@@ -55,6 +57,9 @@ export const CreateRecipe = () => {
               id="exampleFormControlDescription"
               name="description"
               rows="3"
+              ref={descriptionRef}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </div>
           <div className="mb-3">

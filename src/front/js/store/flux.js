@@ -45,16 +45,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({allRecipes: resp.data})
 				return resp
 			},
-			userCreateRecipes: async(name, description, prompt) => {
-				const imageResp = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
-				const recipeResp = await getActions().apiFetch("/api/createRecipeChatGPT", "GET", {prompt})
-				console.log("IMAGE CHATGPT ------> " + imageResp)
-				console.log("RECIPE CHATGPT ------> " + recipeResp)
+			userCreateRecipes: async(name, description, messages) => {
+				//const imageResp = await getActions().apiFetch("/api/createImageChatGPT", "GET", {prompt})
+				const recipeResp = await getActions().apiFetch("/api/chat", "POST", {messages})
+				//console.log("IMAGE CHATGPT ------> " + imageResp)
+				console.log("RECIPE CHATGPT ------> " + JSON.stringify(recipeResp))
 				//const resp = await getActions().apiFetch("/api/addRecipe", "POST", {name, description, image, elaboration})
-				if(resp.code >= 400) {
-					return resp
+				if(recipeResp.code >= 400) {
+					return recipeResp
 				}
-				return resp
+				return recipeResp
 			},
 			showRecipesInFavoritesByUser: async() => {
 				let store = getStore();
