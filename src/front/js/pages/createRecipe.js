@@ -25,10 +25,13 @@ export const CreateRecipe = () => {
       ingredient
     );
     console.log("DATAAAAA")
-    Object.keys(recipeChatGPT).map((keys) => {
-      console.log(recipeChatGPT[keys])
-      //setQuantity(recipeChatGPT[keys].recipe)
-      //setInstructions(recipeChatGPT[keys].recipe)
+    Object.keys(recipeChatGPT).map((key) => {
+      if(key == "data") {
+        let resp = recipeChatGPT[key]
+        console.log(resp)
+        setQuantity(resp.recipe)
+        setInstructions(resp.recipe)
+      }
     })
     showHideDiv("block", "none")
     console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
