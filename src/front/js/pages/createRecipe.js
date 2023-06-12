@@ -1,22 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as farHeartRegular } from "@fortawesome/free-regular-svg-icons";
-import cookbookAI from "./../../img/cookbookAI.jpg";
-import { useParams } from "react-router-dom";
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
   const ingredientsRef = useRef(null);
-  const descriptionRef = useRef(null);
   const [ingredient, setIngredient] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
-  const recipeDetail = store.recipeDetail;
 
   async function createRecipe() {
     console.log("WAITING FOR THE RESPONSE CHATGPT")
@@ -32,24 +25,30 @@ export const CreateRecipe = () => {
         let recipe = (resp.recipe)? (resp.recipe) : resp
         Object.keys(recipe).map((key) => {
           console.log("KEY  -----> " + key)
-          switch(key) {
+          switch(key.toLowerCase()) {
             case 'recipe_name':
-              case 'recipeName':
+            case 'recipeName':
+              setRecommendedName(recipe[key])
+              break;
+            case 'recipeTitle':
             case 'title':
+            case 'recipe':
             case 'name':
               setRecommendedName(recipe[key])
               break;
             case 'description':
               setDescription(recipe[key])
               break;
+            case 'recipeIngredients':
+            case 'directions':
             case 'ingredients':
-              Object.keys(recipe[key]).map((k) => {
-                setQuantity((recipe[key])[k].amount)
-              })
+              setQuantity(populateIngredients(recipe[key]))
               break;
+            case 'recipeInstructions':
             case 'instructions':
             case 'steps':
-              setInstructions(recipe[key])
+              let inst = recipe[key].toString()
+              setInstructions(inst.replace(",", "\n"))
               break;
             case 'image_url':
               break;
@@ -67,6 +66,75 @@ export const CreateRecipe = () => {
     let divGenerateContent = document.getElementById("generate-gpt")
     if (divSaveContent !== null) divSaveContent.style.display = saveBtn
     if (divGenerateContent !== null) divGenerateContent.style.display = generateBtn
+  }
+
+  function populateIngredients(ingredients) {
+    let quantity = ""
+    console.log(ingredients)
+    let count = 0;
+    Object.keys(ingredients).map((key) => {
+      count ++
+      Object.keys(ingredients[key]).map((k) => {
+        switch(k) {
+          case 'ingredient':
+          case 'name':
+            quantity += "Ingredient " + count + ": "  + ingredients[key][k] + "\n"
+            break;
+          case 'quantity':
+            quantity += k + ": "  + ingredients[key][k] + "\n"
+            break;
+          case 'unit':
+            quantity += k + ": "  + ingredients[key][k] + "\n"
+            break;
+          case 'preparation':
+            quantity += k + ": "  + ingredients[key][k] + "\n"
+            break;
+          case 'unit_of_measurement':
+          case 'measurement':
+            quantity += k + ": "  + ingredients[key][k] + "\n"
+          case 'amount':
+            quantity += k + ": "  + ingredients[key][k] + "\n"
+          default:
+            break;
+        }
+      })
+      quantity += "\n"
+    })
+
+    return quantity
+  }
+
+  function populateSteps(steps) {
+    let quantity = ""
+    let count = 0;
+    Object.keys(steps).map((key) => {
+      count ++
+      switch(k) {
+        case 'ingredient':
+        case 'name':
+          quantity += "Ingredient " + count + ": "  + ingredients[key][k] + "\n"
+          break;
+        case 'quantity':
+          quantity += k + ": "  + ingredients[key][k] + "\n"
+          break;
+        case 'unit':
+          quantity += k + ": "  + ingredients[key][k] + "\n"
+          break;
+        case 'preparation':
+          quantity += k + ": "  + ingredients[key][k] + "\n"
+          break;
+        case 'unit_of_measurement':
+        case 'measurement':
+          quantity += k + ": "  + ingredients[key][k] + "\n"
+        case 'amount':
+          quantity += k + ": "  + ingredients[key][k] + "\n"
+        default:
+          break;
+      }
+      quantity += "\n"
+    })
+
+    return quantity
   }
 
   return (
@@ -151,7 +219,7 @@ export const CreateRecipe = () => {
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea1"
-                rows="3"
+                rows="6"
                 onChange={e => setQuantity(e.target.value)}
                 value={quantity || ""}
               ></textarea>
@@ -163,7 +231,7 @@ export const CreateRecipe = () => {
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea1"
-                rows="3"
+                rows="6"
                 onChange={e => setInstructions(e.target.value)}
                 value={instructions || ""}
               ></textarea>
