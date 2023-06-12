@@ -15,26 +15,51 @@ export const CreateRecipe = () => {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [recomendedname, setRecommendedName] = useState("");
   const recipeDetail = store.recipeDetail;
 
   async function createRecipe() {
     console.log("WAITING FOR THE RESPONSE CHATGPT")
     let recipeChatGPT = await actions.userCreateRecipes(
       "text name",
-      description,
+      "example description",
       ingredient
     );
-    console.log("DATAAAAA")
     Object.keys(recipeChatGPT).map((key) => {
+      console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
         let resp = recipeChatGPT[key]
-        console.log(resp)
-        setQuantity(resp.recipe)
-        setInstructions(resp.recipe)
+        let recipe = (resp.recipe)? (resp.recipe) : resp
+        Object.keys(recipe).map((key) => {
+          console.log("KEY  -----> " + key)
+          switch(key) {
+            case 'recipe_name':
+              case 'recipeName':
+            case 'title':
+            case 'name':
+              setRecommendedName(recipe[key])
+              break;
+            case 'description':
+              setDescription(recipe[key])
+              break;
+            case 'ingredients':
+              Object.keys(recipe[key]).map((k) => {
+                setQuantity((recipe[key])[k].amount)
+              })
+              break;
+            case 'instructions':
+            case 'steps':
+              setInstructions(recipe[key])
+              break;
+            case 'image_url':
+              break;
+            default:
+              break;
+          }
+        })
       }
     })
     showHideDiv("block", "none")
-    console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
   }
 
   function showHideDiv(saveBtn, generateBtn){
@@ -67,23 +92,6 @@ export const CreateRecipe = () => {
                 onChange={(e) => setIngredient(e.target.value)}
               />
             </div>
-            <div className="label-add-recipe mb-3">
-              <label
-                htmlFor="exampleFormControlDescription"
-                className="form-label"
-              >
-                Description
-              </label>
-              <input
-                className="form-control"
-                id="exampleFormControlDescription"
-                name="description"
-                rows="1"
-                ref={descriptionRef}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></input>
-            </div>
             <div className="mb-3">
               <label htmlFor="formFile" className="label-add-recipe form-label">
                 Choose an image for your recipe (if you don't have one we can
@@ -105,6 +113,38 @@ export const CreateRecipe = () => {
           <div className="content-save-gpt" id="save-gpt">
             <div className="mb-3">
             <h1 className="login-title">Congratulations on your new recipe</h1>
+              <div className="label-add-recipe mb-3">
+                <label
+                  htmlFor="exampleFormControlName"
+                  className="form-label"
+                >
+                  Recommended Name
+                </label>
+                <input
+                  className="form-control"
+                  id="exampleFormControlDescription"
+                  name="recomendedname"
+                  rows="1"
+                  value={recomendedname || ""}
+                  onChange={(e) => setRecommendedName(e.target.value)}
+                ></input>
+              </div>
+              <div className="label-add-recipe mb-3">
+                <label
+                  htmlFor="exampleFormControlDescription"
+                  className="form-label"
+                >
+                  Description
+                </label>
+                <input
+                  className="form-control"
+                  id="exampleFormControlDescription"
+                  name="description"
+                  rows="1"
+                  value={description || "Not Description"}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></input>
+              </div>
               <label htmlFor="exampleFormControlTextarea1" className="label-add-recipe form-label" >
                 Quantities per ingredient
               </label>
