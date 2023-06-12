@@ -13,6 +13,8 @@ export const CreateRecipe = () => {
   const descriptionRef = useRef(null);
   const [ingredient, setIngredient] = useState("");
   const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [instructions, setInstructions] = useState("");
   const recipeDetail = store.recipeDetail;
 
   async function createRecipe() {
@@ -22,6 +24,12 @@ export const CreateRecipe = () => {
       description,
       ingredient
     );
+    console.log("DATAAAAA")
+    Object.keys(recipeChatGPT).map((keys) => {
+      console.log(recipeChatGPT[keys])
+      //setQuantity(recipeChatGPT[keys].recipe)
+      //setInstructions(recipeChatGPT[keys].recipe)
+    })
     showHideDiv("block", "none")
     console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
   }
@@ -38,7 +46,7 @@ export const CreateRecipe = () => {
       <Navbar />
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">Create your Recipe</h1>
-        <div className="container mt-4 mb-4">
+        <div className="cnt-create-recipe container mt-4 mb-4">
           <div className="content-generate-gpt" id="generate-gpt">
           <h1 className="login-title">Your Ingredients</h1>
             <div className="mb-3">
@@ -101,6 +109,8 @@ export const CreateRecipe = () => {
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="3"
+                onChange={e => setQuantity(e.target.value)}
+                value={quantity || ""}
               ></textarea>
             </div>
             <div className="mb-3">
@@ -111,17 +121,21 @@ export const CreateRecipe = () => {
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="3"
+                onChange={e => setInstructions(e.target.value)}
+                value={instructions || ""}
               ></textarea>
             </div>
-            <div className="col-12">
-              <button type="submit" className="save-btn btn btn-primary">
-                Save recipe
-              </button>
-            </div>
-            <div className="col-12">
-              <button type="submit" className="generate-btn btn btn-primary" onSubmit={showHideDiv("none", "block")}>
-                Generate new recipe
-              </button>
+            <div className="recipe-buttons">
+              <div className="recipe-btn col-12">
+                <button type="submit" className="save-btn btn btn-primary">
+                  Save recipe
+                </button>
+              </div>
+              <div className="recipe-btn col-12">
+                <button type="submit" className="generate-btn btn btn-primary" onClick={() => showHideDiv("none", "block")}>
+                  Back to new recipe
+                </button>
+              </div>
             </div>
           </div>
         </div>
