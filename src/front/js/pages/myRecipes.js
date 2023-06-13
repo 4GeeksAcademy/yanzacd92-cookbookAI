@@ -28,8 +28,8 @@ export const MyRecipes = () => {
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">My recipes</h1>
-        <div className="container mt-4 mb-4">
+        <h1 className="text-center mt-4 re-title">MY RECIPES</h1>
+        <div className="ctn-my-recipes container mt-4 mb-4">
           <div className="row">
             {myRecipes.map((recipe) => 
               <div className="col-md-4" key={recipe.id}>

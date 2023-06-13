@@ -37,7 +37,7 @@ export const AllRecipes = () => {
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">All recipes</h1>
+        <h1 className="text-center mt-4 re-title">ALL RECIPES</h1>
         <div className="container mt-4 mb-4">
           <div className="row">
             {allRecipes.map((recipe) => 

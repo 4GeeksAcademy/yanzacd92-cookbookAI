@@ -110,7 +110,7 @@ export const CreateRecipe = () => {
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">Create your Recipe</h1>
+        <h1 className="text-center mt-4 re-title">CREATE YOUR RECIPE</h1>
         <div className="container-fluid bg-3" id="spinner-create">
           <div className="ctn-snipper container">
                 <div className="row">

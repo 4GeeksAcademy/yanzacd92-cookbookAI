@@ -1,5 +1,5 @@
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .signup-login {
@@ -185,6 +185,7 @@ body {
 
 .navbar-brand {
     align-self: center;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 }
 
 .dropdown-menu.show {
@@ -203,11 +204,12 @@ button.btn.col-4.dropdown-item {
 .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
     color: white;
     font-weight: 600;
-    text-decoration: underline;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 }
 
 .navbar-dark .navbar-nav .nav-link {
     color: white;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 }
 
 .add-favorite {
@@ -283,6 +285,7 @@ button.btn.col-4.dropdown-item {
 .content-generate-gpt {
     background: white;
     padding: 35px;
+    border-radius: 20px;
 }
 
 .generate-btn {
@@ -335,6 +338,7 @@ button.btn.col-4.dropdown-item {
 
 .cnt-create-recipe {
     width: 700px;
+    margin-top: 29px !important;
 }
 
 #spinner-create {
@@ -352,6 +356,10 @@ button.btn.col-4.dropdown-item {
 .img-fluid {
     width: 100%;
     height: 300px;
+}
+
+.ctn-my-recipes {
+    margin-top: 29px !important;
 }
 
 .loader,.loader:after,.loader:before{border-radius:50%}
