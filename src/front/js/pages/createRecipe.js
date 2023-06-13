@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
+import cookbookAI from "./../../img/cookbookAI.jpg"
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
@@ -11,11 +12,14 @@ export const CreateRecipe = () => {
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
 
-  async function createRecipe() {
+  async function createRecipe(name, description, ingredients, elaboration, image) {
+    await actions.userCreateRecipe(name, description, ingredients, elaboration, image)
+    console.log("RECIPE CREATED FROM REACT")
+  }
+
+  async function callChatGPT() {
     console.log("WAITING FOR THE RESPONSE CHATGPT")
-    let recipeChatGPT = await actions.userCreateRecipes(
-      "text name",
-      "example description",
+    let recipeChatGPT = await actions.userCallChatGPT(
       ingredient
     );
     Object.keys(recipeChatGPT).map((key) => {
@@ -24,13 +28,11 @@ export const CreateRecipe = () => {
         let resp = recipeChatGPT[key]
         let recipe = (resp.recipe)? (resp.recipe) : resp
         Object.keys(recipe).map((key) => {
-          console.log("KEY  -----> " + key)
+          console.log("KEY  -----> " + key.toUpperCase())
           switch(key.toLowerCase()) {
             case 'recipe_name':
-            case 'recipeName':
-              setRecommendedName(recipe[key])
-              break;
-            case 'recipeTitle':
+            case 'recipename':
+            case 'recipetitle':
             case 'title':
             case 'recipe':
             case 'name':
@@ -39,16 +41,15 @@ export const CreateRecipe = () => {
             case 'description':
               setDescription(recipe[key])
               break;
-            case 'recipeIngredients':
+            case 'recipetingredients':
             case 'directions':
             case 'ingredients':
               setQuantity(populateIngredients(recipe[key]))
               break;
-            case 'recipeInstructions':
+            case 'recipetinstructions':
             case 'instructions':
             case 'steps':
-              let inst = recipe[key].toString()
-              setInstructions(inst.replace(",", "\n"))
+              setInstructions(((recipe[key]).toString()).split(".").join(""))
               break;
             case 'image_url':
               break;
@@ -71,29 +72,28 @@ export const CreateRecipe = () => {
   function populateIngredients(ingredients) {
     let quantity = ""
     console.log(ingredients)
-    let count = 0;
     Object.keys(ingredients).map((key) => {
-      count ++
       Object.keys(ingredients[key]).map((k) => {
         switch(k) {
           case 'ingredient':
+          case 'item':
           case 'name':
-            quantity += "Ingredient " + count + ": "  + ingredients[key][k] + "\n"
+            if(ingredients[key][k]) quantity += "ingredient " + ": "  + ingredients[key][k] + "\n"
             break;
           case 'quantity':
-            quantity += k + ": "  + ingredients[key][k] + "\n"
+            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
             break;
           case 'unit':
-            quantity += k + ": "  + ingredients[key][k] + "\n"
+            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
             break;
           case 'preparation':
-            quantity += k + ": "  + ingredients[key][k] + "\n"
+            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
             break;
           case 'unit_of_measurement':
           case 'measurement':
-            quantity += k + ": "  + ingredients[key][k] + "\n"
+            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
           case 'amount':
-            quantity += k + ": "  + ingredients[key][k] + "\n"
+            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
           default:
             break;
         }
@@ -104,7 +104,7 @@ export const CreateRecipe = () => {
     return quantity
   }
 
-  function populateSteps(steps) {
+  /*function populateSteps(steps) {
     let quantity = ""
     let count = 0;
     Object.keys(steps).map((key) => {
@@ -112,22 +112,22 @@ export const CreateRecipe = () => {
       switch(k) {
         case 'ingredient':
         case 'name':
-          quantity += "Ingredient " + count + ": "  + ingredients[key][k] + "\n"
+          quantity += "Ingredient " + count + ": "  + steps[key][k] + "\n"
           break;
         case 'quantity':
-          quantity += k + ": "  + ingredients[key][k] + "\n"
+          quantity += k + ": "  + steps[key][k] + "\n"
           break;
         case 'unit':
-          quantity += k + ": "  + ingredients[key][k] + "\n"
+          quantity += k + ": "  + steps[key][k] + "\n"
           break;
         case 'preparation':
-          quantity += k + ": "  + ingredients[key][k] + "\n"
+          quantity += k + ": "  + steps[key][k] + "\n"
           break;
         case 'unit_of_measurement':
         case 'measurement':
-          quantity += k + ": "  + ingredients[key][k] + "\n"
+          quantity += k + ": "  + steps[key][k] + "\n"
         case 'amount':
-          quantity += k + ": "  + ingredients[key][k] + "\n"
+          quantity += k + ": "  + steps[key][k] + "\n"
         default:
           break;
       }
@@ -135,7 +135,7 @@ export const CreateRecipe = () => {
     })
 
     return quantity
-  }
+  }*/
 
   return (
     <div>
@@ -171,7 +171,7 @@ export const CreateRecipe = () => {
               <button
                 type="submit"
                 className="generate-btn btn btn-primary"
-                onClick={() => createRecipe()}
+                onClick={() => callChatGPT()}
               >
                 Generate recipe
               </button>
@@ -180,7 +180,7 @@ export const CreateRecipe = () => {
 
           <div className="content-save-gpt" id="save-gpt">
             <div className="mb-3">
-            <h1 className="login-title">Congratulations on your new recipe</h1>
+            <h1 className="login-title">Congratulations your new recipe</h1>
               <div className="label-add-recipe mb-3">
                 <label
                   htmlFor="exampleFormControlName"
@@ -231,14 +231,15 @@ export const CreateRecipe = () => {
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea1"
-                rows="6"
+                rows="4"
                 onChange={e => setInstructions(e.target.value)}
                 value={instructions || ""}
               ></textarea>
             </div>
             <div className="recipe-buttons">
               <div className="recipe-btn col-12">
-                <button type="submit" className="save-btn btn btn-primary">
+                <button type="submit" className="save-btn btn btn-primary" onClick={
+                  () => createRecipe(recomendedname, description, quantity, instructions, cookbookAI)}>
                   Save recipe
                 </button>
               </div>

@@ -364,11 +364,10 @@ def recipe_update(recipeId):
 @jwt_required()
 def recipe_create():
     data = request.get_json()
-
+    user_id = get_jwt_identity()
     new_recipe = Recipe(
-        name=data["name"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], category_id=data["category_id"],
-        user_id=data["user_id"]
+        name=data["name"], ingredients=data["ingredients"], description=data["description"], is_active=True,
+        elaboration=data["elaboration"], image=data["image"], user_id=user_id
     )
     db.session.add(new_recipe)
     db.session.commit()

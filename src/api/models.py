@@ -60,6 +60,7 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=False)
+    ingredients = db.Column(db.String(500), unique=False)
     elaboration = db.Column(db.String(500), unique=False)
     image = db.Column(db.String(500), unique=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
