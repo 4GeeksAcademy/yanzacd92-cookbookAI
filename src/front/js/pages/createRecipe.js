@@ -10,6 +10,7 @@ export const CreateRecipe = () => {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [loading, setLoading] = useState(false);
   const [recomendedname, setRecommendedName] = useState("");
 
   async function createRecipe(name, description, ingredients, elaboration, image) {
@@ -19,9 +20,11 @@ export const CreateRecipe = () => {
 
   async function callChatGPT() {
     console.log("WAITING FOR THE RESPONSE CHATGPT")
+    setLoading(true)
     let recipeChatGPT = await actions.userCallChatGPT(
       ingredient
     );
+    setLoading(false)
     Object.keys(recipeChatGPT).map((key) => {
       console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
