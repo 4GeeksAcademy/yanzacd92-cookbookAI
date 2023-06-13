@@ -10,7 +10,6 @@ export const CreateRecipe = () => {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [loading, setLoading] = useState(false);
   const [recomendedname, setRecommendedName] = useState("");
 
   async function createRecipe(name, description, ingredients, elaboration, image) {
@@ -19,12 +18,12 @@ export const CreateRecipe = () => {
   }
 
   async function callChatGPT() {
-    console.log("WAITING FOR THE RESPONSE CHATGPT")
-    setLoading(true)
+    document.getElementById("spinner-create").style.display = "block"
+    document.getElementById("generate-gpt").style.display = "none"
     let recipeChatGPT = await actions.userCallChatGPT(
       ingredient
     );
-    setLoading(false)
+    document.getElementById("spinner-create").style.display = "none"
     Object.keys(recipeChatGPT).map((key) => {
       console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
@@ -107,44 +106,21 @@ export const CreateRecipe = () => {
     return quantity
   }
 
-  /*function populateSteps(steps) {
-    let quantity = ""
-    let count = 0;
-    Object.keys(steps).map((key) => {
-      count ++
-      switch(k) {
-        case 'ingredient':
-        case 'name':
-          quantity += "Ingredient " + count + ": "  + steps[key][k] + "\n"
-          break;
-        case 'quantity':
-          quantity += k + ": "  + steps[key][k] + "\n"
-          break;
-        case 'unit':
-          quantity += k + ": "  + steps[key][k] + "\n"
-          break;
-        case 'preparation':
-          quantity += k + ": "  + steps[key][k] + "\n"
-          break;
-        case 'unit_of_measurement':
-        case 'measurement':
-          quantity += k + ": "  + steps[key][k] + "\n"
-        case 'amount':
-          quantity += k + ": "  + steps[key][k] + "\n"
-        default:
-          break;
-      }
-      quantity += "\n"
-    })
-
-    return quantity
-  }*/
-
   return (
     <div>
       <Navbar />
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">Create your Recipe</h1>
+        <div className="container-fluid bg-3" id="spinner-create">
+          <div className="ctn-snipper container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="loader20">Loading...</div>
+                    </div>
+                </div>
+                <h3 className="title-snipper h3 text-white">Creating recipe ...</h3>
+            </div>
+        </div>
         <div className="cnt-create-recipe container mt-4 mb-4">
           <div className="content-generate-gpt" id="generate-gpt">
           <h1 className="login-title">Your Ingredients</h1>
