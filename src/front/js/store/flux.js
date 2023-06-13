@@ -57,7 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return recipeResp
 			},
 			userCreateRecipe: async(name, description, ingredients, elaboration, image) => {
-				const resp = await getActions().apiFetch("/api/addRecipe/", "POST")
+				const resp = await getActions().apiFetch("/api/addRecipe/", "POST", {name, description, ingredients, elaboration, image})
 				if(resp.code >= 400) {
 					return resp
 				}

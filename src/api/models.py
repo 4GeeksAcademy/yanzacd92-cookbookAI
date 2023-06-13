@@ -79,6 +79,7 @@ class Recipe(db.Model):
             "name": self.name,
             "description": self.description,
             "image": self.image,
+            "ingredients": self.ingredients,
             "elaboration": self.elaboration,
             "user_id": self.user.id,
             "user_first_name": self.user.first_name

@@ -115,7 +115,7 @@ export const CreateRecipe = () => {
           <div className="ctn-snipper container">
                 <div className="row">
                     <div className="col-md-12">
-                        <div className="loader20">Loading...</div>
+                        <div className="loader">Loading...</div>
                     </div>
                 </div>
                 <h3 className="title-snipper h3 text-white">Creating recipe ...</h3>
