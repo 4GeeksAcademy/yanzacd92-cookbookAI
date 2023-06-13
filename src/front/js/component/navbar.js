@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import profileLogo from './../../img/profile-logo.png'
 import { Favorite } from "./favorite";
 import { Context } from "../store/appContext";
@@ -7,11 +7,17 @@ import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
 	const navigate = useNavigate();
+	const [myrecipes, setMyRecipes] = useState("");
 	const logout = () => {
 		actions.userLogout()
 		navigate('/', { replace: true })
 	}
-	const { store, actions } = useContext(Context);	
+	const { store, actions } = useContext(Context);
+	function checkActive(pathname) {
+		setMyRecipes("active")
+		navigate(pathname, { replace: true })
+	}
+
 	return (
 		<nav className="navbar navbar-dark bg-primary">
 			<div className="container-fluid">
@@ -28,10 +34,10 @@ export const Navbar = () => {
 								<a className="nav-link" href="/createRecipe">Create your recipe</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/myrecipes">My recipes</a>
+								<a className={`nav-link ${myrecipes}`} href="/myrecipes" onClick={() => checkActive("/myrecipes")}>My recipes</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/allrecipes" tabIndex="-1" aria-disabled="true">All recipes by users</a>
+								<a className={`nav-link`} href="/allrecipes" tabIndex="-1" aria-disabled="true">All recipes by users</a>
 							</li>
 							<li className="nav-item">
 								<a className="nav-link" onClick={logout} tabIndex="-1" aria-disabled="true">Logout</a>

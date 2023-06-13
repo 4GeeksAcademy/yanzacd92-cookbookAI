@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faCaretLeft, faChevronsLeft, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 //import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons'
 import "../../styles/home.css";
 
@@ -29,7 +29,7 @@ export const Signup = () => {
 		<div className="container-signup text-center">
 			<div className="cnt-return-login">
 				<div className="return-login">
-					<FontAwesomeIcon icon={faArrowLeft} className="icon-return-login" onClick={() => navigate("/")}/>
+					<FontAwesomeIcon icon={faAngleLeft} className="icon-return-login" onClick={() => navigate("/")}/>
 					<span className="tooltiptext">Back to Login</span>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 import React, { useContext , useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
@@ -9,6 +9,8 @@ import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { RecipeDetail } from "./recipeDetail";
 
 export const AllRecipes = () => {
+  const location = useLocation();
+  console.log("LOCATION -----> " + location.pathname);  
   useEffect( () => {
     actions.userAllRecipes()
   }, [])

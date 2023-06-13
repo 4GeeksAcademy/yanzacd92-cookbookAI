@@ -451,7 +451,7 @@ def recipe_delete_from_favorites(recipeId):
 @api.route('/createRecipeChatGPT', methods=['POST'])
 def generateChatResponse():
     data = request.json
-    user_message = "Create recipe with the ingredients: " + data['messages'] + " in json format"
+    user_message = "Create recipe with the ingredients: " + data['messages'] + " in json format with name, ingredients, description and steps structure"
 
     # Make a request to the ChatGPT API
     response = requests.post(

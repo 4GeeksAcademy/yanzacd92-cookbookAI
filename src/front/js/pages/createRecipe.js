@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import cookbookAI from "./../../img/cookbookAI.jpg"
+import { useLocation } from "react-router-dom";
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
@@ -11,6 +12,8 @@ export const CreateRecipe = () => {
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
+  const location = useLocation();
+  console.log("LOCATION -----> " + location.pathname);  
 
   async function createRecipe(name, description, ingredients, elaboration, image) {
     await actions.userCreateRecipe(name, description, ingredients, elaboration, image)
@@ -32,24 +35,16 @@ export const CreateRecipe = () => {
         Object.keys(recipe).map((key) => {
           console.log("KEY  -----> " + key.toUpperCase())
           switch(key.toLowerCase()) {
-            case 'recipe_name':
             case 'recipename':
-            case 'recipetitle':
-            case 'title':
-            case 'recipe':
             case 'name':
               setRecommendedName(recipe[key])
               break;
             case 'description':
               setDescription(recipe[key])
               break;
-            case 'recipetingredients':
-            case 'directions':
             case 'ingredients':
               setQuantity(populateIngredients(recipe[key]))
               break;
-            case 'recipetinstructions':
-            case 'instructions':
             case 'steps':
               setInstructions(((recipe[key]).toString()).split(".").join(""))
               break;

@@ -6,6 +6,7 @@ import { Navbar } from "../component/navbar";
 
 export const MyRecipes = () => {
   const location = useLocation();
+  console.log("LOCATION -----> " + location.pathname);  
   useEffect( () => {
     console.log('Location changed');
     actions.userMyRecipes()
@@ -26,7 +27,7 @@ export const MyRecipes = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">MY RECIPES</h1>
         <div className="ctn-my-recipes container mt-4 mb-4">
