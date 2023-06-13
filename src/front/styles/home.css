@@ -45,6 +45,7 @@ body {
 }
 
 .signup-form {
+    margin-top: 10px !important;
     margin: 80px;
     padding: 30px;
     border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;;
@@ -361,6 +362,26 @@ button.btn.col-4.dropdown-item {
 
 .ctn-my-recipes {
     margin-top: 29px !important;
+}
+
+.icon-return-login {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.return-login {
+    width: 3%;
+    background: white;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.cnt-return-login {
+    width: 100%;
 }
 
 .loader,.loader:after,.loader:before{border-radius:50%}

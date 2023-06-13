@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
+//import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons'
 import "../../styles/home.css";
 
 export const Signup = () => {
@@ -17,13 +20,18 @@ export const Signup = () => {
 		if(resp >= 400) {
 			return
 		}
-		console.log("Registro exitoso!!")
-        alert("Te has registrado exitosamente. Ahora debes iniciar sesión con los datos registrados")
+		console.log("Successful registration!!")
+        alert("You have successfully registered. Now you must log in with your data")
         navigate("/");
 	}
 
 	return (
 		<div className="container-signup text-center">
+			<div className="cnt-return-login">
+				<div className="return-login">
+					<FontAwesomeIcon icon={faArrowLeft} className="icon-return-login" onClick={() => navigate("/")}/>
+				</div>
+			</div>
 			<form className="signup-form" onSubmit={submitForm}>
 				<h1 className="signup-title">Signup</h1>
 				<div className="info mb-3">
@@ -44,8 +52,8 @@ export const Signup = () => {
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputQuestion" className="form-label">Security question</label>
-					<select class="form-select" aria-label="Default select example" name="security_question">
-						<option selected></option>
+					<select className="form-select" aria-label="Default select example" name="security_question">
+						<option disabled>Choose a question</option>
 						<option value="What is your pet's name?">What is your pet's name?</option>
 						<option value="In what city were you born?">In what city were you born?</option>
 						<option value="In what city was your first job?">In what city was your first job?</option>
