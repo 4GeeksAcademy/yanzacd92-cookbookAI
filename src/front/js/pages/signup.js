@@ -30,6 +30,7 @@ export const Signup = () => {
 			<div className="cnt-return-login">
 				<div className="return-login">
 					<FontAwesomeIcon icon={faArrowLeft} className="icon-return-login" onClick={() => navigate("/")}/>
+					<span className="tooltiptext">Back to Login</span>
 				</div>
 			</div>
 			<form className="signup-form" onSubmit={submitForm}>

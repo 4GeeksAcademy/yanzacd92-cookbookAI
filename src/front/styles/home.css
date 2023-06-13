@@ -370,7 +370,7 @@ button.btn.col-4.dropdown-item {
 }
 
 .return-login {
-    width: 3%;
+    width: 32px;
     background: white;
     margin-top: 20px;
     margin-left: 20px;
@@ -383,6 +383,27 @@ button.btn.col-4.dropdown-item {
 .cnt-return-login {
     width: 100%;
 }
+
+.return-login .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+
+    top: 18px;
+    left: 65px;
+  }
+  
+  .return-login:hover .tooltiptext {
+    visibility: visible;
+  }
 
 .loader,.loader:after,.loader:before{border-radius:50%}
 .loader:after,.loader:before{position:absolute;content:''}
