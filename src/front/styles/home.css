@@ -310,6 +310,7 @@ button.btn.col-4.dropdown-item {
 .content-save-gpt{
     background: white;
     padding: 35px;
+    border-radius: 20px;
 }
 
 .save-btn {
