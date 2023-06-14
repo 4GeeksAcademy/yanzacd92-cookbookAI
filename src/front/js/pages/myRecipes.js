@@ -29,7 +29,7 @@ export const MyRecipes = () => {
     <div>
       <Navbar myrecipes={"active"}/>
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">MY RECIPES <FontAwesomeIcon icon={faUtensils} className="mx-3"/></h1>
+        <h1 className="text-center mt-4 re-title">MY RECIPES <FontAwesomeIcon icon={faUtensils} className="mx-2"/></h1>
         <div className="ctn-my-recipes container mt-4 mb-4">
           <div className="row">
             {myRecipes.map((recipe) => 

@@ -14,13 +14,19 @@ export const CreateRecipe = () => {
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
+  const [imageRecipe, setImageRecipe] = useState("");
 
-  async function createRecipe(name, description, ingredients, elaboration, image) {
-    await actions.userCreateRecipe(name, description, ingredients, elaboration, image)
+  async function createRecipe(name, description, ingredients, elaboration, imageRecipe) {
+    await actions.userCreateRecipe(name, description, ingredients, elaboration, imageRecipe)
     console.log("RECIPE CREATED FROM REACT")
   }
 
   async function callChatGPT() {
+    console.log("IMAGE ----> " + imageRecipe)
+    if(imageRecipe == ""){
+      let recipeImg = actions.userCallChatGPTImage(ingredient)
+      setImageRecipe(recipeImg)
+    }
     document.getElementById("spinner-create").style.display = "block"
     document.getElementById("generate-gpt").style.display = "none"
     let recipeChatGPT = await actions.userCallChatGPT(
@@ -105,7 +111,7 @@ export const CreateRecipe = () => {
     <div>
       <Navbar createRecipe={"active"}/>
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">CREATE YOUR RECIPE <FontAwesomeIcon icon={faCookieBite} /></h1>
+        <h1 className="text-center mt-4 re-title">CREATE YOUR RECIPE <FontAwesomeIcon icon={faCookieBite} className="mx-2" /></h1>
         <div className="container-fluid bg-3" id="spinner-create">
           <div className="ctn-snipper container">
                 <div className="row">
@@ -121,7 +127,7 @@ export const CreateRecipe = () => {
           <h1 className="login-title">Your Ingredients</h1>
             <div className="mb-3">
               <label htmlFor="formGroupIngredients" className="label-add-recipe form-label">
-                Add ingredients you have available separated by commas
+                Add ingredients
               </label>
               <input
                 type="text"
@@ -136,10 +142,9 @@ export const CreateRecipe = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="formFile" className="label-add-recipe form-label">
-                Choose an image for your recipe (if you don't have one we can
-                create it for you, so leave this field <strong>empty</strong>)
+                Image for recipe (<strong>optional</strong>)
               </label>
-              <input className="form-control" type="file" id="formFile" />
+              <input className="form-control" type="file" id="formFile" value={imageRecipe} onChange={(e) => setImageRecipe(e.target.value)}/>
             </div>
             <div className="col-12">
               <button
@@ -213,7 +218,7 @@ export const CreateRecipe = () => {
             <div className="recipe-buttons">
               <div className="recipe-btn col-12">
                 <button type="submit" className="save-btn btn btn-primary" onClick={
-                  () => createRecipe(recomendedname, description, quantity, instructions, cookbookAI)}>
+                  () => createRecipe(recomendedname, description, quantity, instructions, imageRecipe)}>
                   Save recipe
                 </button>
               </div>

@@ -12,6 +12,7 @@ body {
     margin: 100px;
     padding: 30px;
     border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     text-align: left;
     border-radius: 15px;
     width: 40%;
@@ -48,7 +49,8 @@ body {
     margin-top: 10px !important;
     margin: 80px;
     padding: 30px;
-    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;;
+    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     text-align: left;
     background-color: white;
     border-radius: 20px;
@@ -212,6 +214,9 @@ button.btn.col-4.dropdown-item {
     text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
 }
 
+.navbar-dark .navbar-toggler {
+    border-color: white !important;
+}
 .add-favorite {
     font-size: 20px !important;
     margin: 0px;
@@ -286,6 +291,7 @@ button.btn.col-4.dropdown-item {
     background: white;
     padding: 35px;
     border-radius: 20px;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
 }
 
 .generate-btn {
@@ -311,6 +317,7 @@ button.btn.col-4.dropdown-item {
     background: white;
     padding: 35px;
     border-radius: 20px;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
 }
 
 .save-btn {
@@ -377,6 +384,7 @@ button.btn.col-4.dropdown-item {
     display: flex;
     border-radius: 20px;
     justify-content: center;
+    box-shadow: 9px 4px 14px 4px rgba(0,0,0,0.63);
 }
 
 .cnt-return-login {
@@ -404,6 +412,7 @@ button.btn.col-4.dropdown-item {
     visibility: visible;
   }
 
+/* Spinner CSS */
 .loader,.loader:after,.loader:before{border-radius:50%}
 .loader:after,.loader:before{position:absolute;content:''}
 .loader:before{width:5.2em;height:10.2em;background:white;border-radius:10.2em 0 0 10.2em;top:-.1em;left:-.1em;-webkit-transform-origin:5.2em 5.1em;transform-origin:5.2em 5.1em;-webkit-animation:load20 2s infinite ease 1.5s;animation:load20 2s infinite ease 1.5s}
@@ -417,3 +426,8 @@ button.btn.col-4.dropdown-item {
 	0%{-webkit-transform:rotate(0);transform:rotate(0)}
 	100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
 }
+/* Spinner CSS End */
+
+/* Upload button CSS */
+
+/* Upload button CSS End*/

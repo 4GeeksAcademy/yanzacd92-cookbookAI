@@ -473,7 +473,19 @@ def generateChatResponse():
 
 @api.route('/createImageChatGPT', methods=['GET'])
 def generateImageResponse():
-    prompt = request.json.get("prompt")
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    response = openai.Image.create(
+        prompt = "A cute baby sea otter",
+        n = 2,
+        size = "1024x1024"
+    )
+
+    if response.status_code == 200:
+        completion = response.json()
+        return json.loads(completion)
+
+    return jsonify({'error': 'Something went wrong.'}), 500
+    """ prompt = request.json.get("prompt")
     print("PROMPT IMAGE---> " + str(prompt))
     response = openai.Image.create(
         prompt = "Recipe with the following ingredients: " + prompt,
@@ -483,4 +495,4 @@ def generateImageResponse():
     try:
         return jsonify({response['data'][0]['url']}), 200
     except:
-        image_url = jsonify({"message": "Oops you beat the AI, try a different question, if the problem persists, come back later."}), 401
+        image_url = jsonify({"message": "Oops you beat the AI, try a different question, if the problem persists, come back later."}), 401 """
