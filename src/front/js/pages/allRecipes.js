@@ -1,5 +1,5 @@
 import React, { useContext , useEffect, useState} from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
@@ -8,9 +8,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { RecipeDetail } from "./recipeDetail";
 
-export const AllRecipes = () => {
-  const location = useLocation();
-  console.log("LOCATION -----> " + location.pathname);  
+export const AllRecipes = () => {  
   useEffect( () => {
     actions.userAllRecipes()
   }, [])
@@ -37,7 +35,7 @@ export const AllRecipes = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar allrecipes={"active"} />
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">ALL RECIPES</h1>
         <div className="container mt-4 mb-4">

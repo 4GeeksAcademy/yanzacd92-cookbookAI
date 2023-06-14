@@ -1,14 +1,11 @@
 import React, { useContext , useEffect, useState} from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 
 export const MyRecipes = () => {
-  const location = useLocation();
-  console.log("LOCATION -----> " + location.pathname);  
   useEffect( () => {
-    console.log('Location changed');
     actions.userMyRecipes()
   }, [location])
 
@@ -27,7 +24,7 @@ export const MyRecipes = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar myrecipes={"active"}/>
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">MY RECIPES</h1>
         <div className="ctn-my-recipes container mt-4 mb-4">

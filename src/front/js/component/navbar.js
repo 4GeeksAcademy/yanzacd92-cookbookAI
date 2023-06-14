@@ -3,9 +3,10 @@ import profileLogo from './../../img/profile-logo.png'
 import { Favorite } from "./favorite";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import propTypes from "prop-types";
 
 
-export const Navbar = () => {
+export const Navbar = (props) => {
 	const navigate = useNavigate();
 	const [myrecipes, setMyRecipes] = useState("");
 	const logout = () => {
@@ -28,16 +29,16 @@ export const Navbar = () => {
 					<div className="collapse navbar-collapse" id="navbarNav">
 						<ul className="navbar-nav">
 							<li className="nav-item">
-								<a className="nav-link active" aria-current="page" href="/recommend">Recommended recipes</a>
+								<a className={`nav-link ${props.recommend}`} aria-current="page" href="/recommend">Recommended recipes</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/createRecipe">Create your recipe</a>
+								<a className={`nav-link ${props.createRecipe}`} href="/createRecipe">Create your recipe</a>
 							</li>
 							<li className="nav-item">
-								<a className={`nav-link ${myrecipes}`} href="/myrecipes" onClick={() => checkActive("/myrecipes")}>My recipes</a>
+								<a className={`nav-link ${props.myrecipes}`} href="/myrecipes" onClick={() => checkActive("/myrecipes")}>My recipes</a>
 							</li>
 							<li className="nav-item">
-								<a className={`nav-link`} href="/allrecipes" tabIndex="-1" aria-disabled="true">All recipes by users</a>
+								<a className={`nav-link ${props.allrecipes}`} href="/allrecipes" tabIndex="-1" aria-disabled="true">All recipes by users</a>
 							</li>
 							<li className="nav-item">
 								<a className="nav-link" onClick={logout} tabIndex="-1" aria-disabled="true">Logout</a>
@@ -54,3 +55,10 @@ export const Navbar = () => {
 		</nav>
 	);
 };
+
+Navbar.propTypes = {
+	recommend: propTypes.string,
+	createRecipe: propTypes.string,
+	myrecipes: propTypes.string,
+	allrecipes: propTypes.string
+}

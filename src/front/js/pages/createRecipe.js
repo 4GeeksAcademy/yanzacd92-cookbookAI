@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import cookbookAI from "./../../img/cookbookAI.jpg"
-import { useLocation } from "react-router-dom";
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
@@ -12,8 +11,6 @@ export const CreateRecipe = () => {
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
-  const location = useLocation();
-  console.log("LOCATION -----> " + location.pathname);  
 
   async function createRecipe(name, description, ingredients, elaboration, image) {
     await actions.userCreateRecipe(name, description, ingredients, elaboration, image)
@@ -103,7 +100,7 @@ export const CreateRecipe = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar createRecipe={"active"}/>
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">CREATE YOUR RECIPE</h1>
         <div className="container-fluid bg-3" id="spinner-create">

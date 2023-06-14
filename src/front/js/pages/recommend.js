@@ -19,7 +19,7 @@ export const Recommend = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar recommend={"active"}/>
       <div className="container mt-4 mb-4">
         <h1 className="text-center mt-4 re-title">Recommended Recipes</h1>
         <div className="container mt-4 mb-4"></div>
