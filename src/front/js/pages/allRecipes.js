@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faKitchenSet, faFireBurner } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { RecipeDetail } from "./recipeDetail";
 
@@ -37,7 +37,7 @@ export const AllRecipes = () => {
     <div>
       <Navbar allrecipes={"active"} />
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">ALL RECIPES</h1>
+        <h1 className="text-center mt-4 re-title">ALL RECIPES <FontAwesomeIcon icon={faFireBurner} className="mx-3"/></h1>
         <div className="container mt-4 mb-4">
           <div className="row">
             {allRecipes.map((recipe) => 

@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const MyRecipes = () => {
   useEffect( () => {
@@ -26,7 +29,7 @@ export const MyRecipes = () => {
     <div>
       <Navbar myrecipes={"active"}/>
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">MY RECIPES</h1>
+        <h1 className="text-center mt-4 re-title">MY RECIPES <FontAwesomeIcon icon={faUtensils} className="mx-3"/></h1>
         <div className="ctn-my-recipes container mt-4 mb-4">
           <div className="row">
             {myRecipes.map((recipe) => 

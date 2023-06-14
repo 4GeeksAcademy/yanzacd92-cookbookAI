@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBurger, faPlateWheat } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const Recommend = () => {
   const { store, actions } = useContext(Context);
@@ -21,7 +24,7 @@ export const Recommend = () => {
     <div>
       <Navbar recommend={"active"}/>
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">Recommended Recipes</h1>
+        <h1 className="text-center mt-4 re-title">RECOMMENDED <FontAwesomeIcon icon={faBurger} /></h1>
         <div className="container mt-4 mb-4"></div>
         <div className="row">
           <div className="col-md-4">

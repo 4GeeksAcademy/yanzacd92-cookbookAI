@@ -2,6 +2,9 @@ import React, { useContext, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import cookbookAI from "./../../img/cookbookAI.jpg"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
@@ -102,7 +105,7 @@ export const CreateRecipe = () => {
     <div>
       <Navbar createRecipe={"active"}/>
       <div className="container mt-4 mb-4">
-        <h1 className="text-center mt-4 re-title">CREATE YOUR RECIPE</h1>
+        <h1 className="text-center mt-4 re-title">CREATE YOUR RECIPE <FontAwesomeIcon icon={faCookieBite} /></h1>
         <div className="container-fluid bg-3" id="spinner-create">
           <div className="ctn-snipper container">
                 <div className="row">
