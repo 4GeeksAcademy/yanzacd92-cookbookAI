@@ -157,7 +157,7 @@ body {
 
 .content-navbar {
     display: flex;
-    width: 30%;
+    width: 10%;
     justify-content: end;
 }
 
@@ -199,6 +199,11 @@ body {
 .favorite-btn {
     background: var(--my_background);
     padding: 3px;
+}
+
+.favorite-btn:hover {
+    background: black;
+    border-color: black;
 }
 
 .favorite-content {
@@ -447,6 +452,13 @@ button.btn.col-4.dropdown-item {
     font-size: 25px;
     display: flex;
     margin: 12px;
+    cursor: pointer;
+  }
+
+  .logo-navbar {
+    width: 230px;
+    height: 110px;
+    object-fit: cover;
     cursor: pointer;
   }
 

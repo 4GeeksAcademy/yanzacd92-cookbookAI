@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import cookbookAI from "./../../img/cookbookAI.jpg"
+import cookbookAI from "./../../img/cookBookAILogo3.png"
 import propTypes from "prop-types";
 
 
@@ -50,7 +50,8 @@ export const Navbar = (props) => {
 					</div>
 					<Favorite />
 				</div>
-				<div className="navbar-brand" href="/">CookbookAI</div>
+				{/* <div className="navbar-brand" href="/">CookbookAI</div> */}
+				<img className="logo-navbar" onClick={() => navigate("/")} src={cookbookAI} width="30" />
 				<div className="content-navbar">
 					<img className="profile-img" src={profileLogo} width="30" />
 					<a className="logout-btn-navbar" onClick={logout} tabIndex="-1" aria-disabled="true"><FontAwesomeIcon className="logout-icon" icon={faArrowRightFromBracket}></FontAwesomeIcon></a>
