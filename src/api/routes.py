@@ -471,28 +471,24 @@ def generateChatResponse():
 
     return jsonify({'error': 'Something went wrong.'}), 500
 
-@api.route('/createImageChatGPT', methods=['GET'])
+@api.route('/createImageChatGPT', methods=['POST'])
 def generateImageResponse():
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    response = openai.Image.create(
-        prompt = "A cute baby sea otter",
-        n = 2,
-        size = "1024x1024"
+    message = request.json.get("message")
+    # Make a request to the ChatGPT API
+    response = requests.post(
+        'https://api.openai.com/v1/images/generations',
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + openai.api_key  # Replace with your ChatGPT API key
+        },
+        json = {
+            "prompt": message,
+            "n": 2,
+            "size": "1024x1024"
+        }
     )
 
     if response.status_code == 200:
-        completion = response.json()
-        return json.loads(completion)
+        return response.json()['data'][0]
 
     return jsonify({'error': 'Something went wrong.'}), 500
-    """ prompt = request.json.get("prompt")
-    print("PROMPT IMAGE---> " + str(prompt))
-    response = openai.Image.create(
-        prompt = "Recipe with the following ingredients: " + prompt,
-        n = 1,
-        size = "256x256"
-    )
-    try:
-        return jsonify({response['data'][0]['url']}), 200
-    except:
-        image_url = jsonify({"message": "Oops you beat the AI, try a different question, if the problem persists, come back later."}), 401 """

@@ -36,8 +36,8 @@ export const MyRecipes = () => {
               <div className="col-md-4" key={recipe.id}>
                 <Link to={`/recipeDetail/${recipe.id}`}>
                   <div
-                    className={`img-wrapper ${hoveredImg === 0 ? "hovered" : ""}`}
-                    onMouseEnter={() => handleMouseEnter(0)}
+                    className={`img-wrapper ${hoveredImg === recipe.id ? "hovered" : ""}`}
+                    onMouseEnter={() => handleMouseEnter(recipe.id)}
                     onMouseLeave={handleMouseLeave}
                   >
                     <img
@@ -45,7 +45,7 @@ export const MyRecipes = () => {
                       alt={recipe.name}
                       className="img-fluid rounded shadow zoom-image"
                     />
-                    {hoveredImg === 0 && (
+                    {hoveredImg === recipe.id && (
                       <div className="img-title">{recipe.name}</div>
                     )}
                   </div>

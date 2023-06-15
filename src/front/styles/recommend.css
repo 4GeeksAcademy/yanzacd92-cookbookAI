@@ -7,6 +7,7 @@
     -webkit-box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     -moz-box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    margin-bottom: 35px;
   }
 
   .img-wrapper:hover {

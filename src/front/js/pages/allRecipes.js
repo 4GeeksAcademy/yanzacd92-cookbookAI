@@ -27,7 +27,7 @@ export const AllRecipes = () => {
 
   function checkFavorites(recipeId) {
     const filtered = store.favorites.filter(obj => {
-      return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
+      return obj.recipe_id == recipeId;
     });
     if(filtered.length > 0) return faHeart
     return farHeartRegular
@@ -47,8 +47,8 @@ export const AllRecipes = () => {
                 </div>
                 <Link to={`/recipeDetail/${recipe.id}`}>
                   <div
-                    className={`img-wrapper ${hoveredImg === 0 ? "hovered" : ""}`}
-                    onMouseEnter={() => handleMouseEnter(0)}
+                    className={`img-wrapper ${hoveredImg === recipe.id ? "hovered" : ""}`}
+                    onMouseEnter={() => handleMouseEnter(recipe.id)}
                     onMouseLeave={handleMouseLeave}
                   >
                     <img
@@ -56,7 +56,7 @@ export const AllRecipes = () => {
                       alt={recipe.name}
                       className="img-fluid rounded shadow zoom-image"
                     />
-                    {hoveredImg === 0 && (
+                    {hoveredImg === recipe.id && (
                       <div className="img-title">
                         {recipe.name} 
                       </div>

@@ -363,7 +363,11 @@ button.btn.col-4.dropdown-item {
 
 .img-fluid {
     width: 100%;
-    height: 300px;
+    height: auto;
+    max-height: 250px;
+    min-height: 250px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .ctn-my-recipes {

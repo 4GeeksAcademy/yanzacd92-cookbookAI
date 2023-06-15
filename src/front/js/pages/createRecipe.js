@@ -22,13 +22,16 @@ export const CreateRecipe = () => {
   }
 
   async function callChatGPT() {
-    console.log("IMAGE ----> " + imageRecipe)
-    if(imageRecipe == ""){
-      let recipeImg = actions.userCallChatGPTImage(ingredient)
-      setImageRecipe(recipeImg)
-    }
     document.getElementById("spinner-create").style.display = "block"
     document.getElementById("generate-gpt").style.display = "none"
+    if(imageRecipe == ""){
+      let recipeImg = await actions.userCallChatGPTImage(ingredient)
+      Object.keys(recipeImg).map((key) => {
+        if(key == "data") {
+          setImageRecipe(recipeImg[key]['url'])
+        }
+      })
+    }
     let recipeChatGPT = await actions.userCallChatGPT(
       ingredient
     );
@@ -42,6 +45,7 @@ export const CreateRecipe = () => {
           console.log("KEY  -----> " + key.toUpperCase())
           switch(key.toLowerCase()) {
             case 'recipename':
+            case 'recipe_name':
             case 'name':
               setRecommendedName(recipe[key])
               break;
@@ -144,7 +148,7 @@ export const CreateRecipe = () => {
               <label htmlFor="formFile" className="label-add-recipe form-label">
                 Image for recipe (<strong>optional</strong>)
               </label>
-              <input className="form-control" type="file" id="formFile" value={imageRecipe} onChange={(e) => setImageRecipe(e.target.value)}/>
+              <input className="form-control" type="file" id="formFile" onChange={(e) => setImageRecipe(e.target.value)}/>
             </div>
             <div className="col-12">
               <button
