@@ -1,3 +1,10 @@
+/* variables */
+/*--my_background: #00c4cc !important;*/
+:root {
+    --my_background: #00c4cc !important;
+    --my_background_initial: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
 }
@@ -11,7 +18,7 @@ body {
 .login-form {
     margin: 100px;
     padding: 30px;
-    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    border: 1px solid var(--my_background);
     box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     text-align: left;
     border-radius: 15px;
@@ -22,10 +29,15 @@ body {
 .login-button {
     width: 100%;
     border-radius: 20px;
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
     margin-top: 15px;
     font-size: 20px;
     font-weight: 600;
+    border-color: #00c4cc;
+}
+
+.login-button:hover {
+    background: black;
 }
 
 .login {
@@ -35,7 +47,7 @@ body {
 .signup-button {
     width: 100%;
     border-radius: 20px;
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
     margin-top: 15px;
     font-size: 16px;
     font-weight: 600;
@@ -49,7 +61,7 @@ body {
     margin-top: 10px !important;
     margin: 80px;
     padding: 30px;
-    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    border: 1px solid var(--my_background);
     box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     text-align: left;
     background-color: white;
@@ -70,10 +82,14 @@ body {
 }
 
 .signup-btn {
-    color: blue;
+    color: #00c4cc;
     padding-left: 0;
     padding-bottom: 10px;
+    font-weight: 700;
+}
 
+.signup-btn:hover {
+    color: black;
 }
 
 .login-title {
@@ -87,18 +103,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+    background: var(--my_background);
 }
 
 .container-signup {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+    background: var(--my_background);
 }
 
 .navbar {
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+    background: var(--my_background) !important;
 }
 
 .form-control {
@@ -122,8 +138,13 @@ body {
     padding-bottom: 10px;
 }
 
+.password-recovery-btn:hover {
+    color: black;
+    font-weight: 600;
+}
+
 #app {
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
 }
 
 .dropdown-menu-sec-question-signup.show {
@@ -152,11 +173,11 @@ body {
 }
 
 .footer {
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
 }
 
 .layout-view {
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
 }
 
 .profile-img {
@@ -176,7 +197,7 @@ body {
 }
 
 .favorite-btn {
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
     padding: 3px;
 }
 
@@ -189,10 +210,11 @@ body {
 .navbar-brand {
     align-self: center;
     text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    margin: 0px;
 }
 
 .dropdown-menu.show {
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
     color: white
 }
 
@@ -255,7 +277,7 @@ button.btn.col-4.dropdown-item {
 
 .add-favorite-btn:hover {
     background: none;
-    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    border-color: var(--my_background);
     box-shadow: 0 0 0 0.25rem orange;
 }
 
@@ -267,7 +289,7 @@ button.btn.col-4.dropdown-item {
 
 .add-favorite-detail-btn:hover {
     background: none;
-    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    border-color: var(--my_background);
     box-shadow: 0 0 0 0.25rem orange;
 }
 
@@ -297,7 +319,7 @@ button.btn.col-4.dropdown-item {
 .generate-btn {
     width: 100%;
     border-radius: 20px;
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
     margin-top: 15px;
     font-size: 18px;
     font-weight: 600;
@@ -323,7 +345,7 @@ button.btn.col-4.dropdown-item {
 .save-btn {
     width: 100%;
     border-radius: 20px;
-    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    background: var(--my_background);
     margin-top: 15px;
     font-size: 18px;
     font-weight: 600;
@@ -416,6 +438,18 @@ button.btn.col-4.dropdown-item {
     visibility: visible;
   }
 
+  .favorites-navbar {
+    display: flex;
+  }
+
+  .logout-icon {
+    color: white;
+    font-size: 25px;
+    display: flex;
+    margin: 12px;
+    cursor: pointer;
+  }
+
 /* Spinner CSS */
 .loader,.loader:after,.loader:before{border-radius:50%}
 .loader:after,.loader:before{position:absolute;content:''}
@@ -431,7 +465,3 @@ button.btn.col-4.dropdown-item {
 	100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
 }
 /* Spinner CSS End */
-
-/* Upload button CSS */
-
-/* Upload button CSS End*/

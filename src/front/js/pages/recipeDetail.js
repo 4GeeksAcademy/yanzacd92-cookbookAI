@@ -4,7 +4,6 @@ import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import cookbookAI from "./../../img/cookbookAI.jpg"
 import { useParams } from "react-router-dom";
 
 export const RecipeDetail = () => {
