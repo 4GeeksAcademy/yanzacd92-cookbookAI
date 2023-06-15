@@ -13,6 +13,7 @@ export const Home = () => {
 		if(resp >= 400) {
 			return
 		}
+		navigate('/recommend', { replace: true })
 		console.log("Login exitoso!!")
 	}
 
@@ -20,26 +21,33 @@ export const Home = () => {
 		navigate("/api/signup");
 	}
 
+	function passwordRecovery() {
+		navigate("/api/passwordRecovery");
+	}
+
 	return (
-		<div className="text-center mt-5">
-			<h1>Login Form</h1>
+		<div className="container-login text-center">
 			<form className="login-form" onSubmit={submitForm}>
+				<h1 className="login-title">Login</h1>
 				<div className="mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
 				</div>
 				<div className="mb-3">
 					<label htmlFor="exampleInputPassword1" className="form-label">Password</label>
 					<input type="password" className="form-control" name="password" id="exampleInputPassword1" />
 				</div>
+				<div className="password-recovery">
+					<button onClick={passwordRecovery} className="password-recovery-btn btn" type="button">Forgot Password?</button>
+				</div>
 				<div className="login">
 					<button type="submit" className="login-button btn btn-primary">Login</button>
 				</div>
+				<div className="signup-login">
+					<span className="mx-2">Not a member?</span>
+					<button onClick={signup} className="signup-btn btn" type="button">Signup</button>
+				</div>
 			</form>
-			<div className="signup-login">
-            	<button onClick={signup} className="btn btn-primary" type="button">Signup</button>
-        	</div>
 		</div>
 	);
 };

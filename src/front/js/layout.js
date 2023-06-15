@@ -11,6 +11,11 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Signup } from "./pages/signup";
+import { MyRecipes } from "./pages/myRecipes";
+import { AllRecipes } from "./pages/allRecipes";
+import { RecipeDetail } from "./pages/recipeDetail";
+import { CreateRecipe } from "./pages/createRecipe";
+import { EditRecipe } from "./pages/editRecipe";
 
 //create your first component
 const Layout = () => {
@@ -21,15 +26,19 @@ const Layout = () => {
     if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
 
     return (
-        <div>
+        <div className="layout-view">
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Recommend />} path="/recommend" />
+                        <Route element={<MyRecipes />} path="/myrecipes" />
+                        <Route element={<AllRecipes />} path="/allrecipes" />
                         <Route element={<Signup />} path="/api/signup" />
                         <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<RecipeDetail />} path="/recipeDetail/:recipeId" />
+                        <Route element={<CreateRecipe />} path="/createRecipe" />
+                        <Route element={<EditRecipe />} path="/editRecipe/:recipeId" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

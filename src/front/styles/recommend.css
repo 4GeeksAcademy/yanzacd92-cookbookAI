@@ -1,0 +1,54 @@
+
+  .img-wrapper {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    border-radius: 15px;
+    -webkit-box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    -moz-box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    margin-bottom: 35px;
+  }
+
+  .img-wrapper:hover {
+    transform: scale(1.1);
+  }
+
+  
+  .re-title{
+    color: beige;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    text-align: center;
+    font-size: 37px ;
+    border-bottom: 2px solid white;
+    padding-bottom: 12px;
+  }
+  
+  .img-title {
+    color: beige;
+    position: absolute;
+    padding: 8rem 4rem;
+    border: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(3px);
+    font-size: 30px ;
+    font-family: Cambria;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  @media (min-width: 800px) and (max-width: 1980px) {
+    .img-title {
+      padding: 8rem 10rem;
+    }
+  }
+
+  .roll-text {
+    display: block;
+    text-align: center;
+  }
+
+
+  

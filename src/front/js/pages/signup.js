@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faCaretLeft, faChevronsLeft, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+//import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons'
 import "../../styles/home.css";
 
 export const Signup = () => {
@@ -17,19 +20,24 @@ export const Signup = () => {
 		if(resp >= 400) {
 			return
 		}
-		console.log("Registro exitoso!!")
-        alert("Te has registrado exitosamente. Ahora debes iniciar sesión con los datos registrados")
+		console.log("Successful registration!!")
+        alert("You have successfully registered. Now you must log in with your data")
         navigate("/");
 	}
 
 	return (
-		<div className="text-center mt-5">
-			<h1 className="signup-title">Signup Form</h1>
+		<div className="container-signup text-center">
+			<div className="cnt-return-login">
+				<div className="return-login">
+					<FontAwesomeIcon icon={faAngleLeft} className="icon-return-login" onClick={() => navigate("/")}/>
+					<span className="tooltiptext">Back to Login</span>
+				</div>
+			</div>
 			<form className="signup-form" onSubmit={submitForm}>
+				<h1 className="signup-title">Signup</h1>
 				<div className="info mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputPassword1" className="form-label">Password</label>
@@ -44,8 +52,15 @@ export const Signup = () => {
 					<input type="text" className="form-control" name="last_name" id="exampleInputLastName" />
 				</div>
 				<div className="info mb-3">
-					<label htmlFor="exampleInputQuestion" className="form-label">Security questions</label>
-					<input type="text" className="form-control" name="security_question" id="exampleInputQuestion" />
+					<label htmlFor="exampleInputQuestion" className="form-label">Security question</label>
+					<select className="form-select" aria-label="Default select example" name="security_question">
+						<option disabled>Choose a question</option>
+						<option value="What is your pet's name?">What is your pet's name?</option>
+						<option value="In what city were you born?">In what city were you born?</option>
+						<option value="In what city was your first job?">In what city was your first job?</option>
+						<option value="What is your favorite sport?">What is your favorite sport?</option>
+						<option value="How many pets do you have?">How many pets do you have?</option>
+					</select>
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputAnswer" className="form-label">Answer</label>

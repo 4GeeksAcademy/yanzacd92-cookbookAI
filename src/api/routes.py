@@ -5,10 +5,13 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe, Category, TokenBlockedList, Favorite
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
-import openai
+import os,tempfile
+import openai, requests, json
+from firebase_admin import storage
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
 api = Blueprint('api', __name__)
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -47,7 +50,34 @@ def user_login():
     
     # generate token
     access_token = create_access_token(identity = user.id)
-    return jsonify({"accessToken": access_token, "id": user.id})
+    access_jti = get_jti(access_token)
+    refresh_token = create_refresh_token(identity=user.id, additional_claims={"accessToken": access_jti})
+
+    return jsonify({"accessToken": access_token, "id": user.id, "refreshToken": refresh_token})
+
+# Refresh token
+@api.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def user_refresh():
+    # Get old tokens
+    jti_refresh = get_jwt()["jti"]
+    jti_access = get_jwt()["accessToken"]
+
+    # Block old tokens
+    accessRevoked = TokenBlockedList(jti = jti_access)
+    refreshRevoked = TokenBlockedList(jti = jti_refresh)
+    db.session.add(accessRevoked)
+    db.session.add(refreshRevoked)
+    db.session.commit()
+
+    # Generate new token
+    user_id = get_jwt_identity()
+    access_token = create_access_token(identity = user_id)
+    access_jti = get_jti(access_token)
+    refresh_token = create_refresh_token(identity= user_id, additional_claims={"accessToken": access_jti})
+
+    # Return new token
+    return jsonify({"accessToken": access_token, "id": user_id, "refreshToken": refresh_token})
 
 # Allow to logout into the application
 @api.route('/logout', methods=['POST'])
@@ -58,6 +88,29 @@ def user_logout():
     db.session.add(tokenBlocked)
     db.session.commit()
     return jsonify({"message": "Token revoked"})
+
+@api.route("/profilepic", methods=["POST"])
+@jwt_required()
+def user_profile_pic():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    file = request.files["profilePic"]
+    ext = request.file.filename.split(".")[1]
+    temp = tempfile.NamedTemporaryFile(delete = False)
+    file.save(temp.name)
+
+    bucket = storage.bucket(name="clase-imagenes-flask-appsot.com")
+    filename = "profilesPics/" + str(user_id) + "." + ext
+    
+    resource = bucket.blob(filename)
+    resource.upload_from_filename(temp.name, content_type="image/" + ext)
+
+    user.profile_pic = filename
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify({"message" : "profile pic uploaded to firebase"})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])
@@ -81,6 +134,34 @@ def user_password_recovery():
 
     db.session.commit()
     return jsonify(user.serialize()), 200
+
+# Recovery the password
+@api.route('/changePassword', methods=['POST'])
+@jwt_required()
+def change_password():
+    new_password = request.json.get("password")
+    user_id = get_jwt_identity()
+    secure_password = bcrypt.generate_password_hash(new_password, rounds=None).decode("utf-8")
+    user =  User.query.get(user_id)
+    user.password = secure_password
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({"msg": "password updated"})
+
+@api.route('/passwordRecovery2', methods=['POST'])
+def password_required_2():
+    user_email = request.json.get("email")
+    user = User.query.filter_by(email=user_email).first()
+    if(user is None):
+        return jsonify({
+            "message": "User not found"
+        }), 401
+    
+    # Generate temporal token in order to change password
+    access_token = create_access_token(identity = user.id, additional_claims={"type": "password"})
+    return jsonify({"recoveryToken": access_token}), 200
+
+    # Send token link via email in order to change password
 
 # Show all users
 @api.route("/allUsers", methods=["GET"])
@@ -213,7 +294,7 @@ def category_show_by_id(categoryId):
 def recipes_all_show():
     recipes = Recipe.query.all()
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
-    return jsonify({"recipes": dictionary_recipes}), 200
+    return jsonify(dictionary_recipes), 200
 
 # Show a single recipe by ID
 @api.route('/showRecipe/<int:recipeId>', methods=['GET'])
@@ -224,7 +305,7 @@ def recipe_show_by_id(recipeId):
         return jsonify({
             "message": "Recipe does not exist"
         }), 400
-    return jsonify({"recipe": recipe.serialize()}), 200
+    return jsonify(recipe.serialize()), 200
 
 # Show the all recipes into a specific category by ID
 @api.route('/showRecipes/<int:categoryId>', methods=['GET'])
@@ -236,7 +317,22 @@ def recipes_by_category_show(categoryId):
             "message": "Recipe does not exist with this category"
         }), 400
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
-    return jsonify({"recipes": dictionary_recipes}), 201
+    return jsonify({"recipes": dictionary_recipes}), 200
+
+# Show the all recipes by User ID
+@api.route('/showRecipesByUserId', methods=['GET'])
+@jwt_required()
+def recipes_by_user_ID_show():
+    #verify_jwt_in_request()
+    user_id = get_jwt_identity()
+    recipes = Recipe.query.filter_by(user_id=user_id).all()
+    if(recipes is None):
+        return jsonify({
+            "message": "Recipe does not exist with this user"
+        }), 400
+    dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
+    return jsonify(dictionary_recipes), 200
+
 
 # Edit a specific recipe by ID
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
@@ -268,11 +364,10 @@ def recipe_update(recipeId):
 @jwt_required()
 def recipe_create():
     data = request.get_json()
-
+    user_id = get_jwt_identity()
     new_recipe = Recipe(
-        name=data["name"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], category_id=data["category_id"],
-        user_id=data["user_id"]
+        name=data["name"], ingredients=data["ingredients"], description=data["description"], is_active=True,
+        elaboration=data["elaboration"], image=data["image"], user_id=user_id
     )
     db.session.add(new_recipe)
     db.session.commit()
@@ -307,11 +402,10 @@ def recipes_all_favorites_by_userId_show():
     user_id = get_jwt_identity()
     favorites = Favorite.query.filter_by(user_id = user_id)
     dictionary_recipes = list(map(lambda f : f.serialize(), favorites))
-    return jsonify({"favorites": dictionary_recipes}), 200
+    return jsonify(dictionary_recipes), 200
 
 # Add a recipe to favorite
 @api.route('/addRecipeToFavorite/<int:recipeId>/', methods=['POST'])
-
 @jwt_required()
 def favorite_add_recipe(recipeId):
     user_id = get_jwt_identity()
@@ -328,9 +422,13 @@ def favorite_add_recipe(recipeId):
     new_favorite = Favorite(
         recipe_id=recipeId, user_id=user_id
     )
-    db.session.add(new_favorite)
-    db.session.commit()
-    return jsonify({"message": "Recipe added to favorites"}), 201
+    try:
+        db.session.add(new_favorite)
+        db.session.commit()
+    except:
+        return jsonify({"message": "Recipe does not exist"}), 400
+
+    return jsonify(new_favorite.serialize()), 201
 
 # Delete recipe from favorites by recipeId
 @api.route("/deleteRecipeFromFavorites/<int:recipeId>", methods=["DELETE"])
@@ -342,32 +440,55 @@ def recipe_delete_from_favorites(recipeId):
         return jsonify({
                 "message": "Recipe does not exist"
             }), 400
-    db.session.delete(recipe_favorite)
-    db.session.commit()
+    try:
+        db.session.delete(recipe_favorite)
+        db.session.commit()
+    except:
+        return jsonify({"message": "Recipe does not exist"}), 400
 
     return jsonify({"message": "Recipe deleted from favorites"}), 200
 
-@api.route('/call-chatGPT', methods=['GET'])
-def generateChatResponse(prompt):
-    return call_chatGPTApi(prompt)
+@api.route('/createRecipeChatGPT', methods=['POST'])
+def generateChatResponse():
+    data = request.json
+    user_message = "Create recipe with the ingredients: " + data['messages'] + " in json format with name, ingredients, description and steps structure"
 
-'''@api.route('/helloprotected', methods=['GET'])
-@jwt_required()
-def hello_protected_get():
-    user_id = get_jwt_identity()
-    return jsonify({"userId": user_id, "msg": "hello protected route"})'''
+    # Make a request to the ChatGPT API
+    response = requests.post(
+        'https://api.openai.com/v1/chat/completions',
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + openai.api_key  # Replace with your ChatGPT API key
+        },
+        json={
+            "model": "gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": user_message}]
+        }
+    )
+    if response.status_code == 200:
+        completion = response.json()['choices'][0]['message']['content']
+        return json.loads(completion)
 
+    return jsonify({'error': 'Something went wrong.'}), 500
 
-def call_chatGPTApi(prompt):
-    messages = []
-    messages.append({"role": "system", "content": "Your name is Karabo. You are a helpful assistant."})
-    question = {}
-    question['role'] = 'user'
-    question['content'] = prompt
-    messages.append(question)
-    response = openai.ChatCompletion.create(model="gpt-3.5-turbo",messages=messages)
-    try:
-        answer = response['choices'][0]['message']['content'].replace('\n', '<br>')
-    except:
-        answer = 'Oops you beat the AI, try a different question, if the problem persists, come back later.'
-    return answer
+@api.route('/createImageChatGPT', methods=['POST'])
+def generateImageResponse():
+    message = request.json.get("message")
+    # Make a request to the ChatGPT API
+    response = requests.post(
+        'https://api.openai.com/v1/images/generations',
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + openai.api_key  # Replace with your ChatGPT API key
+        },
+        json = {
+            "prompt": message,
+            "n": 2,
+            "size": "1024x1024"
+        }
+    )
+
+    if response.status_code == 200:
+        return response.json()['data'][0]
+
+    return jsonify({'error': 'Something went wrong.'}), 500

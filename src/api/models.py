@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from firebase_admin import storage
+import datetime
 
 db = SQLAlchemy()
 
@@ -12,11 +14,15 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean(), unique=False, nullable=False)
     security_question = db.Column(db.String(100), unique=False, nullable=False)
     security_answer = db.Column(db.String(150), unique=False, nullable=False)
+    profile_pic = db.Column(db.String(150))
 
     def __repr__(self):
         return f'<User {self.email}>'
 
     def serialize(self):
+        bucket = storage.bucket(name = "dddd")
+        resource = bucket.blob(self.profile_pic)
+        picture_url = resource.generate_signed_url(version = "v4", expiration = datatime.timedelta(minutes=15), method = "GET")
         return {
             "id": self.id,
             "email": self.email,
@@ -54,8 +60,9 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=False)
-    elaboration = db.Column(db.String(500), unique=False)
-    image = db.Column(db.String(500), unique=False)
+    ingredients = db.Column(db.String(2000), unique=False)
+    elaboration = db.Column(db.String(2000), unique=False)
+    image = db.Column(db.String(2000), unique=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship(Category)
@@ -72,7 +79,10 @@ class Recipe(db.Model):
             "name": self.name,
             "description": self.description,
             "image": self.image,
-            "elaboration": self.elaboration
+            "ingredients": self.ingredients,
+            "elaboration": self.elaboration,
+            "user_id": self.user.id,
+            "user_first_name": self.user.first_name
             # do not serialize the password, its a security breach
         }
 

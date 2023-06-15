@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-import os
+import os, firebase_admin
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -12,6 +12,7 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
+from firebase_admin import credentials
 
 #from models import Person
 
@@ -26,7 +27,11 @@ jwt = JWTManager(app)
 @jwt.token_in_blocklist_loader
 def check_token_blocklist(jwt_header, jwt_payload):
     TokenBlocked = TokenBlockedList.query.filter_by(jti = jwt_payload["jti"]).first()
-    return isinstance(TokenBlocked, TokenBlockedList)
+    if not isinstance(TokenBlocked, TokenBlockedList):
+        if jwt_payload["type"] == "password" and request.path != "/api/changepassword":
+            return True
+    else:
+        return True
 
 # database configuration
 db_url = os.getenv("DATABASE_URL")

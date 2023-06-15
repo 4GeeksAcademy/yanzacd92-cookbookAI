@@ -1,19 +1,31 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .signup-login {
-    text-align: left;
-    margin-left: 25px;
+    text-align: center;
     margin-top: 40px;
     margin-bottom: 20px;
 }
 
 .login-form {
-    margin: 25px;
-    padding: 12px;
-    border: 3px solid black;
+    margin: 100px;
+    padding: 30px;
+    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     text-align: left;
+    border-radius: 15px;
+    width: 40%;
+    background: white;
 }
 
 .login-button {
     width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .login {
@@ -22,6 +34,11 @@
 
 .signup-button {
     width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .signup {
@@ -29,16 +46,392 @@
 }
 
 .signup-form {
-    margin: 25px;
-    padding: 12px;
-    border: 3px solid blue;
+    margin-top: 10px !important;
+    margin: 80px;
+    padding: 30px;
+    border: 1px solid linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     text-align: left;
+    background-color: white;
+    border-radius: 20px;
+    width: 40%;
 }
 
 .signup-title {
-    color: blue;
+    color: black;
+    text-align: center;
+    padding-bottom: 25px;
+    font-size: 25px;
+    font-weight: 600;
 }
 
 .info {
     color: blue;
 }
+
+.signup-btn {
+    color: blue;
+    padding-left: 0;
+    padding-bottom: 10px;
+
+}
+
+.login-title {
+    text-align: center;
+    padding-bottom: 25px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.container-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+}
+
+.container-signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+}
+
+.navbar {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important
+}
+
+.form-control {
+    border: none;
+    border-bottom: 2px solid #adadad !important;
+    padding: 0px;
+}
+
+.form-control:active ~ form-label {
+        top: 140px;
+}
+
+.form-label {
+    color: #adadad;
+    font-size: 16px;
+}
+
+.password-recovery-btn {
+    color: #adadad;
+    padding-left: 0;
+    padding-bottom: 10px;
+}
+
+#app {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+}
+
+.dropdown-menu-sec-question-signup.show {
+    font-size: 14px;
+}
+
+.dropdown-item.sec-question-signup {
+    color: #adadad !important;
+}
+
+.content-navbar {
+    display: flex;
+    width: 30%;
+    justify-content: end;
+}
+
+.counter {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 25px;
+    border-radius: 10px;
+}
+
+.dropdown-toggle::after {
+    align-self: center;
+}
+
+.footer {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+}
+
+.layout-view {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+}
+
+.profile-img {
+    border-radius: 25px;
+    width: 50px;
+}
+
+.profile {
+    border-radius: 25px;
+    width: 50px;
+}
+
+.add-favorite {
+    font-size: 20px !important;
+    margin: 0px;
+    color:orange
+}
+
+.favorite-btn {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    padding: 3px;
+}
+
+.favorite-content {
+    align-self: center;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.navbar-brand {
+    align-self: center;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+}
+
+.dropdown-menu.show {
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    color: white
+}
+
+.dropdown-item {
+    color: white;
+}
+
+button.btn.col-4.dropdown-item {
+    width: auto;
+}
+
+.navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
+    color: white;
+    font-weight: 600;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+}
+
+.navbar-dark .navbar-toggler {
+    border-color: white !important;
+}
+.add-favorite {
+    font-size: 20px !important;
+    margin: 0px;
+    color: white !important;
+}
+
+.add-favorite:hover {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-detail {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-detail:hover {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-navbar {
+    font-size: 20px !important;
+    margin: 0px;
+    color: orange !important;
+}
+
+.add-favorite-btn {
+    background: none;
+    border-color: white;
+    border: none;
+}
+
+.add-favorite-btn:hover {
+    background: none;
+    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    box-shadow: 0 0 0 0.25rem orange;
+}
+
+.add-favorite-detail-btn {
+    background: none;
+    border-color: white;
+    border: none;
+}
+
+.add-favorite-detail-btn:hover {
+    background: none;
+    border-color: linear-gradient(120deg, #2980b9, #8e44ad);
+    box-shadow: 0 0 0 0.25rem orange;
+}
+
+.icon-favorite {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 6px;
+}
+
+.add-favorite-btn:focus-within {
+    background: none;
+    border: none;
+}
+
+.favorite-list {
+    justify-content: space-between;
+}
+
+.content-generate-gpt {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+}
+
+.generate-btn {
+    width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.label-add-recipe {
+    margin-top: 40px;
+    margin-bottom: 15px !important;
+}
+
+.form-control[type=file] {
+    color: #adadad;
+    padding-left: 7px;
+}
+
+.content-save-gpt{
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+}
+
+.save-btn {
+    width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #2980b9, #8e44ad) !important;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#save-gpt {
+    display: none;
+}
+
+.recipe-buttons {
+    display: inline-flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.recipe-btn{
+    width: 50%;
+    margin: 10px;
+}
+
+.cnt-create-recipe {
+    width: 700px;
+    margin-top: 29px !important;
+}
+
+#spinner-create {
+    display: none;
+}
+
+.title-snipper {
+    text-align: center;
+}
+
+.ctn-snipper {
+    margin-top: 60px;
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    min-height: 250px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.ctn-my-recipes {
+    margin-top: 29px !important;
+}
+
+.icon-return-login {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.return-login {
+    width: 32px;
+    background: white;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    border-radius: 20px;
+    justify-content: center;
+    box-shadow: 9px 4px 14px 4px rgba(0,0,0,0.63);
+}
+
+.cnt-return-login {
+    width: 100%;
+}
+
+.return-login .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+
+    top: 18px;
+    left: 65px;
+  }
+  
+  .return-login:hover .tooltiptext {
+    visibility: visible;
+  }
+
+/* Spinner CSS */
+.loader,.loader:after,.loader:before{border-radius:50%}
+.loader:after,.loader:before{position:absolute;content:''}
+.loader:before{width:5.2em;height:10.2em;background:white;border-radius:10.2em 0 0 10.2em;top:-.1em;left:-.1em;-webkit-transform-origin:5.2em 5.1em;transform-origin:5.2em 5.1em;-webkit-animation:load20 2s infinite ease 1.5s;animation:load20 2s infinite ease 1.5s}
+.loader{font-size:11px;text-indent:-99999em;margin:55px auto;position:relative;width:10em;height:10em;box-shadow:inset 0 0 0 1em #fff;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0)}
+.loader:after{width:5.2em;height:10.2em;background:white;border-radius:0 10.2em 10.2em 0;top:-.1em;left:5.1em;-webkit-transform-origin:0 5.1em;transform-origin:0 5.1em;-webkit-animation:load20 2s infinite ease;animation:load20 2s infinite ease}
+@-webkit-keyframes load20{
+	0%{-webkit-transform:rotate(0);transform:rotate(0)}
+	100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+}
+@keyframes load20{
+	0%{-webkit-transform:rotate(0);transform:rotate(0)}
+	100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+}
+/* Spinner CSS End */
+
+/* Upload button CSS */
+
+/* Upload button CSS End*/
