@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import cookbookAI from "./../../img/cookBookAILogo3.png"
+import cookbookAI from "./../../img/cookBookAILogo4.png"
 import propTypes from "prop-types";
 
 

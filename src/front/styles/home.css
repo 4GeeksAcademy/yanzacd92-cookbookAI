@@ -199,11 +199,15 @@ body {
 .favorite-btn {
     background: var(--my_background);
     padding: 3px;
+    border-color: white;
+    height: 39px;
+    align-items: center;
 }
 
+.favorite-btn:focus-within,
 .favorite-btn:hover {
-    background: black;
-    border-color: black;
+    background: none;
+    border-color: none;
 }
 
 .favorite-content {
@@ -221,6 +225,10 @@ body {
 .dropdown-menu.show {
     background: var(--my_background);
     color: white
+}
+
+.dropdown-toggle::after {
+    margin-right: 5px;
 }
 
 .dropdown-item {
@@ -456,8 +464,8 @@ button.btn.col-4.dropdown-item {
   }
 
   .logo-navbar {
-    width: 230px;
-    height: 110px;
+    width: 150px;
+    height: 88px;
     object-fit: cover;
     cursor: pointer;
   }
