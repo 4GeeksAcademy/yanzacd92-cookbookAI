@@ -20,9 +20,12 @@ class User(db.Model):
         return f'<User {self.email}>'
 
     def serialize(self):
-        """bucket = storage.bucket(name = "dddd")
-        resource = bucket.blob(self.profile_pic)
-        picture_url = resource.generate_signed_url(version = "v4", expiration = datatime.timedelta(minutes=15), method = "GET")"""
+        bucket = storage.bucket(name = "cookbook-ai.appspot.com")
+        if(self.profile_pic != None):
+            resource = bucket.blob(self.profile_pic)
+            picture_url = resource.generate_signed_url(version = "v4", expiration = datetime.timedelta(minutes=15), method = "GET")
+        else:
+            picture_url = ""
         return {
             "id": self.id,
             "email": self.email,
@@ -30,7 +33,7 @@ class User(db.Model):
             "last_name": self.last_name,
             "is_active": self.is_active,
             "is_admin": self.is_admin,
-            "profile_pic": self.profile_pic
+            "profile_pic": picture_url
             # do not serialize the password, its a security breach
         }
 

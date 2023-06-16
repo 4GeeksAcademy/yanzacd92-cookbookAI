@@ -110,7 +110,7 @@ def user_profile_pic():
     db.session.add(user)
     db.session.commit()
 
-    return jsonify({"message" : "profile pic uploaded to firebase"})
+    return jsonify({"message" : "profile pic uploaded", "pictureUrl": user.serialize().user.profilePic})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])

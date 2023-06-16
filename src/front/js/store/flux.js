@@ -6,7 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			allRecipes: [],
 			myRecipes: [],
 			recipeDetail: [],
-			favorites: []
+			favorites: [],
+			pictureUrl: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -107,7 +108,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-				setStore({accessToken: null})
+				setStore({accessToken: null, pictureUrl: null})
 				localStorage.removeItem("accessToken")
 				return resp;
 			},
@@ -136,17 +137,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: headers})
 				return resp
 			},
-			uploadProfilePic: async(picture) => {
+			uploadProfilePic: async(formData) => {
 				const headers = {
-					"Content-Type": "application/json",
 					"Access-Control-Allow-Origin": "*",
 					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
 				}
-				let response = await fetch(apiURL + "profilepic", method == "GET" ? {
+				let response = await fetch(apiURL + "profilepic", method == "POST" ? {
 					headers: headers
 				} : {
 					method,
-					body: JSON.stringify(body),
+					body: formData,
 					mode: 'cors',
 					headers: headers
 				})
@@ -156,6 +156,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 				let data = await response.json()
+				setStore({profilePic: data.pictureUrl})
 				return { code: response.status, data }
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
