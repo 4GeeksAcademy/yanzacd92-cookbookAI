@@ -31,7 +31,7 @@ const Layout = () => {
                 <ScrollToTop>
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Recommend />} path="/recommend" />
+                        <Route element={<Recommend />} path="/recommended" />
                         <Route element={<MyRecipes />} path="/myrecipes" />
                         <Route element={<AllRecipes />} path="/allrecipes" />
                         <Route element={<Signup />} path="/api/signup" />

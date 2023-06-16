@@ -48,11 +48,10 @@ export const Navbar = (props) => {
 							</ul>
 						</div>
 					</div>
-					<Favorite />
 				</div>
-				{/* <div className="navbar-brand" href="/">CookbookAI</div> */}
-				<img className="logo-navbar" onClick={() => navigate("/")} src={cookbookAI} width="30" />
+				<img className="logo-navbar" onClick={() => navigate("/recommended")} src={cookbookAI} width="30" />
 				<div className="content-navbar">
+					<Favorite />
 					<img className="profile-img" src={profileLogo} width="30" />
 					<a className="logout-btn-navbar" onClick={logout} tabIndex="-1" aria-disabled="true"><FontAwesomeIcon className="logout-icon" icon={faArrowRightFromBracket}></FontAwesomeIcon></a>
 				</div>

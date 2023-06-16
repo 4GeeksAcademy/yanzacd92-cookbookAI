@@ -183,6 +183,9 @@ body {
 .profile-img {
     border-radius: 25px;
     width: 50px;
+    filter: drop-shadow(2px 4px 6px black);
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .profile {
@@ -202,6 +205,7 @@ body {
     border-color: white;
     height: 39px;
     align-items: center;
+    filter: drop-shadow(2px 4px 6px black);
 }
 
 .favorite-btn:focus-within,
@@ -461,6 +465,7 @@ button.btn.col-4.dropdown-item {
     display: flex;
     margin: 12px;
     cursor: pointer;
+    filter: drop-shadow(2px 4px 6px black);
   }
 
   .logo-navbar {
@@ -468,6 +473,11 @@ button.btn.col-4.dropdown-item {
     height: 88px;
     object-fit: cover;
     cursor: pointer;
+    filter: drop-shadow(2px 4px 6px black);
+  }
+
+  .navbar-toggler-icon {
+    filter: drop-shadow(2px 4px 6px black);
   }
 
 /* Spinner CSS */
