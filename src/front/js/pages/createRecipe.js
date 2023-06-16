@@ -4,6 +4,7 @@ import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
+import { useNavigate } from "react-router-dom";
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
@@ -14,6 +15,7 @@ export const CreateRecipe = () => {
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
   const [imageRecipe, setImageRecipe] = useState("");
+  const navigate = useNavigate()
 
   useEffect( () => {
     if(!localStorage.getItem("accessToken")) navigate("/")

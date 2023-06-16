@@ -5,17 +5,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import cookbookAI from "./../../img/cookbookAI.jpg"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const EditRecipe = () => {
     const {recipeId} = useParams()
     const { store, actions } = useContext(Context);
     const recipeDetail = store.recipeDetail
+    const navigate = useNavigate()
 
     useEffect( () => {
         if(!localStorage.getItem("accessToken")) navigate("/")
       }, [localStorage.getItem("accessToken")])
-      
+
     function editRecipe(name, description, prompt) {
         actions.userCreateRecipes(name, description, prompt)
     }

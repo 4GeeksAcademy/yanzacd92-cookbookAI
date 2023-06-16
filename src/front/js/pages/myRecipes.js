@@ -1,5 +1,5 @@
 import React, { useContext , useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
@@ -8,6 +8,7 @@ import { faUtensils } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const MyRecipes = () => {
+  const navigate = useNavigate()
   useEffect( () => {
     if(!localStorage.getItem("accessToken")) navigate("/")
     actions.userMyRecipes()

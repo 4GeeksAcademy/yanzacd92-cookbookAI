@@ -1,5 +1,5 @@
-import React, { useContext , useState} from "react";
-import { Link } from "react-router-dom";
+import React, { useContext , useEffect, useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
@@ -10,6 +10,7 @@ import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 export const Recommend = () => {
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
+  const navigate = useNavigate()
 
   useEffect( () => {
     if(!localStorage.getItem("accessToken")) navigate("/")

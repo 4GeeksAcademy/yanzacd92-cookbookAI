@@ -4,10 +4,11 @@ import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const RecipeDetail = () => {
     const {recipeId} = useParams()
+    const navigate = useNavigate()
     useEffect( () => {
         if(!localStorage.getItem("accessToken")) navigate("/")
         actions.getDetailRecipe(recipeId)
