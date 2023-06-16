@@ -16,6 +16,10 @@ from firebase_admin import credentials
 
 #from models import Person
 
+cred = credentials.Certificate("cookbook-firebase-key.json")
+firebase_admin.initialize_app(cred)
+firebase_admin.get_app()
+
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)

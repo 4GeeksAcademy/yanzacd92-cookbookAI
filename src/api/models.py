@@ -20,16 +20,17 @@ class User(db.Model):
         return f'<User {self.email}>'
 
     def serialize(self):
-        bucket = storage.bucket(name = "dddd")
+        """bucket = storage.bucket(name = "dddd")
         resource = bucket.blob(self.profile_pic)
-        picture_url = resource.generate_signed_url(version = "v4", expiration = datatime.timedelta(minutes=15), method = "GET")
+        picture_url = resource.generate_signed_url(version = "v4", expiration = datatime.timedelta(minutes=15), method = "GET")"""
         return {
             "id": self.id,
             "email": self.email,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "is_active": self.is_active,
-            "is_admin": self.is_admin
+            "is_admin": self.is_admin,
+            "profile_pic": self.profile_pic
             # do not serialize the password, its a security breach
         }
 
@@ -64,6 +65,7 @@ class Recipe(db.Model):
     elaboration = db.Column(db.String(2000), unique=False)
     image = db.Column(db.String(2000), unique=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_recommended = db.Column(db.Boolean(), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship(Category)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

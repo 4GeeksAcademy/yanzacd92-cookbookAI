@@ -7,7 +7,7 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
-import os,tempfile
+import os, tempfile
 import openai, requests, json
 from firebase_admin import storage
 
@@ -96,11 +96,11 @@ def user_profile_pic():
     user = User.query.get(user_id)
 
     file = request.files["profilePic"]
-    ext = request.file.filename.split(".")[1]
+    ext = file.filename.split(".")[1]
     temp = tempfile.NamedTemporaryFile(delete = False)
     file.save(temp.name)
 
-    bucket = storage.bucket(name="clase-imagenes-flask-appsot.com")
+    bucket = storage.bucket(name="cookbook-ai.appspot.com")
     filename = "profilesPics/" + str(user_id) + "." + ext
     
     resource = bucket.blob(filename)
@@ -367,7 +367,7 @@ def recipe_create():
     user_id = get_jwt_identity()
     new_recipe = Recipe(
         name=data["name"], ingredients=data["ingredients"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], user_id=user_id
+        elaboration=data["elaboration"], image=data["image"], user_id=user_id, is_recommended=False
     )
     db.session.add(new_recipe)
     db.session.commit()
