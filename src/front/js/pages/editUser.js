@@ -25,10 +25,10 @@ export const EditUser = () => {
     return (
         <div>
             <Navbar />
-            <div className="container mt-4 mb-4">
-                <h1 className="text-center mt-4 re-title">Logged User</h1>
-                <div className="container mt-4 mb-4">
-                    <img src={store.pictureUrl}/>
+            <div className="ctn-edit-user container mt-4 mb-4">
+                <h1 className="text-center mt-4 re-title">User Profile</h1>
+                <div className="edit-user container mt-4 mb-4">
+                    <img className="profile-picture" src={store.pictureUrl}/>
                     <form onSubmit={submitForm}>
                         <div className="mb-3">
                             <label htmlFor="formFileSm" className="form-label">Small file input example</label>

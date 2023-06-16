@@ -481,6 +481,28 @@ button.btn.col-4.dropdown-item {
     filter: drop-shadow(2px 4px 6px black);
   }
 
+  .profile-picture {
+    width: 100%;
+    height: auto;
+    max-height: 550px;
+    object-fit: cover;
+  }
+  .edit-user {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ctn-edit-user {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 30px;
+    border: 1px solid var(--my_background);
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    border-radius: 15px;
+    background: white;
+  }
+
 /* Spinner CSS */
 .loader,.loader:after,.loader:before{border-radius:50%}
 .loader:after,.loader:before{position:absolute;content:''}

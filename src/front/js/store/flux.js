@@ -167,7 +167,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 				let data = await response.json()
-				setStore({profilePic: data.pictureUrl})
+				setStore({profilePic: data.userInfo.profile_pic})
 				return { code: response.status, data }
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
