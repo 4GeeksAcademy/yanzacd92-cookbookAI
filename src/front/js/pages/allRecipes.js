@@ -10,14 +10,14 @@ import { RecipeDetail } from "./recipeDetail";
 
 export const AllRecipes = () => {
   const navigate = useNavigate()
+  const { store, actions } = useContext(Context);
+  const [hoveredImg, setHoveredImg] = useState(null);
+  const allRecipes = store.allRecipes
+
   useEffect( () => {
     if(!localStorage.getItem("accessToken")) navigate("/")
     actions.userAllRecipes()
   }, [localStorage.getItem("accessToken")])
-  
-  const { store, actions } = useContext(Context);
-  const [hoveredImg, setHoveredImg] = useState(null);
-  const allRecipes = store.allRecipes
   
   const handleMouseEnter = (index) => {
     setHoveredImg(index);

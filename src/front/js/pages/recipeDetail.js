@@ -9,13 +9,13 @@ import { useNavigate, useParams } from "react-router-dom";
 export const RecipeDetail = () => {
     const {recipeId} = useParams()
     const navigate = useNavigate()
+    const { store, actions } = useContext(Context);
+    const recipeDetail = store.recipeDetail
+    
     useEffect( () => {
         if(!localStorage.getItem("accessToken")) navigate("/")
         actions.getDetailRecipe(recipeId)
     }, [localStorage.getItem("accessToken")])
-  
-    const { store, actions } = useContext(Context);
-    const recipeDetail = store.recipeDetail
 
     function checkFavorites(recipeId) {
         if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 

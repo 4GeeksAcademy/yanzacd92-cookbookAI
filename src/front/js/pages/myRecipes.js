@@ -9,14 +9,14 @@ import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const MyRecipes = () => {
   const navigate = useNavigate()
+  const { store, actions } = useContext(Context);
+  const [hoveredImg, setHoveredImg] = useState(null);
+  const myRecipes = store.myRecipes
+
   useEffect( () => {
     if(!localStorage.getItem("accessToken")) navigate("/")
     actions.userMyRecipes()
   }, [localStorage.getItem("accessToken")])
-
-  const { store, actions } = useContext(Context);
-  const [hoveredImg, setHoveredImg] = useState(null);
-  const myRecipes = store.myRecipes
 
   const handleMouseEnter = (index) => {
     setHoveredImg(index);

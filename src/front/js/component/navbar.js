@@ -12,12 +12,16 @@ import propTypes from "prop-types";
 
 export const Navbar = (props) => {
 	const navigate = useNavigate();
+	const { store, actions } = useContext(Context);
 	const [myrecipes, setMyRecipes] = useState("");
+
+	useEffect( () => {
+		actions.userShowById()
+	  }, [])
 	const logout = () => {
 		actions.userLogout()
 		navigate('/', { replace: true })
 	}
-	const { store, actions } = useContext(Context);
 	function checkActive(pathname) {
 		setMyRecipes("active")
 		navigate(pathname, { replace: true })
@@ -52,7 +56,7 @@ export const Navbar = (props) => {
 				<img className="logo-navbar" onClick={() => navigate("/recommended")} src={cookbookAI} width="30" />
 				<div className="content-navbar">
 					<Favorite />
-					<img className="profile-img" onClick={() => navigate("/editUser")} src={profileLogo} width="30" />
+					<img className="profile-img" onClick={() => navigate("/editUser")} src={store.pictureUrl} width="30" />
 					<a className="logout-btn-navbar" onClick={logout} tabIndex="-1" aria-disabled="true"><FontAwesomeIcon className="logout-icon" icon={faArrowRightFromBracket}></FontAwesomeIcon></a>
 				</div>
 			</div>
