@@ -9,8 +9,9 @@ import { useParams } from "react-router-dom";
 export const RecipeDetail = () => {
     const {recipeId} = useParams()
     useEffect( () => {
+        if(!localStorage.getItem("accessToken")) navigate("/")
         actions.getDetailRecipe(recipeId)
-    }, [])
+    }, [localStorage.getItem("accessToken")])
   
     const { store, actions } = useContext(Context);
     const recipeDetail = store.recipeDetail

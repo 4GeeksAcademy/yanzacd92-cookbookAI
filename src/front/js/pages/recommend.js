@@ -11,6 +11,10 @@ export const Recommend = () => {
   const { store, actions } = useContext(Context);
   const [hoveredImg, setHoveredImg] = useState(null);
 
+  useEffect( () => {
+    if(!localStorage.getItem("accessToken")) navigate("/")
+  }, [localStorage.getItem("accessToken")])
+
   const handleMouseEnter = (index) => {
     setHoveredImg(index);
   };

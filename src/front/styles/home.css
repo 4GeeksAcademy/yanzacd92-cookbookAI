@@ -186,6 +186,7 @@ body {
     filter: drop-shadow(2px 4px 6px black);
     margin-left: 20px;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .profile {

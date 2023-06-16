@@ -12,6 +12,10 @@ export const EditRecipe = () => {
     const { store, actions } = useContext(Context);
     const recipeDetail = store.recipeDetail
 
+    useEffect( () => {
+        if(!localStorage.getItem("accessToken")) navigate("/")
+      }, [localStorage.getItem("accessToken")])
+      
     function editRecipe(name, description, prompt) {
         actions.userCreateRecipes(name, description, prompt)
     }

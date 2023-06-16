@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			allRecipes: [],
 			myRecipes: [],
 			recipeDetail: [],
+			userDetail: [],
 			favorites: [],
 			pictureUrl: null
 		},
@@ -137,15 +138,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: headers})
 				return resp
 			},
+			userShowById: async() => {
+				let store = getStore();
+				let user_id = localStorage.getItem("id")
+				const resp = await getActions().apiFetch("/api/showUser/" + user_id, "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				store.userDetail = resp.data.user
+				store.pictureUrl = resp.data.user.profile_pic
+				setStore({userDetail: store.userDetail})
+				setStore({pictureUrl: store.pictureUrl})
+			},
 			uploadProfilePic: async(formData) => {
 				const headers = {
 					"Access-Control-Allow-Origin": "*",
 					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
 				}
-				let response = await fetch(apiURL + "profilepic", method == "POST" ? {
-					headers: headers
-				} : {
-					method,
+				let response = await fetch(apiURL + "/api/profilepic", {
+					method: "POST",
 					body: formData,
 					mode: 'cors',
 					headers: headers

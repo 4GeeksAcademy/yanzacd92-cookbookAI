@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,6 +14,10 @@ export const CreateRecipe = () => {
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
   const [imageRecipe, setImageRecipe] = useState("");
+
+  useEffect( () => {
+    if(!localStorage.getItem("accessToken")) navigate("/")
+  }, [localStorage.getItem("accessToken")])
 
   async function createRecipe(name, description, ingredients, elaboration, imageRecipe) {
     await actions.userCreateRecipe(name, description, ingredients, elaboration, imageRecipe)

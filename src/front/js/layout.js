@@ -16,6 +16,7 @@ import { AllRecipes } from "./pages/allRecipes";
 import { RecipeDetail } from "./pages/recipeDetail";
 import { CreateRecipe } from "./pages/createRecipe";
 import { EditRecipe } from "./pages/editRecipe";
+import { EditUser } from "./pages/editUser";
 
 //create your first component
 const Layout = () => {
@@ -31,6 +32,7 @@ const Layout = () => {
                 <ScrollToTop>
                     <Routes>
                         <Route element={<Home />} path="/" />
+                        <Route element={<EditUser />} path="/editUser" />
                         <Route element={<Recommend />} path="/recommended" />
                         <Route element={<MyRecipes />} path="/myrecipes" />
                         <Route element={<AllRecipes />} path="/allrecipes" />

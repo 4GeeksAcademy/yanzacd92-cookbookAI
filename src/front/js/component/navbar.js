@@ -52,7 +52,7 @@ export const Navbar = (props) => {
 				<img className="logo-navbar" onClick={() => navigate("/recommended")} src={cookbookAI} width="30" />
 				<div className="content-navbar">
 					<Favorite />
-					<img className="profile-img" src={profileLogo} width="30" />
+					<img className="profile-img" onClick={() => navigate("/editUser")} src={profileLogo} width="30" />
 					<a className="logout-btn-navbar" onClick={logout} tabIndex="-1" aria-disabled="true"><FontAwesomeIcon className="logout-icon" icon={faArrowRightFromBracket}></FontAwesomeIcon></a>
 				</div>
 			</div>
