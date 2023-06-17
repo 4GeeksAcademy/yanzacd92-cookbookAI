@@ -33,6 +33,8 @@ class User(db.Model):
             "last_name": self.last_name,
             "is_active": self.is_active,
             "is_admin": self.is_admin,
+            "security_question": self.security_question,
+            "security_answer": self.security_answer,
             "profile_pic": picture_url
             # do not serialize the password, its a security breach
         }

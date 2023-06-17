@@ -189,6 +189,10 @@ body {
     cursor: pointer;
 }
 
+.profile-img:hover {
+    filter: invert(1);
+}
+
 .profile {
     border-radius: 25px;
     width: 50px;
@@ -213,6 +217,7 @@ body {
 .favorite-btn:hover {
     background: none;
     border-color: none;
+    filter: brightness(0.5);
 }
 
 .favorite-content {
@@ -252,11 +257,23 @@ button.btn.col-4.dropdown-item {
 
 .navbar-dark .navbar-nav .nav-link {
     text-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    color: white;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: black;
+    text-shadow: 0 0 black;
+    font-weight: 600;
 }
 
 .navbar-dark .navbar-toggler {
     border-color: white !important;
 }
+
+.navbar-dark .navbar-toggler:hover {
+    filter: invert(1);
+}
+
 .add-favorite {
     font-size: 20px !important;
     margin: 0px;
@@ -469,12 +486,20 @@ button.btn.col-4.dropdown-item {
     filter: drop-shadow(2px 4px 6px black);
   }
 
+  .logout-icon:hover {
+    filter: invert(1);
+  }
+
   .logo-navbar {
     width: 150px;
     height: 88px;
     object-fit: cover;
     cursor: pointer;
     filter: drop-shadow(2px 4px 6px black);
+  }
+
+  .logo-navbar:hover {
+    filter: invert(1);
   }
 
   .navbar-toggler-icon {
@@ -484,12 +509,26 @@ button.btn.col-4.dropdown-item {
   .profile-picture {
     width: 100%;
     height: auto;
-    max-height: 550px;
+    max-height: 300px;
+    min-height: 300px;
     object-fit: cover;
   }
   .edit-user {
     display: flex;
     flex-direction: column;
+  }
+
+  .ctn-edit-user-photo {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 30px;
+    border: 1px solid var(--my_background);
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    border-radius: 15px;
+    background: white;
+    margin-right: 30px;
+    margin-left: 30px;
   }
 
   .ctn-edit-user {
@@ -501,6 +540,61 @@ button.btn.col-4.dropdown-item {
     box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
     border-radius: 15px;
     background: white;
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+
+  .edit-user-info {
+    display: flex;
+  }
+
+  .update-picture {
+    width: 100%;
+    border-radius: 20px;
+    background: var(--my_background);
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border-color: var(--my_background);
+  }
+
+  .update-picture:hover {
+    background: black;
+    color: white;
+  }
+
+  .title-profile {
+    color: black !important;
+    font-size: 25px !important;
+    font-weight: 600;
+    text-shadow: 0 0 black !important;
+    padding-bottom: 0 !important;
+  }
+
+  .title-profile-information {
+    color: black !important;
+    font-size: 25px !important;
+    font-weight: 600;
+    text-shadow: 0 0 black !important;
+    padding-bottom: 0 !important;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    align-self: center;
+  }
+
+  .update-info-button {
+    width: 100%;
+    border-radius: 20px;
+    background: var(--my_background);
+    margin-top: 130px;
+    font-size: 16px;
+    font-weight: 600;
+    border-color: var(--my_background);
+  }
+
+  .update-info-button:hover {
+    background: black;
+    color: white;
   }
 
 /* Spinner CSS */

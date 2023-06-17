@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import cookbookAI from "./../../img/cookBookAILogo4.png"
+import cookbookAI from "./../../img/cookBookAILogo.png"
+import noPhoto from "./../../img/not-picture.png"
 import propTypes from "prop-types";
 
 
@@ -14,6 +15,7 @@ export const Navbar = (props) => {
 	const navigate = useNavigate();
 	const { store, actions } = useContext(Context);
 	const [myrecipes, setMyRecipes] = useState("");
+	const profilePhoto = store.pictureUrl? store.pictureUrl : noPhoto
 
 	useEffect( () => {
 		actions.userShowById()
@@ -27,6 +29,11 @@ export const Navbar = (props) => {
 		navigate(pathname, { replace: true })
 	}
 
+	function getProfile() {
+		actions.userShowById()
+		navigate("/editUser")
+	}
+
 	return (
 		<nav className="navbar navbar-dark bg-primary">
 			<div className="container-fluid">
@@ -38,7 +45,7 @@ export const Navbar = (props) => {
 						<div className="collapse navbar-collapse" id="navbarNav">
 							<ul className="navbar-nav">
 								<li className="nav-item">
-									<a className={`nav-link ${props.recommend}`} aria-current="page" href="/recommend">Recommended recipes</a>
+									<a className={`nav-link ${props.recommend}`} aria-current="page" href="/recommended">Recommended recipes</a>
 								</li>
 								<li className="nav-item">
 									<a className={`nav-link ${props.createRecipe}`} href="/createRecipe">Create your recipe</a>
@@ -56,7 +63,7 @@ export const Navbar = (props) => {
 				<img className="logo-navbar" onClick={() => navigate("/recommended")} src={cookbookAI} width="30" />
 				<div className="content-navbar">
 					<Favorite />
-					<img className="profile-img" onClick={() => navigate("/editUser")} src={store.pictureUrl} width="30" />
+					<img className="profile-img" onClick={() => getProfile()} src={profilePhoto} width="30" />
 					<a className="logout-btn-navbar" onClick={logout} tabIndex="-1" aria-disabled="true"><FontAwesomeIcon className="logout-icon" icon={faArrowRightFromBracket}></FontAwesomeIcon></a>
 				</div>
 			</div>

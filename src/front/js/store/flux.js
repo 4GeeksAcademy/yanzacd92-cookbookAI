@@ -7,11 +7,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			myRecipes: [],
 			recipeDetail: [],
 			userDetail: [],
+			userInfo: [],
 			favorites: [],
-			pictureUrl: null
+			pictureUrl: null,
+			token: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
+			loadToken: () => {
+				let store = getStore();
+				store.token = localStorage.getItem("accessToken")
+				setStore({accessToken: store.token})
+			},
 			userLogin: async(email, password) => {
 				const resp = await getActions().apiFetch("/api/login", "POST", {email, password})
 				if(resp.code >= 400) {
@@ -84,9 +91,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
 				});
 
-				console.log("filtered --->>>> " + filtered)
-				console.log("filtered size --->>>> " + filtered.length)
-
 				if(filtered.length > 0){
 					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
 					if(resp.code >= 400) {
@@ -145,10 +149,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-				store.userDetail = resp.data.user
 				store.pictureUrl = resp.data.user.profile_pic
-				setStore({userDetail: store.userDetail})
 				setStore({pictureUrl: store.pictureUrl})
+				setStore({userInfo: resp.data.user})
 			},
 			uploadProfilePic: async(formData) => {
 				const headers = {
