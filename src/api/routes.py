@@ -96,7 +96,6 @@ def user_profile_pic():
     user = User.query.get(user_id)
 
     file = request.files["profilePic"]
-    print("FILES ---> " + file)
     ext = file.filename.split(".")[1]
     temp = tempfile.NamedTemporaryFile(delete = False)
     file.save(temp.name)

@@ -74,6 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return resp
 				}
 				console.log("Recipe created")
+				return resp
 			},
 			showRecipesInFavoritesByUser: async() => {
 				let store = getStore();

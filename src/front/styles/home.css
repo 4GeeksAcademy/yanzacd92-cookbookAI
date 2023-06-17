@@ -367,6 +367,12 @@ button.btn.col-4.dropdown-item {
     margin-top: 15px;
     font-size: 18px;
     font-weight: 600;
+    border-color: var(--my_background);
+}
+
+.generate-btn:hover {
+    background: black;
+    color: white;
 }
 
 .label-add-recipe {
@@ -393,6 +399,12 @@ button.btn.col-4.dropdown-item {
     margin-top: 15px;
     font-size: 18px;
     font-weight: 600;
+    border-color: var(--my_background);
+}
+
+.save-btn:hover {
+    background: black;
+    color: white;
 }
 
 #save-gpt {
@@ -405,7 +417,7 @@ button.btn.col-4.dropdown-item {
     width: 100%;
 }
 
-.recipe-btn{
+.recipe-btn {
     width: 50%;
     margin: 10px;
 }
@@ -521,7 +533,7 @@ button.btn.col-4.dropdown-item {
   }
 
   .profile-picture {
-    width: 80%;
+    width: 45%;
     height: auto;
     max-height: 300px;
     min-height: 300px;

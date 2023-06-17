@@ -22,7 +22,9 @@ export const CreateRecipe = () => {
   }, [localStorage.getItem("accessToken")])
 
   async function createRecipe(name, description, ingredients, elaboration, imageRecipe) {
-    await actions.userCreateRecipe(name, description, ingredients, elaboration, imageRecipe)
+    let new_recipe = await actions.userCreateRecipe(name, description, ingredients, elaboration, imageRecipe)
+    console.log("NEW RECIPE ----->  " + new_recipe)
+    navigate("/recipeDetail/" + new_recipe.id)
     console.log("RECIPE CREATED FROM REACT")
   }
 
@@ -42,6 +44,9 @@ export const CreateRecipe = () => {
     );
     document.getElementById("spinner-create").style.display = "none"
     Object.keys(recipeChatGPT).map((key) => {
+      if(key == "code"){
+        if(recipeChatGPT[key] == 500) navigate("/createRecipe")
+      }
       console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
         let resp = recipeChatGPT[key]
@@ -61,7 +66,7 @@ export const CreateRecipe = () => {
               setQuantity(populateIngredients(recipe[key]))
               break;
             case 'steps':
-              setInstructions(((recipe[key]).toString()).split(".").join(""))
+              setInstructions(populateSteps(recipe[key]))
               break;
             case 'image_url':
               break;
@@ -82,38 +87,50 @@ export const CreateRecipe = () => {
   }
 
   function populateIngredients(ingredients) {
+    if (!Array.isArray(ingredients)) return (ingredients.toString()).split(".").join("")
+    let key_count = []
     let quantity = ""
-    console.log(ingredients)
     Object.keys(ingredients).map((key) => {
       Object.keys(ingredients[key]).map((k) => {
-        switch(k) {
-          case 'ingredient':
-          case 'item':
-          case 'name':
-            if(ingredients[key][k]) quantity += "ingredient " + ": "  + ingredients[key][k] + "\n"
-            break;
-          case 'quantity':
-            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
-            break;
-          case 'unit':
-            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
-            break;
-          case 'preparation':
-            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
-            break;
-          case 'unit_of_measurement':
-          case 'measurement':
-            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
-          case 'amount':
-            if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
-          default:
-            break;
+        if(typeof Number(key) != "number") {
+          if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
+        } else {
+          if(!key_count.includes(key)) {
+            key_count.push(key)
+            quantity += key + ": "  + ingredients[key] + "\n"
+          }
         }
       })
       quantity += "\n"
     })
 
     return quantity
+  }
+
+  function populateSteps(steps) {
+    if (!Array.isArray(steps)) return (steps.toString()).split(".").join("")
+    let key_count = []
+    let step_information = ""
+    Object.keys(steps).map((key) => {
+      Object.keys(steps[key]).map((k) => {
+        if(typeof Number(key) != "number") {
+          if(steps[key][k]) step_information += k + ": "  + steps[key][k] + "\n"
+        } else {
+          if(!key_count.includes(key)) {
+            key_count.push(key)
+            if(!isNaN(steps[key].charAt(0))) {
+              step_information += steps[key] + "\n"
+            } else {
+              step_information += key + ": "  + steps[key] + "\n"
+            }
+            
+          }
+        }
+      })
+      step_information += "\n"
+    })
+
+    return step_information
   }
 
   return (
@@ -128,7 +145,7 @@ export const CreateRecipe = () => {
                         <div className="loader">Loading...</div>
                     </div>
                 </div>
-                <h3 className="title-snipper h3 text-white">Creating recipe ...</h3>
+                <h3 className="title-snipper h3 text-white">Generating recipe ...</h3>
             </div>
         </div>
         <div className="cnt-create-recipe container mt-4 mb-4">
