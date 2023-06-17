@@ -45,13 +45,18 @@ export const RecipeDetail = () => {
                     </div>
                     <div className="col-sm-6">
                         <div className="card">
+                            <div className="icon-favorite card-body">
+                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id)} /></button>
+                                <button className="edit-recipe-detail-btn btn btn-primary" type="submit" onClick={() => actions.editRecipe(recipeId)}><FontAwesomeIcon className="edit-recipe-detail" icon={faPencil} /></button>
+                                <button className="delete-recipe-detail-btn btn btn-primary" type="submit" onClick={() => actions.deleteRecipe(recipeId)}><FontAwesomeIcon className="delete-recipe-detail" icon={faTrashCan} /></button>
+                            </div>
                             <div className="card-body">
                                 <h5 className="card-title">{recipeDetail.name}</h5>
                                 <p className="card-text">{recipeDetail.description}</p>
                             </div>
                             <div className="ctn-details">
                                 <div className="ingredients-details">
-                                    <button class="ingredient-detail-btn btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIngredients" aria-expanded="false" aria-controls="collapseExample">
+                                    <button className="ingredient-detail-btn btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIngredients" aria-expanded="false" aria-controls="collapseExample">
                                         <FontAwesomeIcon icon={faPepperHot} className="mx-2" /> Ingredients
                                     </button>
                                     <div className="collapse mb-3" id="collapseIngredients">
@@ -59,18 +64,13 @@ export const RecipeDetail = () => {
                                     </div>
                                 </div>
                                 <div className="steps-details">
-                                    <button class="step-detail-btn btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSteps" aria-expanded="false" aria-controls="collapseExample">
+                                    <button className="step-detail-btn btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSteps" aria-expanded="false" aria-controls="collapseExample2">
                                         <FontAwesomeIcon icon={faBowlFood} className="mx-2" /> Steps
                                     </button>
-                                    <div className="collapse mb-3" id="collapseSteps">
+                                    <div className="collapse mb-5" id="collapseSteps">
                                         <p className="card-text">{recipeDetail.elaboration}</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="icon-favorite card-body">
-                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id)} /></button>
-                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.editRecipe(recipeId)}><FontAwesomeIcon className="edit-recipe-detail" icon={faPencil} /></button>
-                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.deleteRecipe(recipeId)}><FontAwesomeIcon className="delete-recipe-detail" icon={faTrashCan} /></button>
                             </div>
                         </div>
                     </div>
