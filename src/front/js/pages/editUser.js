@@ -33,10 +33,9 @@ export const EditUser = () => {
 
     async function submitFormInformation(e) {
         e.preventDefault()
-        /*const formData = new FormData(e.target)
-        let resp = await actions.uploadProfilePic(formData)
-        console.log("CODE RESPONSE UPLOAD:  " + resp.code)*/
-        //await actions.userCreateRecipe(name, description, ingredients, elaboration, imageRecipe)
+        const formData = new FormData(e.target)
+        let resp = await actions.userUpdateById(firstName, lastName)
+        console.log("USER UPDATED")
     }
 
     return (

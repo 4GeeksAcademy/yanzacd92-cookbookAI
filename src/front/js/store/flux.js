@@ -153,6 +153,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({pictureUrl: store.pictureUrl})
 				setStore({userInfo: resp.data.user})
 			},
+			userUpdateById: async(first_name, last_name) => {
+				let store = getStore();
+				let user_id = localStorage.getItem("id")
+				const resp = await getActions().apiFetch("/api/updateUser/" + user_id, "PUT", {first_name, last_name})
+				if(resp.code >= 400) {
+					return resp
+				}
+				store.pictureUrl = resp.data.profile_pic
+				setStore({pictureUrl: store.pictureUrl})
+				setStore({userInfo: resp.data})
+			},
 			uploadProfilePic: async(formData) => {
 				const headers = {
 					"Access-Control-Allow-Origin": "*",

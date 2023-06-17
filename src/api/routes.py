@@ -188,10 +188,6 @@ def user_show_by_id(userId):
 def user_update(userId):
     first_name = request.json['first_name']
     last_name = request.json['last_name']
-    is_active = request.json['is_active']
-    is_admin = request.json['is_admin']
-    security_question = request.json['security_question']
-    security_answer = request.json['security_answer']
     user = User.query.get(userId)
     if(user is None):
         return jsonify({
@@ -199,11 +195,9 @@ def user_update(userId):
         }), 400
     user.first_name = first_name
     user.last_name = last_name
-    user.is_active = is_active
-    user.is_admin = is_admin
-    user.security_question = security_question
-    user.security_answer = security_answer
+    user.is_active = True
 
+    db.session.add(user)
     db.session.commit()
 
     return jsonify(user.serialize()), 200
