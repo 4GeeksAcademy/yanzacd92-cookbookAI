@@ -52,7 +52,6 @@ export const CreateRecipe = () => {
         let resp = recipeChatGPT[key]
         let recipe = (resp.recipe)? (resp.recipe) : resp
         Object.keys(recipe).map((key) => {
-          console.log("KEY  -----> " + key.toUpperCase())
           switch(key.toLowerCase()) {
             case 'recipename':
             case 'recipe_name':
@@ -63,10 +62,10 @@ export const CreateRecipe = () => {
               setDescription(recipe[key])
               break;
             case 'ingredients':
-              setQuantity(populateIngredients(recipe[key]))
+              setQuantity(populateInformation(recipe[key], "Ingredient"))
               break;
             case 'steps':
-              setInstructions(populateSteps(recipe[key]))
+              setInstructions(populateInformation(recipe[key], "Step"))
               break;
             case 'image_url':
               break;
@@ -86,51 +85,17 @@ export const CreateRecipe = () => {
     if (divGenerateContent !== null) divGenerateContent.style.display = generateBtn
   }
 
-  function populateIngredients(ingredients) {
-    if (!Array.isArray(ingredients)) return (ingredients.toString()).split(".").join("")
-    let key_count = []
-    let quantity = ""
-    Object.keys(ingredients).map((key) => {
-      Object.keys(ingredients[key]).map((k) => {
-        if(typeof Number(key) != "number") {
-          if(ingredients[key][k]) quantity += k + ": "  + ingredients[key][k] + "\n"
-        } else {
-          if(!key_count.includes(key)) {
-            key_count.push(key)
-            quantity += key + ": "  + ingredients[key] + "\n"
-          }
-        }
-      })
-      quantity += "\n"
+  function populateInformation(info, attribute) {
+    if (!Array.isArray(info)) return (info.toString()).split(".").join("")
+    let text = ""
+    let count = 0
+    Object.keys(info).map((key) => {
+      count ++
+      text += attribute + " " + count + ": "  + info[key] + "\n"
+      text += "\n"
     })
 
-    return quantity
-  }
-
-  function populateSteps(steps) {
-    if (!Array.isArray(steps)) return (steps.toString()).split(".").join("")
-    let key_count = []
-    let step_information = ""
-    Object.keys(steps).map((key) => {
-      Object.keys(steps[key]).map((k) => {
-        if(typeof Number(key) != "number") {
-          if(steps[key][k]) step_information += k + ": "  + steps[key][k] + "\n"
-        } else {
-          if(!key_count.includes(key)) {
-            key_count.push(key)
-            if(!isNaN(steps[key].charAt(0))) {
-              step_information += steps[key] + "\n"
-            } else {
-              step_information += key + ": "  + steps[key] + "\n"
-            }
-            
-          }
-        }
-      })
-      step_information += "\n"
-    })
-
-    return step_information
+    return text
   }
 
   return (
