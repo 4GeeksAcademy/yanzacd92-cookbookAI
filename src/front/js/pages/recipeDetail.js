@@ -23,6 +23,14 @@ export const RecipeDetail = () => {
         return farHeartRegular
     }
 
+    function ingredientText(text) {
+        let new_text = text.split("Ingredient")
+        for(line in new_text) {
+            if(line !== "0") c += "Ingredient" + new_text[i] + "\n"
+        }
+        return new_text
+    }
+
     function editRecipe(recipeId) {
         return recipeId
     }
@@ -60,7 +68,7 @@ export const RecipeDetail = () => {
                                         <FontAwesomeIcon icon={faPepperHot} className="mx-2" /> Ingredients
                                     </button>
                                     <div className="collapse mb-3" id="collapseIngredients">
-                                        <p className="card-text">{recipeDetail.ingredients}</p>
+                                        <p className="card-text">{() => ingredientText(recipeDetail.ingredients)}</p>
                                     </div>
                                 </div>
                                 <div className="steps-details">
