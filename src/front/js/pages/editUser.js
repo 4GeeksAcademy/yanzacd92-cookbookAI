@@ -1,10 +1,7 @@
 import React, { useContext , useEffect, useState} from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import noPhoto from "./../../img/not-picture.png"
 
 export const EditUser = () => {
@@ -17,7 +14,6 @@ export const EditUser = () => {
     const user_info = store.userInfo
     useEffect( () => {
         if(!localStorage.getItem("accessToken")) navigate("/")
-        //actions.userShowById()
         setEmail(user_info.email)
         setFirstName(user_info.first_name)
         setLastName(user_info.last_name)
@@ -26,53 +22,48 @@ export const EditUser = () => {
     async function submitForm(e) {
         e.preventDefault()
         const formData = new FormData(e.target)
-        let resp = await actions.uploadProfilePic(formData)
-        console.log("CODE RESPONSE UPLOAD:  " + resp.code)
+        console.log("FORMDATA  ---->  " + e.target.elements.profilePic)
+        let respImage = await actions.uploadProfilePic(formData)
+        let respInfo = await actions.userUpdateById(firstName, lastName)
         actions.userShowById()
-    }
-
-    async function submitFormInformation(e) {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        let resp = await actions.userUpdateById(firstName, lastName)
-        console.log("USER UPDATED")
     }
 
     return (
         <div>
             <Navbar />
             <div className="edit-user-info">
-                <div className="ctn-edit-user-photo container mt-4 mb-4">
-                    <h1 className="title-profile text-center mt-4 re-title">PROFILE</h1>
-                    <div className="edit-user container mt-4 mb-4">
-                        <form onSubmit={submitForm}>
-                            <img className="profile-picture" src={profilePhoto}/>
-                            <div className="mb-3">
-                                <label htmlFor="formFileSm" className="form-label"></label>
-                                <input className="form-control form-control-sm" name="profilePic" id="formFileSm" type="file" />
+                <h1 className="title-profile text-center mt-4 re-title">PROFILE INFORMATION</h1>
+                <div className="edit-user container mt-4 mb-4">
+                    <form className="form-edit-user" onSubmit={submitForm}>
+                        <div>
+                            <div className="edit-photo-user">
+                                <img className="profile-picture" src={profilePhoto}/>
+                                <div className="mb-3">
+                                    <label htmlFor="formFileSm" className="form-label"></label>
+                                    <input className="form-control form-control-sm" name="profilePic" id="formFileSm" type="file" />
+                                </div>
                             </div>
-                            <button className="update-picture btn btn-primary" type="submit">Update</button>
-                        </form>
-                    </div>
+                            <div className="edit-information-user">
+                                <h1 className="title-profile-information"></h1>
+                                <div className="info mb-3">
+                                    <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
+                                    <input type="email" disabled className="form-control" value={email || ""} onChange={(e) => setEmail(e.target.value)} name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                </div>  
+                                <div className="info mb-3">
+                                    <label htmlFor="exampleInputFirstName" className="form-label">First name</label>
+                                    <input type="text" className="form-control" value={firstName || ""} onChange={(e) => setFirstName(e.target.value)} name="first_name" id="exampleInputFirstName" />
+                                </div>
+                                <div className="info mb-3">
+                                    <label htmlFor="exampleInputLastName" className="form-label">Last name</label>
+                                    <input type="text" className="form-control" value={lastName || ""} onChange={(e) => setLastName(e.target.value)} name="last_name" id="exampleInputLastName" />
+                                </div>
+                                <div className="signup">
+                                    <button type="submit" className="update-info-button btn btn-primary">Update Information</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <form className="ctn-edit-user mt-4 mb-4" onSubmit={submitFormInformation}>
-                    <h1 className="title-profile-information">INFORMATION</h1>
-                    <div className="info mb-3">
-                        <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-                        <input type="email" disabled className="form-control" value={email || ""} onChange={(e) => setEmail(e.target.value)} name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                    </div>  
-                    <div className="info mb-3">
-                        <label htmlFor="exampleInputFirstName" className="form-label">First name</label>
-                        <input type="text" className="form-control" value={firstName || ""} onChange={(e) => setFirstName(e.target.value)} name="first_name" id="exampleInputFirstName" />
-                    </div>
-                    <div className="info mb-3">
-                        <label htmlFor="exampleInputLastName" className="form-label">Last name</label>
-                        <input type="text" className="form-control" value={lastName || ""} onChange={(e) => setLastName(e.target.value)} name="last_name" id="exampleInputLastName" />
-                    </div>
-                    <div className="signup">
-                        <button type="submit" className="update-info-button btn btn-primary">Update Information</button>
-                    </div>
-                </form>
             </div>
         </div>
     );

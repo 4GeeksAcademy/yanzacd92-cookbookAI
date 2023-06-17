@@ -121,6 +121,7 @@ body {
     border: none;
     border-bottom: 2px solid #adadad !important;
     padding: 0px;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .form-control:active ~ form-label {
@@ -130,6 +131,10 @@ body {
 .form-label {
     color: #adadad;
     font-size: 16px;
+}
+
+.form-control[type=file] {
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .password-recovery-btn {
@@ -507,11 +512,12 @@ button.btn.col-4.dropdown-item {
   }
 
   .profile-picture {
-    width: 100%;
+    width: 80%;
     height: auto;
     max-height: 300px;
     min-height: 300px;
     object-fit: cover;
+    align-self: center;
   }
   .edit-user {
     display: flex;
@@ -531,21 +537,23 @@ button.btn.col-4.dropdown-item {
     margin-left: 30px;
   }
 
-  .ctn-edit-user {
+  .edit-photo-user {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding: 30px;
-    border: 1px solid var(--my_background);
-    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
-    border-radius: 15px;
-    background: white;
-    margin-right: 30px;
-    margin-left: 30px;
+    margin: 0;
+    padding: 0;
   }
 
   .edit-user-info {
-    display: flex;
+    margin-top: 10px !important;
+    margin: 80px;
+    padding: 30px;
+    border: 1px solid var(--my_background);
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+    text-align: left;
+    background-color: white;
+    border-radius: 20px;
+    width: 75%;
   }
 
   .update-picture {
@@ -578,7 +586,7 @@ button.btn.col-4.dropdown-item {
     text-shadow: 0 0 black !important;
     padding-bottom: 0 !important;
     margin-top: 20px;
-    margin-bottom: 70px;
+    margin-bottom: 15px;
     align-self: center;
   }
 
@@ -586,7 +594,7 @@ button.btn.col-4.dropdown-item {
     width: 100%;
     border-radius: 20px;
     background: var(--my_background);
-    margin-top: 130px;
+    margin-top: 15px;
     font-size: 16px;
     font-weight: 600;
     border-color: var(--my_background);
