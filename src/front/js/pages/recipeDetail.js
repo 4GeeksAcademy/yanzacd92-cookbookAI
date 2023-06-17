@@ -2,7 +2,7 @@ import React, { useContext , useEffect, useState} from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBowlFood, faPepperHot } from '@fortawesome/free-solid-svg-icons'
+import { faBowlFood, faPepperHot, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -21,6 +21,14 @@ export const RecipeDetail = () => {
         if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
         store.favorites.some(favorite => favorite.user_id == localStorage.getItem("id"))) return faHeart
         return farHeartRegular
+    }
+
+    function editRecipe(recipeId) {
+        return recipeId
+    }
+
+    function editRecipe(recipeId) {
+        return recipeId
     }
 
     return (
@@ -61,6 +69,8 @@ export const RecipeDetail = () => {
                             </div>
                             <div className="icon-favorite card-body">
                                 <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id)} /></button>
+                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.editRecipe(recipeId)}><FontAwesomeIcon className="edit-recipe-detail" icon={faPencil} /></button>
+                                <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.deleteRecipe(recipeId)}><FontAwesomeIcon className="delete-recipe-detail" icon={faTrashCan} /></button>
                             </div>
                         </div>
                     </div>
