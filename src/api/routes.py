@@ -95,7 +95,7 @@ def user_profile_pic():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
 
-    file = request.files["profilePic"]
+    file = request.get_json["recipePicture"]
     ext = file.filename.split(".")[1]
     temp = tempfile.NamedTemporaryFile(delete = False)
     file.save(temp.name)
@@ -111,6 +111,30 @@ def user_profile_pic():
     db.session.commit()
 
     return jsonify({"message" : "profile pic uploaded", "userInfo": user.serialize()})
+
+@api.route("/recipePicture/<int:recipeId>", methods=["POST"])
+@jwt_required()
+def user_recipe_picture(recipeId):
+    user_id = get_jwt_identity()
+    recipe = Recipe.query.get(recipeId)
+    print("ENTROOO")
+    file = request.json.get["recipePicture"]
+    print("RECIPE FILE -> " + file)
+    ext = file.filename.split(".")[1]
+    temp = tempfile.NamedTemporaryFile(delete = False)
+    file.save(temp.name)
+
+    bucket = storage.bucket(name="cookbook-ai.appspot.com")
+    filename = "recipes/" + str(recipeId) + "-" + str(recipe.name) + "-" + str(user_id) + "." + ext
+    
+    resource = bucket.blob(filename)
+    resource.upload_from_filename(temp.name, content_type="image/" + ext)
+
+    recipe.image = filename
+    db.session.add(recipe)
+    db.session.commit()
+
+    return jsonify({"message" : "profile pic uploaded", "recipeInfo": recipe.serialize()})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])
@@ -337,7 +361,6 @@ def recipe_update(recipeId):
     is_active = request.json['is_active']
     elaboration = request.json['elaboration']
     image = request.json['image']
-    category_id = request.json['category_id']
     updated_recipe = Recipe.query.filter_by(id=recipeId).first()
     if(updated_recipe is None):
         return jsonify({
@@ -349,7 +372,6 @@ def recipe_update(recipeId):
     updated_recipe.is_active = is_active
     updated_recipe.elaboration = elaboration
     updated_recipe.image = image
-    updated_recipe.category_id = category_id
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
 

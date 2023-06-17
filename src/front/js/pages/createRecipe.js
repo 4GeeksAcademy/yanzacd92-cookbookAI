@@ -14,28 +14,36 @@ export const CreateRecipe = () => {
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
   const [recomendedname, setRecommendedName] = useState("");
-  const [imageRecipe, setImageRecipe] = useState("");
+  const [recipePicture, setRecipePicture] = useState("");
   const navigate = useNavigate()
 
   useEffect( () => {
     if(!localStorage.getItem("accessToken")) navigate("/")
   }, [localStorage.getItem("accessToken")])
 
-  async function createRecipe(name, description, ingredients, elaboration, imageRecipe) {
-    let new_recipe = await actions.userCreateRecipe(name, description, ingredients, elaboration, imageRecipe)
-    console.log("NEW RECIPE ----->  " + new_recipe)
-    navigate("/recipeDetail/" + new_recipe.id)
+  async function createRecipe(name, description, ingredients, elaboration, recipePicture) {
+    let new_recipe = await actions.userCreateRecipe(name, description, ingredients, elaboration, recipePicture)
+    let recipeId = 0
+    Object.keys(new_recipe).map((key) => {
+      if(key == "data")
+        Object.keys(new_recipe[key]).map((k) => {
+        if(k == "id") recipeId = new_recipe[key][k]
+      })
+    })
+    let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
+    setRecipePicture(img_from_firebase)
+    //navigate("/recipeDetail/" + recipeId)
     console.log("RECIPE CREATED FROM REACT")
   }
 
   async function callChatGPT() {
     document.getElementById("spinner-create").style.display = "block"
     document.getElementById("generate-gpt").style.display = "none"
-    if(imageRecipe == ""){
+    if(recipePicture == ""){
       let recipeImg = await actions.userCallChatGPTImage(ingredient)
       Object.keys(recipeImg).map((key) => {
         if(key == "data") {
-          setImageRecipe(recipeImg[key]['url'])
+          setRecipePicture(recipeImg[key]['url'])
         }
       })
     }
@@ -135,7 +143,7 @@ export const CreateRecipe = () => {
               <label htmlFor="formFile" className="label-add-recipe form-label">
                 Image for recipe (<strong>optional</strong>)
               </label>
-              <input className="form-control" type="file" id="formFile" onChange={(e) => setImageRecipe(e.target.value)}/>
+              <input className="form-control" type="file" id="formFile" name="recipePicture" onChange={(e) => setRecipePicture(e.target.value)}/>
             </div>
             <div className="col-12">
               <button
@@ -209,7 +217,7 @@ export const CreateRecipe = () => {
             <div className="recipe-buttons">
               <div className="recipe-btn col-12">
                 <button type="submit" className="save-btn btn btn-primary" onClick={
-                  () => createRecipe(recomendedname, description, quantity, instructions, imageRecipe)}>
+                  () => createRecipe(recomendedname, description, quantity, instructions, recipePicture)}>
                   Save recipe
                 </button>
               </div>

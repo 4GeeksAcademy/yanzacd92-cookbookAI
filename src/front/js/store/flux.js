@@ -185,6 +185,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({profilePic: data.userInfo.profile_pic})
 				return { code: response.status, data }
 			},
+			uploadRecipePicture: async(recipePicture, recipeId) => {
+				const headers = {
+					"Access-Control-Allow-Origin": "*",
+					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+				}
+				let response = await fetch(apiURL + "/api/recipePicture/" + recipeId, {
+					method: "POST",
+					body: JSON.stringify(recipePicture),
+					mode: 'cors',
+					headers: headers
+				})
+				if(!response.ok) {
+					console.error(`${response.status}: ${response.statusText}`)
+					return { code: response.status }
+				}
+
+				let data = await response.json()
+				//setStore({profilePic: data.userInfo.profile_pic})
+				return { code: response.status, data }
+			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
 					"Content-Type": "application/json",

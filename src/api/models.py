@@ -64,11 +64,11 @@ class Category(db.Model):
 
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
-    description = db.Column(db.String(200), unique=False, nullable=False)
-    ingredients = db.Column(db.String(2000), unique=False)
-    elaboration = db.Column(db.String(2000), unique=False)
-    image = db.Column(db.String(2000), unique=False)
+    name = db.Column(db.String(5000), unique=True, nullable=False)
+    description = db.Column(db.String(8000), unique=False, nullable=False)
+    ingredients = db.Column(db.String(10000), unique=False)
+    elaboration = db.Column(db.String(10000), unique=False)
+    image = db.Column(db.String(8000), unique=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     is_recommended = db.Column(db.Boolean(), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))

@@ -626,6 +626,71 @@ button.btn.col-4.dropdown-item {
     color: white;
   }
 
+  .step-detail-btn {
+    margin-bottom: 25px;
+    background-color: var(--my_background);
+    border-color: var(--my_background);
+    border-radius: 15px;
+    width: 100%;
+  }
+
+  .step-detail-btn:hover {
+    background: black;
+  }
+
+  .ingredient-detail-btn {
+    margin-bottom: 15px;
+    background-color: var(--my_background);
+    border-color: var(--my_background);
+    border-radius: 15px;
+    width: 100%;
+  }
+
+  .ingredient-detail-btn:hover {
+    background: black;
+  }
+
+  .ctn-detail {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title {
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 10px;
+  }
+
+  .card-text {
+    margin: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .card-text:last-child {
+    margin-bottom: 15px;
+  }
+
+  .ingredients-details {
+    margin-right: 25px;
+    margin-left: 25px;
+  }
+
+  .steps-details {
+    margin-right: 25px;
+    margin-left: 25px;
+  }
+
+  .card-img-top {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    min-height: 400px;
+    object-fit: fill;
+  }
+
 /* Spinner CSS */
 .loader,.loader:after,.loader:before{border-radius:50%}
 .loader:after,.loader:before{position:absolute;content:''}
