@@ -56,7 +56,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return resp
 			},
 			userAllRecipes: async() => {
-				const resp = await getActions().apiFetch("/api/showRecipes", "GET")
+				const resp = await getActions().apiFetch("/api/showRecipesExceptMyOwn", "GET")
 				if(resp.code >= 400) {
 					return resp
 				}

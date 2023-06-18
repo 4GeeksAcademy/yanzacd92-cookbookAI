@@ -117,9 +117,8 @@ def user_profile_pic():
 def user_recipe_picture(recipeId):
     user_id = get_jwt_identity()
     recipe = Recipe.query.get(recipeId)
-    print("ENTRO A BACK METHOD")
+
     file = request.files["recipePicture"]
-    print("ENTRO A BACK METHOD 2")
     ext = file.filename.split(".")[1]
     temp = tempfile.NamedTemporaryFile(delete = False)
     file.save(temp.name)
@@ -311,6 +310,15 @@ def category_show_by_id(categoryId):
 @jwt_required()
 def recipes_all_show():
     recipes = Recipe.query.filter_by(is_recommended=False).all()
+    dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
+    return jsonify(dictionary_recipes), 200
+
+# Show the all recipes except my own
+@api.route('/showRecipesExceptMyOwn', methods=['GET'])
+@jwt_required()
+def recipes_all_except_my_own_show():
+    userId = get_jwt_identity()
+    recipes = Recipe.query.filter_by(is_recommended=False).filter(Recipe.user_id != userId).all()
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
     return jsonify(dictionary_recipes), 200
 

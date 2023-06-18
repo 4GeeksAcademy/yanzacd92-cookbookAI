@@ -45,7 +45,7 @@ export const EditUser = () => {
                                 <div className="loader-profile">Loading...</div>
                             </div>
                         </div>
-                        <h3 className="title-snipper-profile h3">Updating user ...</h3>
+                        <h3 className="title-snipper-profile h3">Updating user information...</h3>
                     </div>
                 </div>
                 <div className="edit-user container mt-4 mb-4" id="edit-user-id">
