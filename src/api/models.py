@@ -81,17 +81,17 @@ class Recipe(db.Model):
         return f'<Recipe {self.name}>'
 
     def serialize(self):
-        bucket = storage.bucket(name = "cookbook-ai.appspot.com")
+        """ bucket = storage.bucket(name = "cookbook-ai.appspot.com")
         if(self.image != None):
             resource = bucket.blob(self.image)
             recipe_picture_url = resource.generate_signed_url(version = "v4", expiration = datetime.timedelta(minutes=15), method = "GET")
         else:
-            recipe_picture_url = ""
+            recipe_picture_url = "" """
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "image": recipe_picture_url,
+            "image": self.image,
             "ingredients": self.ingredients,
             "elaboration": self.elaboration,
             "user_id": self.user.id,

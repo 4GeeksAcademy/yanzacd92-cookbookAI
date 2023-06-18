@@ -7,7 +7,7 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
-import os, tempfile
+import os, tempfile, datetime
 import openai, requests, json
 from firebase_admin import storage
 
@@ -387,13 +387,22 @@ def recipe_update(recipeId):
         return jsonify({
             "message": "Recipe does not exist"
         }), 400
-    
+
+    # Get image fron firebase
+    bucket = storage.bucket(name = "cookbook-ai.appspot.com")
+    print("IMAGE FROM UPDATE -> " + image)
+    if(image != None):
+        resource = bucket.blob(image)
+        recipe_picture_url = resource.generate_signed_url(version = "v4", expiration = datetime.timedelta(minutes=15), method = "GET")
+    else:
+        recipe_picture_url = ""
+    print("RECIPE PICTURE URL FROM UPDATE -> " + recipe_picture_url)
     updated_recipe.name = name
     updated_recipe.description = description
     updated_recipe.is_active = is_active
     updated_recipe.elaboration = elaboration
     updated_recipe.ingredients = ingredients
-    updated_recipe.image = image
+    updated_recipe.image = recipe_picture_url
     db.session.add(updated_recipe)
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
