@@ -653,12 +653,26 @@ button.btn.col-4.dropdown-item {
     color: white;
   }
 
+  .update-info-recipe-button {
+    width: 100%;
+    border-radius: 20px;
+    background: var(--my_background);
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border-color: var(--my_background);
+  }
+
+  .update-info-recipe-button:hover {
+    background: black;
+    color: white;
+  }
   .step-detail-btn {
     margin-bottom: 25px;
     background-color: var(--my_background);
     border-color: var(--my_background);
     border-radius: 15px;
-    width: 100%;
+    width: 40%;
   }
 
   .step-detail-btn:focus,
@@ -672,7 +686,7 @@ button.btn.col-4.dropdown-item {
     background-color: var(--my_background);
     border-color: var(--my_background);
     border-radius: 15px;
-    width: 100%;
+    width: 40%;
   }
 
   .ingredient-detail-btn:focus,
@@ -711,11 +725,13 @@ button.btn.col-4.dropdown-item {
   .ingredients-details {
     margin-right: 25px;
     margin-left: 25px;
+    text-align: center;
   }
 
   .steps-details {
     margin-right: 25px;
     margin-left: 25px;
+    text-align: center;
   }
 
   .card-img-top {
@@ -726,8 +742,35 @@ button.btn.col-4.dropdown-item {
     object-fit: fill;
   }
 
+  .card-img-edit-recipe-top {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    min-height: 320px;
+    object-fit: fill;
+  }
+
   #ctn-edit-recipe {
     display: none;
+  }
+
+  .card-edit-recipe {
+    min-height: 445px;
+  }
+
+  .card-edit {
+    min-height: 445px;
+  }
+
+  .update-recipe-btn {
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .card-body-edit-recipe {
+    flex: 1 1 auto;
+    padding: 2rem 2rem;
   }
 
 /* Spinner CSS */

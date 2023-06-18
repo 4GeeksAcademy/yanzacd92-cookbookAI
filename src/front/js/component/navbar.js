@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
+import profileLogo from './../../img/profile-logo.png'
 import { Favorite } from "./favorite";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faKitchenSet, faFireBurner } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import cookbookAI from "./../../img/cookBookAILogo.png"
 import noPhoto from "./../../img/not-picture.png"
 import propTypes from "prop-types";

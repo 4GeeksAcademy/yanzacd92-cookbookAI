@@ -2,7 +2,7 @@ import React, { useContext , useEffect, useState} from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBowlFood, faPepperHot, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faBowlFood, faPepperHot, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -45,12 +45,17 @@ export const RecipeDetail = () => {
         setRecipePicture(recipeDetail.image)
     }
 
-    function editRecipe(recipeId) {
-        return recipeId
-    }
-
-    function editRecipe(e) {
+    async function editRecipe(e) {
         e.preventDefault()
+        const formData = new FormData(e.target)
+        const formFields = document.getElementById('form-edit-recipe-id').elements;
+        document.getElementById("spinner-create").style.display = "block"
+        document.getElementById("ctn-edit-recipe").style.display = "none"
+        if (formFields['recipePicture'].files.length > 0) await actions.uploadRecipePicture(formData, recipeDetail.id)
+        //let resp = await actions.userEditRecipe(recipeDetail.id, recomendedname, description, ingredients, setInstructions, resp_firebase.recipePicture)
+
+        document.getElementById("spinner-create").style.display = "none"
+        document.getElementById("ctn-edit-recipe").style.display = "block"
     }
 
     return (
@@ -100,18 +105,37 @@ export const RecipeDetail = () => {
                 </div>
 
                 <div className="container mt-4 mb-4" id="ctn-edit-recipe">
-                    <form className="row" onSubmit={editRecipe}>
+                    <div className="container-fluid bg-3" id="spinner-create">
+                        <div className="ctn-snipper container">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="loader-profile">Loading...</div>
+                                </div>
+                            </div>
+                            <h3 className="title-snipper-profile h3">Updating recipe ...</h3>
+                        </div>
+                    </div>
+                    <form className="row" onSubmit={editRecipe} id="form-edit-recipe-id">
                         <div className="col-sm-6">
-                            <div className="card">
-                                <img src={recipeDetail.image} className="card-img-top" />
+                            <div className="card-edit card">
+                                <div className="edit-picture-recipe">
+                                    <img className="recipe-picture card-img-edit-recipe-top" src={recipePicture}/>
+                                    <div className="mb-3">
+                                        <label htmlFor="formFileSm" className="form-label"></label>
+                                        <input className="form-control form-control-sm" name="recipePicture" id="formFileSm" type="file" />
+                                        <div className="update-recipe-btn">
+                                            <button type="submit" className="update-info-recipe-button btn btn-primary">Update Information</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="col-sm-6">
-                            <div className="card">
-                                <div className="card-body">
+                            <div className="card-edit-recipe card">
+                                <div className="card-body-edit-recipe card-body">
                                     <label htmlFor="exampleFormControlName" className="form-label"> Recommended Name </label>
                                     <input
-                                        className="form-control"
+                                        className="form-control mb-5"
                                         id="exampleFormControlDescription"
                                         name="recomendedname"
                                         rows="1"
@@ -130,7 +154,7 @@ export const RecipeDetail = () => {
                                             <FontAwesomeIcon icon={faPepperHot} className="mx-2" /> Ingredients
                                         </button>
                                         <div className="collapse mb-3" id="collapseIngredients">
-                                            <textarea className="form-control" id="exampleFormControlDescription" name="ingredients" rows="4" 
+                                            <textarea className="form-control" id="exampleFormControlDescription" name="ingredients" rows="8" 
                                                 value={ingredients || ""}
                                                 onChange={(e) => setIngredients(e.target.value)}>
                                             </textarea>
@@ -141,7 +165,7 @@ export const RecipeDetail = () => {
                                             <FontAwesomeIcon icon={faBowlFood} className="mx-2" /> Steps
                                         </button>
                                         <div className="collapse mb-5" id="collapseSteps">
-                                            <textarea className="form-control" id="exampleFormControlDescription" name="instructions" rows="4" 
+                                            <textarea className="form-control" id="exampleFormControlDescription" name="instructions" rows="8" 
                                                 value={instructions || ""}
                                                 onChange={(e) => setInstructions(e.target.value)}>
                                             </textarea>

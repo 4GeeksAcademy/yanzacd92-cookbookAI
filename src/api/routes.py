@@ -95,7 +95,7 @@ def user_profile_pic():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
 
-    file = request.get_json["recipePicture"]
+    file = request.files["profilePic"]
     ext = file.filename.split(".")[1]
     temp = tempfile.NamedTemporaryFile(delete = False)
     file.save(temp.name)
@@ -117,9 +117,9 @@ def user_profile_pic():
 def user_recipe_picture(recipeId):
     user_id = get_jwt_identity()
     recipe = Recipe.query.get(recipeId)
-    print("ENTROOO")
-    file = request.json.get["recipePicture"]
-    print("RECIPE FILE -> " + file)
+    print("ENTRO A BACK METHOD")
+    file = request.files["recipePicture"]
+    print("ENTRO A BACK METHOD 2")
     ext = file.filename.split(".")[1]
     temp = tempfile.NamedTemporaryFile(delete = False)
     file.save(temp.name)
@@ -356,11 +356,12 @@ def recipes_by_user_ID_show():
 @api.route('/updateRecipe/<int:recipeId>', methods=['PUT'])
 @jwt_required()
 def recipe_update(recipeId):
-    name = request.json['name']
+    name = request.json['recomendedname']
     description = request.json['description']
-    is_active = request.json['is_active']
-    elaboration = request.json['elaboration']
-    image = request.json['image']
+    is_active = True
+    elaboration = request.json['instructions']
+    ingredients = request.json['ingredients']
+    image = request.json['recipePicture']
     updated_recipe = Recipe.query.filter_by(id=recipeId).first()
     if(updated_recipe is None):
         return jsonify({
@@ -371,7 +372,9 @@ def recipe_update(recipeId):
     updated_recipe.description = description
     updated_recipe.is_active = is_active
     updated_recipe.elaboration = elaboration
+    updated_recipe.ingredients = ingredients
     updated_recipe.image = image
+    db.session.add(updated_recipe)
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200
 

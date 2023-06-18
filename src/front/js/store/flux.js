@@ -185,14 +185,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({profilePic: data.userInfo.profile_pic})
 				return { code: response.status, data }
 			},
-			uploadRecipePicture: async(recipePicture, recipeId) => {
+			uploadRecipePicture: async(formData, recipeId) => {
 				const headers = {
 					"Access-Control-Allow-Origin": "*",
 					"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
 				}
 				let response = await fetch(apiURL + "/api/recipePicture/" + recipeId, {
 					method: "POST",
-					body: JSON.stringify(recipePicture),
+					body: formData,
 					mode: 'cors',
 					headers: headers
 				})
@@ -205,8 +205,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//setStore({profilePic: data.userInfo.profile_pic})
 				return { code: response.status, data }
 			},
+			userEditRecipe: async(recipeId, recomendedname, description, ingredients, setInstructions, recipePicture) => {
+				//let store = getStore();
+				//let user_id = localStorage.getItem("id")
+				const resp = await getActions().apiFetch("/api/updateRecipe/" + recipeId, "PUT", {recomendedname, description, ingredients, setInstructions, recipePicture})
+				if(resp.code >= 400) {
+					return resp
+				}
+				/*store.pictureUrl = resp.data.profile_pic
+				setStore({pictureUrl: store.pictureUrl})
+				setStore({userInfo: resp.data})*/
+			},
 			deleteRecipe: async (recipeId) => {
-				
+
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
