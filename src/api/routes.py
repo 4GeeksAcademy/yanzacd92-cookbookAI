@@ -133,7 +133,7 @@ def user_recipe_picture(recipeId):
     db.session.add(recipe)
     db.session.commit()
 
-    return jsonify({"message" : "profile pic uploaded", "recipeInfo": recipe.serialize()})
+    return jsonify({"message" : "profile pic uploaded", "recipeImage": recipe.serialize()["image"]})
 
 # Recovery the password
 @api.route('/passwordRecovery', methods=['PUT'])

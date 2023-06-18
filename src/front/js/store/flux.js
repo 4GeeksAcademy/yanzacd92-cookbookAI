@@ -214,10 +214,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//setStore({profilePic: data.userInfo.profile_pic})
 				return { code: response.status, data }
 			},
-			userEditRecipe: async(recipeId, recomendedname, description, ingredients, setInstructions, recipePicture) => {
+			userEditRecipe: async(recipeId, recomendedname, description, ingredients, instructions, recipePicture) => {
 				//let store = getStore();
 				//let user_id = localStorage.getItem("id")
-				const resp = await getActions().apiFetch("/api/updateRecipe/" + recipeId, "PUT", {recomendedname, description, ingredients, setInstructions, recipePicture})
+				const resp = await getActions().apiFetch("/api/updateRecipe/" + recipeId, "PUT", {recomendedname, description, ingredients, instructions, recipePicture})
 				if(resp.code >= 400) {
 					return resp
 				}

@@ -65,8 +65,14 @@ export const RecipeDetail = () => {
         const formFields = document.getElementById('form-edit-recipe-id').elements;
         document.getElementById("spinner-create").style.display = "block"
         document.getElementById("ctn-edit-recipe").style.display = "none"
-        if (formFields['recipePicture'].files.length > 0) await actions.uploadRecipePicture(formData, recipeDetail.id)
-        //let resp = await actions.userEditRecipe(recipeDetail.id, recomendedname, description, ingredients, setInstructions, resp_firebase.recipePicture)
+        let resp_firebase = {}
+        if (formFields['recipePicture'].files.length > 0) {
+            resp_firebase = await actions.uploadRecipePicture(formData, recipeDetail.id)
+            Object.keys(resp_firebase).map((key) => {
+                if(key == "data") setRecipePicture(resp_firebase[key].recipeImage)
+            })
+        }
+        await actions.userEditRecipe(recipeDetail.id, recomendedname, description, ingredients, instructions, recipePicture)
 
         document.getElementById("spinner-create").style.display = "none"
         document.getElementById("ctn-edit-recipe").style.display = "block"
