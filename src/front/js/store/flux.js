@@ -205,6 +205,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//setStore({profilePic: data.userInfo.profile_pic})
 				return { code: response.status, data }
 			},
+			deleteRecipe: async (recipeId) => {
+				
+			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {
 					"Content-Type": "application/json",

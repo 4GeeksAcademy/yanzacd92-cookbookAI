@@ -726,6 +726,10 @@ button.btn.col-4.dropdown-item {
     object-fit: fill;
   }
 
+  #ctn-edit-recipe {
+    display: none;
+  }
+
 /* Spinner CSS */
 .loader,.loader:after,.loader:before{border-radius:50%}
 .loader:after,.loader:before{position:absolute;content:''}

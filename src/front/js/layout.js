@@ -2,20 +2,16 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-
 import { Home } from "./pages/home";
 import { Recommend } from "./pages/recommend";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-
-import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Signup } from "./pages/signup";
 import { MyRecipes } from "./pages/myRecipes";
 import { AllRecipes } from "./pages/allRecipes";
 import { RecipeDetail } from "./pages/recipeDetail";
 import { CreateRecipe } from "./pages/createRecipe";
-import { EditRecipe } from "./pages/editRecipe";
 import { EditUser } from "./pages/editUser";
 
 //create your first component
@@ -40,7 +36,6 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<RecipeDetail />} path="/recipeDetail/:recipeId" />
                         <Route element={<CreateRecipe />} path="/createRecipe" />
-                        <Route element={<EditRecipe />} path="/editRecipe/:recipeId" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
