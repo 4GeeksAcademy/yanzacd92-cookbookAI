@@ -739,7 +739,7 @@ button.btn.col-4.dropdown-item {
     height: auto;
     max-height: 400px;
     min-height: 400px;
-    object-fit: fill;
+    object-fit: cover;
   }
 
   .card-img-edit-recipe-top {
@@ -747,7 +747,7 @@ button.btn.col-4.dropdown-item {
     height: auto;
     max-height: 320px;
     min-height: 320px;
-    object-fit: fill;
+    object-fit: cover;
   }
 
   #ctn-edit-recipe {
@@ -771,6 +771,14 @@ button.btn.col-4.dropdown-item {
   .card-body-edit-recipe {
     flex: 1 1 auto;
     padding: 2rem 2rem;
+  }
+
+  #edit-recipe-btn-show {
+    display: block;
+  }
+
+  #delete-recipe-btn-show {
+    display: block;
   }
 
 /* Spinner CSS */

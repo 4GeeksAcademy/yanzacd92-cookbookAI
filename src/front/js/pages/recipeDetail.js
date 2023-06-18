@@ -22,10 +22,24 @@ export const RecipeDetail = () => {
         actions.getDetailRecipe(recipeId)
     }, [localStorage.getItem("accessToken")])
 
-    function checkFavorites(recipeId) {
+    function checkFavorites(recipeId, userId) {
+        checkEditDeleteButton(userId)
         if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
         store.favorites.some(favorite => favorite.user_id == localStorage.getItem("id"))) return faHeart
         return farHeartRegular
+    }
+
+    function checkEditDeleteButton(userId) {
+        const current_userId = localStorage.getItem("id")
+        let editRecipe = document.getElementById("edit-recipe-btn-show")
+        let deleteRecipe = document.getElementById("delete-recipe-btn-show")
+        if(current_userId != userId) {
+           if(editRecipe) editRecipe.style.display = "none"
+           if(deleteRecipe) deleteRecipe.style.display = "none"
+        } else {
+            if(editRecipe) editRecipe.style.display = "block"
+            if(deleteRecipe) deleteRecipe.style.display = "block"
+        }
     }
 
     /*function ingredientText() {
@@ -58,6 +72,11 @@ export const RecipeDetail = () => {
         document.getElementById("ctn-edit-recipe").style.display = "block"
     }
 
+    async function deleteRecipe() {
+        await actions.userDeleteRecipe(recipeId)
+        navigate("/myrecipes")
+    }
+
     return (
         <div>
             <Navbar />
@@ -73,9 +92,9 @@ export const RecipeDetail = () => {
                         <div className="col-sm-6">
                             <div className="card">
                                 <div className="icon-favorite card-body">
-                                    <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id)} /></button>
-                                    <button className="edit-recipe-detail-btn btn btn-primary" type="submit" onClick={() => showIdForm()}><FontAwesomeIcon className="edit-recipe-detail" icon={faPencil} /></button>
-                                    <button className="delete-recipe-detail-btn btn btn-primary" type="submit" onClick={() => actions.deleteRecipe(recipeId)}><FontAwesomeIcon className="delete-recipe-detail" icon={faTrashCan} /></button>
+                                    <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id, recipeDetail.user_id)} /></button>
+                                    <button className="edit-recipe-detail-btn btn btn-primary" id="edit-recipe-btn-show" type="submit" onClick={() => showIdForm()}><FontAwesomeIcon className="edit-recipe-detail" icon={faPencil} /></button>
+                                    <button className="delete-recipe-detail-btn btn btn-primary" id="delete-recipe-btn-show" type="submit" onClick={deleteRecipe}><FontAwesomeIcon className="delete-recipe-detail" icon={faTrashCan} /></button>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">{recipeDetail.name}</h5>

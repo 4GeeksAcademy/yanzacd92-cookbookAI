@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
+			recommendedRecipes: [],
 			allRecipes: [],
 			myRecipes: [],
 			recipeDetail: [],
@@ -44,6 +45,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return resp
 				}
 				setStore({myRecipes: resp.data})
+				return resp
+			},
+			userRecommendedRecipes: async() => {
+				const resp = await getActions().apiFetch("/api/showRecommendedRecipes", "GET")
+				if(resp.code >= 400) {
+					return resp
+				}
+				setStore({recommendedRecipes: resp.data})
 				return resp
 			},
 			userAllRecipes: async() => {
@@ -216,8 +225,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({pictureUrl: store.pictureUrl})
 				setStore({userInfo: resp.data})*/
 			},
-			deleteRecipe: async (recipeId) => {
-
+			userDeleteRecipe: async (recipeId) => {
+				const resp = await getActions().apiFetch("/api/deleteRecipe/" + recipeId, "DELETE")
+				if(resp.code >= 400) {
+					return resp
+				}
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {

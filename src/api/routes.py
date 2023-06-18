@@ -310,7 +310,7 @@ def category_show_by_id(categoryId):
 @api.route('/showRecipes', methods=['GET'])
 @jwt_required()
 def recipes_all_show():
-    recipes = Recipe.query.all()
+    recipes = Recipe.query.filter_by(is_recommended=False).all()
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
     return jsonify(dictionary_recipes), 200
 
@@ -336,6 +336,18 @@ def recipes_by_category_show(categoryId):
         }), 400
     dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
     return jsonify({"recipes": dictionary_recipes}), 200
+
+# Show the all recommended recipes
+@api.route('/showRecommendedRecipes', methods=['GET'])
+@jwt_required()
+def recommended_recipes_show():
+    recipes = Recipe.query.filter_by(is_recommended=True).all()
+    if(recipes is None):
+        return jsonify({
+            "message": "There are not recommended recipes"
+        }), 400
+    dictionary_recipes = list(map(lambda r : r.serialize(), recipes))
+    return jsonify(dictionary_recipes), 200
 
 # Show the all recipes by User ID
 @api.route('/showRecipesByUserId', methods=['GET'])
@@ -386,7 +398,7 @@ def recipe_create():
     user_id = get_jwt_identity()
     new_recipe = Recipe(
         name=data["name"], ingredients=data["ingredients"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], user_id=user_id, is_recommended=False
+        elaboration=data["elaboration"], image=data["image"], user_id=user_id, is_recommended=True
     )
     db.session.add(new_recipe)
     db.session.commit()
@@ -404,7 +416,7 @@ def recipe_delete(recipeId):
     db.session.delete(recipe)
     db.session.commit()
 
-    return jsonify(recipe.serialize()), 200
+    return jsonify({"message": "recipe deleted"}), 200
 
 # Show all recipes in favorites
 @api.route('/showRecipesFavorites', methods=['GET'])
