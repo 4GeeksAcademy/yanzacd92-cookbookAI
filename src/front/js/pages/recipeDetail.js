@@ -11,9 +11,8 @@ export const RecipeDetail = () => {
     const navigate = useNavigate()
     const { store, actions } = useContext(Context);
     const recipeDetail = store.recipeDetail
-    const [ingredient, setIngredient] = useState("");
+    const [ingredients, setIngredients] = useState("");
     const [description, setDescription] = useState("");
-    const [quantity, setQuantity] = useState("");
     const [instructions, setInstructions] = useState("");
     const [recomendedname, setRecommendedName] = useState("");
     const [recipePicture, setRecipePicture] = useState("");
@@ -39,7 +38,7 @@ export const RecipeDetail = () => {
     function showIdForm() {
         document.getElementById("ctn-detail-recipe").style.display = "none"
         document.getElementById("ctn-edit-recipe").style.display = "block"
-        setIngredient(recipeDetail.ingredients)
+        setIngredients(recipeDetail.ingredients)
         setDescription(recipeDetail.description)
         setInstructions(recipeDetail.elaboration)
         setRecommendedName(recipeDetail.name)
@@ -110,18 +109,20 @@ export const RecipeDetail = () => {
                         <div className="col-sm-6">
                             <div className="card">
                                 <div className="card-body">
-                                <input
-                                    className="form-control"
-                                    id="exampleFormControlDescription"
-                                    name="recomendedname"
-                                    rows="1"
-                                    value={recomendedname || ""}
-                                    onChange={(e) => setRecommendedName(e.target.value)}
+                                    <label htmlFor="exampleFormControlName" className="form-label"> Recommended Name </label>
+                                    <input
+                                        className="form-control"
+                                        id="exampleFormControlDescription"
+                                        name="recomendedname"
+                                        rows="1"
+                                        value={recomendedname || ""}
+                                        onChange={(e) => setRecommendedName(e.target.value)}
                                     ></input>
-                                    <input className="form-control" id="exampleFormControlDescription" name="description" rows="4" 
-                                        value={recipeDetail.description || "Not Description"}
+                                    <label htmlFor="exampleFormControlDescription" className="form-label"> Description </label>
+                                    <textarea className="form-control" id="exampleFormControlDescription" name="description" rows="4" 
+                                        value={description || "Not Description"}
                                         onChange={(e) => setDescription(e.target.value)}
-                                    ></input>
+                                    ></textarea>
                                 </div>
                                 <div className="ctn-details">
                                     <div className="ingredients-details">
@@ -129,7 +130,10 @@ export const RecipeDetail = () => {
                                             <FontAwesomeIcon icon={faPepperHot} className="mx-2" /> Ingredients
                                         </button>
                                         <div className="collapse mb-3" id="collapseIngredients">
-                                            <p className="card-text">{recipeDetail.ingredients}</p>
+                                            <textarea className="form-control" id="exampleFormControlDescription" name="ingredients" rows="4" 
+                                                value={ingredients || ""}
+                                                onChange={(e) => setIngredients(e.target.value)}>
+                                            </textarea>
                                         </div>
                                     </div>
                                     <div className="steps-details">
@@ -137,7 +141,10 @@ export const RecipeDetail = () => {
                                             <FontAwesomeIcon icon={faBowlFood} className="mx-2" /> Steps
                                         </button>
                                         <div className="collapse mb-5" id="collapseSteps">
-                                            <p className="card-text">{recipeDetail.elaboration}</p>
+                                            <textarea className="form-control" id="exampleFormControlDescription" name="instructions" rows="4" 
+                                                value={instructions || ""}
+                                                onChange={(e) => setInstructions(e.target.value)}>
+                                            </textarea>
                                         </div>
                                     </div>
                                 </div>
