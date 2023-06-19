@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faBowlFood, faPepperHot, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate, useParams } from "react-router-dom";
+import swal from 'sweetalert';
 
 export const RecipeDetail = () => {
     const {recipeId} = useParams()
@@ -82,6 +83,7 @@ export const RecipeDetail = () => {
 
     async function deleteRecipe() {
         await actions.userDeleteRecipe(recipeId)
+        swal("Deleted!", "Your recipe has been deleted!", "success");
         navigate("/myrecipes")
     }
 

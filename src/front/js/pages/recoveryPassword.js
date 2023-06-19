@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faCaretLeft, faChevronsLeft, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import "../../styles/home.css";
+import swal from 'sweetalert';
 
 export const RecoveryPassword = () => {
 	const { store, actions } = useContext(Context);
@@ -11,17 +12,12 @@ export const RecoveryPassword = () => {
 	async function submitForm(e) {
 		e.preventDefault()
 		let data = new FormData(e.target)
-		let resp = await actions.userSignup(
-			data.get("email"), data.get("password"), 
-			data.get("first_name"), data.get("last_name"),
-			data.get("security_question"),data.get("security_answer"), false
-		)
+		let resp = await actions.recoveryPassword(data.get("email"))
 		if(resp >= 400) {
 			return
 		}
-		console.log("Successful registration!!")
-        alert("You have successfully registered. Now you must log in with your data")
-        navigate("/");
+        swal("Great!", "Recovery token has been sent", "success");
+        //navigate("/");
 	}
 
 	return (
@@ -39,7 +35,7 @@ export const RecoveryPassword = () => {
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
 				</div>
                 <div className="signup">
-				    <button type="submit" className="signup-button btn btn-primary">Recovery</button>
+				    <button type="submit" className="signup-button btn btn-primary">Send</button>
                 </div>
 			</form>
 		</div>

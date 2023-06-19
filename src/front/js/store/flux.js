@@ -131,7 +131,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({recipeDetail: store.recipeDetail})
 			},
 			recoveryPassword: async(email) => {
-				const resp = await getActions().apiFetch("/api/passwordRecovery2/" + email, "POST")
+				const resp = await getActions().apiFetch("/api/passwordRecovery2/", "POST", {email})
 				return resp
 			},
 			changeRecoveryPassword: async(passwordToken, password) => {
