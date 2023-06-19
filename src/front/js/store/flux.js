@@ -97,24 +97,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addOrRemoveFavorites: async (recipeId) => {
 				let new_favorites = []
 				let store = getStore();
-				const filtered = store.favorites.filter(obj => {
-					return obj.recipe_id == recipeId && obj.user_id == localStorage.getItem("id");
-				});
-
-				if(filtered.length > 0){
-					const resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
-					if(resp.code >= 400) {
-						return resp
-					}
-					store.favorites = store.favorites.filter(function( favorite ) {
-						return (favorite.recipe_id !== recipeId && favorite.user_id !== localStorage.getItem("id"));
+				let resp = null
+				if(store.favorites.some(item => item.recipe_id == recipeId)) {
+					resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
+					new_favorites = store.favorites.filter(function( favorite ) {
+						return (favorite.recipe_id !== recipeId);
 					});
 				} else {
-					const resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
-					if(resp.code >= 400) {
-						return resp
-					}
+					resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
 					new_favorites = [...store.favorites, resp.data]
+				}
+				if(resp.code >= 400) {
+					return resp
 				}
 				setStore({favorites: new_favorites})
 			},
@@ -217,6 +211,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userEditRecipe: async(recipeId, recomendedname, description, ingredients, instructions, recipePicture) => {
 				//let store = getStore();
 				//let user_id = localStorage.getItem("id")
+				console.log("imagen from flux" + recipePicture)
 				const resp = await getActions().apiFetch("/api/updateRecipe/" + recipeId, "PUT", {recomendedname, description, ingredients, instructions, recipePicture})
 				if(resp.code >= 400) {
 					return resp

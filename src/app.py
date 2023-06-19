@@ -29,9 +29,9 @@ app.config["JWT_SECRET_KEY"]= os.getenv("FLASK_APP_KEY")
 jwt = JWTManager(app)
 
 @jwt.token_in_blocklist_loader
-def check_token_blocklist(jwt_header, jwt_payload):
-    TokenBlocked = TokenBlockedList.query.filter_by(jti = jwt_payload["jti"]).first()
-    if not isinstance(TokenBlocked, TokenBlockedList):
+def check_token_blocklist(jwt_header, jwt_payload) -> bool:
+    tokenBlocked = TokenBlockedList.query.filter_by(jti = jwt_payload["jti"]).first()
+    if not isinstance(tokenBlocked, TokenBlockedList):
         if jwt_payload["type"] == "password" and request.path != "/api/changepassword":
             return True
     else:

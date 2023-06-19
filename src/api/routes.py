@@ -172,7 +172,7 @@ def change_password():
     return jsonify({"msg": "password updated"})
 
 @api.route('/passwordRecovery2', methods=['POST'])
-def password_required_2():
+def password_recovery_2():
     user_email = request.json.get("email")
     user = User.query.filter_by(email=user_email).first()
     if(user is None):
@@ -382,6 +382,7 @@ def recipe_update(recipeId):
     elaboration = request.json['instructions']
     ingredients = request.json['ingredients']
     image = request.json['recipePicture']
+    print("imagen from python    "  + image)
     updated_recipe = Recipe.query.filter_by(id=recipeId).first()
     if(updated_recipe is None):
         return jsonify({
@@ -389,20 +390,19 @@ def recipe_update(recipeId):
         }), 400
 
     # Get image fron firebase
-    bucket = storage.bucket(name = "cookbook-ai.appspot.com")
-    print("IMAGE FROM UPDATE -> " + image)
+    """bucket = storage.bucket(name = "cookbook-ai.appspot.com")
     if(image != None):
         resource = bucket.blob(image)
         recipe_picture_url = resource.generate_signed_url(version = "v4", expiration = datetime.timedelta(minutes=15), method = "GET")
     else:
         recipe_picture_url = ""
-    print("RECIPE PICTURE URL FROM UPDATE -> " + recipe_picture_url)
+    """
     updated_recipe.name = name
     updated_recipe.description = description
     updated_recipe.is_active = is_active
     updated_recipe.elaboration = elaboration
     updated_recipe.ingredients = ingredients
-    updated_recipe.image = recipe_picture_url
+    updated_recipe.image = image
     db.session.add(updated_recipe)
     db.session.commit()
     return jsonify(updated_recipe.serialize()), 200

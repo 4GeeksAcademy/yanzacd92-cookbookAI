@@ -737,8 +737,8 @@ button.btn.col-4.dropdown-item {
   .card-img-top {
     width: 100%;
     height: auto;
-    max-height: 400px;
-    min-height: 400px;
+    max-height: 385px;
+    min-height: 385px;
     object-fit: cover;
   }
 
