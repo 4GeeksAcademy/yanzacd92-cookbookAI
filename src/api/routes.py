@@ -7,6 +7,7 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, get_jti, verify_jwt_in_request
 from flask_bcrypt import Bcrypt
+from api.sendemail import sendEmail, recoveryPasswordTemplate
 import os, tempfile, datetime
 import openai, requests, json
 from firebase_admin import storage
@@ -182,9 +183,9 @@ def password_recovery_2():
     
     # Generate temporal token in order to change password
     access_token = create_access_token(identity = user.id, additional_claims={"type": "password"})
-    return jsonify({"recoveryToken": access_token}), 200
-
-    # Send token link via email in order to change password
+    message = recoveryPasswordTemplate(access_token, user_email)
+    sendEmail(message)
+    return jsonify({"message": "Email sent"}), 200
 
 # Show all users
 @api.route("/allUsers", methods=["GET"])

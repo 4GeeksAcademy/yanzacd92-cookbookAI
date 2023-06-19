@@ -143,9 +143,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "POST",
 					body: JSON.stringify(password),
 					headers: headers})
-				if(!response.ok) {
-					console.error(`${response.status}: ${response.statusText}`)
-					return { code: response.status }
+				if(!resp.ok) {
+					console.error(`${resp.status}: ${resp.statusText}`)
+					return { code: resp.status }
 				}
 				let data = await resp.json()
 				return {code: resp.status, data}
