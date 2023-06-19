@@ -33,14 +33,10 @@ export const RecoveryPassword = () => {
 				</div>
 			</div>
 			<form className="signup-form" onSubmit={submitForm}>
-				<h1 className="signup-title">Signup</h1>
+				<h1 className="signup-title">Password Recovery</h1>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
 					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-				</div>
-				<div className="info mb-3">
-					<label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-					<input type="password" className="form-control" name="password" id="exampleInputPassword1" />
 				</div>
                 <div className="signup">
 				    <button type="submit" className="signup-button btn btn-primary">Recovery</button>

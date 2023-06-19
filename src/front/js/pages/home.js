@@ -22,7 +22,7 @@ export const Home = () => {
 	}
 
 	function passwordRecovery() {
-		navigate("/api/passwordRecovery");
+		navigate("/recoveryPassword");
 	}
 
 	return (

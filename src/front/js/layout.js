@@ -13,6 +13,7 @@ import { AllRecipes } from "./pages/allRecipes";
 import { RecipeDetail } from "./pages/recipeDetail";
 import { CreateRecipe } from "./pages/createRecipe";
 import { EditUser } from "./pages/editUser";
+import { RecoveryPassword } from "./pages/recoveryPassword";
 
 //create your first component
 const Layout = () => {
@@ -36,7 +37,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<RecipeDetail />} path="/recipeDetail/:recipeId" />
                         <Route element={<CreateRecipe />} path="/createRecipe" />
-                        
+                        <Route element={<RecoveryPassword />} path="/recoveryPassword" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
