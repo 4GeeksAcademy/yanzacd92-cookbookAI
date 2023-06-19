@@ -170,7 +170,7 @@ def change_password():
     user.password = secure_password
     db.session.add(user)
     db.session.commit()
-    return jsonify({"msg": "password updated"})
+    return jsonify({"message": "password updated"})
 
 @api.route('/passwordRecovery2', methods=['POST'])
 def password_recovery_2():
@@ -182,10 +182,14 @@ def password_recovery_2():
         }), 401
     
     # Generate temporal token in order to change password
-    access_token = create_access_token(identity = user.id, additional_claims={"type": "password"})
-    message = recoveryPasswordTemplate(access_token, user_email)
-    sendEmail(message)
-    return jsonify({"message": "Email sent"}), 200
+    access_token_reset = create_access_token(identity = user.id, additional_claims={"type": "password"})
+    message = recoveryPasswordTemplate(access_token_reset, user_email)
+    if message:
+        sendEmail(message)
+        return jsonify({"message": "Email sent"}), 200
+    else:
+        return jsonify({"message": "Email did not send"}), 401
+    
 
 # Show all users
 @api.route("/allUsers", methods=["GET"])

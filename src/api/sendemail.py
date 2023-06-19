@@ -5,13 +5,17 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def recoveryPasswordTemplate(token, email):
+    print("ENTERED RECOVERY PASSWORD TEMPLATE  -> " + str(token) + " email: " + str(email))
     return Mail(
             from_email = os.getenv("SENDGRID_SENDER"),
             to_emails = email,
             subject = 'Password reset',
-            html_content = '<h2>Reset your password</h2></br><h3> In order to recovery the password click </h3> <a href="' 
-                + os.getenv("FRONTEND_URL") + '/changePassword?token=' + token + '">here</a>'
+            html_content = '<h2>Reset your password</h2><br> Hi, <br><br>There was a request to change your <strong>password!</strong> <br><br>' 
+                + 'If you did not make this request then please ignore this email. <br><br>'
+                + 'Otherwise, please click this link to change your password: <a href="'
+                + os.getenv("FRONTEND_URL") + '/changePassword?token=' + token + '">Here</a>'
         )
+    
 def sendEmail(message):
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))

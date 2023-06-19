@@ -13,6 +13,7 @@ export const RecoveryPassword = () => {
 		e.preventDefault()
 		let data = new FormData(e.target)
 		let resp = await actions.recoveryPassword(data.get("email"))
+		console.log("RESPON FROM RECOVERY PASSWORD   -> " + resp.code)
 		if(resp.code >= 400) {
 			swal("opps!", "Email is incorrect", "error");
 			return

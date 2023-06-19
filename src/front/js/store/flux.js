@@ -130,23 +130,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({recipeDetail: store.recipeDetail})
 			},
 			recoveryPassword: async(email) => {
-				const resp = await getActions().apiFetch("/api/passwordRecovery2/", "POST", {email})
+				const resp = await getActions().apiFetch("/api/passwordRecovery2", "POST", {email})
 				return resp
 			},
 			changeRecoveryPassword: async(passwordToken, password) => {
 				const headers = {
 					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*",
 					"Authorization": `Bearer ${passwordToken}`
 				}
-				const resp = await fetch(apiURL + "/api/changePassword/", {
+				const resp = await fetch(apiURL + "/api/changePassword", {
 					method: "POST",
-					body: JSON.stringify(password),
+					body: JSON.stringify({password}),
 					headers: headers})
 				if(!resp.ok) {
 					console.error(`${resp.status}: ${resp.statusText}`)
 					return { code: resp.status }
 				}
+
 				let data = await resp.json()
 				return {code: resp.status, data}
 			},
