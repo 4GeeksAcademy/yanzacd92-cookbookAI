@@ -24,7 +24,7 @@ export const ChangePassword = () => {
 			return
 		}
         swal("Awesome!", "Password has changed", "success");
-        //navigate("/");
+        navigate("/");
 	}
 
 	return (

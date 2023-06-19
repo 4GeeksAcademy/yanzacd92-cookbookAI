@@ -17,12 +17,12 @@ export const Signup = () => {
 			data.get("first_name"), data.get("last_name"),
 			data.get("security_question"),data.get("security_answer"), false
 		)
-		if(resp >= 400) {
+		if(resp.code >= 400) {
 			return
+		} else {
+			swal("Awesome!", "You have successfully registered. Now you must log in with your data", "success");
+			navigate("/");
 		}
-		console.log("Successful registration!!")
-        alert("You have successfully registered. Now you must log in with your data")
-        navigate("/");
 	}
 
 	return (

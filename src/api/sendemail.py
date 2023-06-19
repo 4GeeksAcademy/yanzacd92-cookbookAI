@@ -8,8 +8,8 @@ def recoveryPasswordTemplate(token, email):
     return Mail(
             from_email = os.getenv("SENDGRID_SENDER"),
             to_emails = email,
-            subject = 'Password recovering',
-            html_content = 'In order to recovery the password click <a href="' 
+            subject = 'Password reset',
+            html_content = '<h2>Reset your password</h2></br><h3> In order to recovery the password click </h3> <a href="' 
                 + os.getenv("FRONTEND_URL") + '/changePassword?token=' + token + '">here</a>'
         )
 def sendEmail(message):

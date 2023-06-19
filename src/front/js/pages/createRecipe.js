@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
 
 export const CreateRecipe = () => {
   const { store, actions } = useContext(Context);
@@ -33,7 +34,7 @@ export const CreateRecipe = () => {
     let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
     setRecipePicture(img_from_firebase)
     //navigate("/recipeDetail/" + recipeId)
-    console.log("RECIPE CREATED FROM REACT")
+    swal("Amazing!", "Recipe has been created", "success");
   }
 
   async function callChatGPT() {

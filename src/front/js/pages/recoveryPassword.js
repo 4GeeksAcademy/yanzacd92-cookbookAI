@@ -13,11 +13,13 @@ export const RecoveryPassword = () => {
 		e.preventDefault()
 		let data = new FormData(e.target)
 		let resp = await actions.recoveryPassword(data.get("email"))
-		if(resp >= 400) {
+		if(resp.code >= 400) {
+			swal("opps!", "Email is incorrect", "error");
 			return
+		} else {
+			swal("Great!", "Email has been sent", "success");
+			navigate("/");
 		}
-        swal("Great!", "Recovery token has been sent", "success");
-        //navigate("/");
 	}
 
 	return (

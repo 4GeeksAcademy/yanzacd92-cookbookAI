@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
+import swal from 'sweetalert';
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
@@ -10,11 +11,12 @@ export const Home = () => {
 		e.preventDefault()
 		let data = new FormData(e.target)
 		let resp = await actions.userLogin(data.get("email"), data.get("password"))
-		if(resp >= 400) {
-			return
+		if(resp.code >= 400) {
+			swal("opps!", "Email or password incorrect", "error");
+		} else {
+			navigate('/recommended', { replace: true })
+			console.log("Login exitoso!!")
 		}
-		navigate('/recommended', { replace: true })
-		console.log("Login exitoso!!")
 	}
 
 	function signup() {
