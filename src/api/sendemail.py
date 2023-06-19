@@ -5,7 +5,6 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def recoveryPasswordTemplate(token, email):
-    print("ENTERED RECOVERY PASSWORD TEMPLATE  -> " + str(token) + " email: " + str(email))
     return Mail(
             from_email = os.getenv("SENDGRID_SENDER"),
             to_emails = email,
