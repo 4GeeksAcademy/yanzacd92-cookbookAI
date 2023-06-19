@@ -35,7 +35,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
-				//setStore({accessToken: resp.data.accessToken})
 				localStorage.setItem("accessToken", resp.data.accessToken)
 				return resp
 			},
@@ -144,7 +143,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "POST",
 					body: JSON.stringify(password),
 					headers: headers})
-				return resp
+				if(!response.ok) {
+					console.error(`${response.status}: ${response.statusText}`)
+					return { code: response.status }
+				}
+				let data = await resp.json()
+				return {code: resp.status, data}
 			},
 			userShowById: async() => {
 				let store = getStore();
