@@ -213,23 +213,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return { code: response.status, data }
 			},
 			userEditRecipe: async(recipeId, recomendedname, description, ingredients, instructions, recipePicture) => {
-				//let store = getStore();
-				//let user_id = localStorage.getItem("id")
 				console.log("imagen from flux" + recipePicture)
 				const resp = await getActions().apiFetch("/api/updateRecipe/" + recipeId, "PUT", {recomendedname, description, ingredients, instructions, recipePicture})
 				if(resp.code >= 400) {
 					return resp
 				}
 				return resp
-				/*store.pictureUrl = resp.data.profile_pic
-				setStore({pictureUrl: store.pictureUrl})
-				setStore({userInfo: resp.data})*/
 			},
 			userDeleteRecipe: async (recipeId) => {
 				const resp = await getActions().apiFetch("/api/deleteRecipe/" + recipeId, "DELETE")
 				if(resp.code >= 400) {
 					return resp
 				}
+				return resp
 			},
 			apiFetch: async(endpoint, method="GET", body={}) => {
 				const headers = {

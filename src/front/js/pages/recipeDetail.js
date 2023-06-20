@@ -92,9 +92,13 @@ export const RecipeDetail = () => {
     }
 
     async function deleteRecipe() {
-        await actions.userDeleteRecipe(recipeId)
-        swal("Deleted!", "Your recipe has been deleted!", "success");
-        navigate("/myrecipes")
+        let resp = await actions.userDeleteRecipe(recipeId)
+        if(resp.code >= 400 || resp.data.code >= "400") {
+            swal("Sorry!", resp.data.message, "error");
+        } else {
+            swal("Deleted!", "Your recipe has been deleted!", "success");
+            navigate("/myrecipes")
+        }
     }
 
     return (

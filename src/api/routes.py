@@ -429,9 +429,12 @@ def recipe_delete(recipeId):
         return jsonify({
                 "message": "Recipe does not exist"
             }), 400
-    db.session.delete(recipe)
-    db.session.commit()
-
+    try:
+        db.session.delete(recipe)
+        db.session.commit()
+    except:
+        print("ENTERED EXCEPT")
+        return jsonify({"message": "You cannot delete this recipe because it is marked as a favorite by a user", "code": 400})
     return jsonify({"message": "recipe deleted"}), 200
 
 # Show all recipes in favorites
