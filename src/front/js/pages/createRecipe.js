@@ -23,11 +23,12 @@ export const CreateRecipe = () => {
   }, [localStorage.getItem("accessToken")])
 
   async function createRecipe(e) {
+    e.preventDefault()
     const formData = new FormData(e.target)
     const formFields = document.getElementById('form-create-recipe-id').elements;
     let resp_imagen = ""
 
-    let new_recipe = await actions.userCreateRecipe(recommendedname, description, ingredient, instructions, recipePicture)
+    let new_recipe = await actions.userCreateRecipe(recommendedname, description, ingredient, instructions, resp_imagen)
     if(new_recipe.code >= 400) {
       swal("Opps!", "Recipe was not created", "error");
       navigate("/createRecipe")
@@ -40,7 +41,7 @@ export const CreateRecipe = () => {
       })
     })
     // validate if user uploaded an image
-    if (formFields['recipePicture'].files.length > 0) {
+    /*if (formFields['recipePicture'].files.length > 0) {
       resp_firebase = await actions.uploadRecipePicture(formData, recipeId)
       if(resp_firebase.code >= 400) {
         swal("Opps!", "Recipe was not created", "error");
@@ -49,17 +50,26 @@ export const CreateRecipe = () => {
       Object.keys(resp_firebase).map((key) => {
           if(key == "data") resp_imagen = (resp_firebase[key].filename)
       }) }
-    }
-    //let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
-    let resp_edit_recipe = await actions.userEditRecipe(recipeId, recommendedname, description, ingredient, instructions, cookbookAI)
-    setRecipePicture(cookbookAI)
+    }*/
+
+    // create image from URL
+    let formD = createImageFromUrl(recipePicture)
+    console.log("FORMDATA  " + formD)
+    console.log("URL IMAGE  " + recipePicture)
+    let resp_firebase = await actions.uploadRecipePicture(formD, recipeId)
+    Object.keys(resp_firebase).map((key) => {
+      if(key == "data") resp_imagen = (resp_firebase[key].filename)
+  })
+    console.log("FIRABASE IMAGE  " + resp_imagen)
+    let resp_edit_recipe = await actions.userEditRecipe(recipeId, recommendedname, description, ingredient, instructions, resp_imagen)
+    setRecipePicture(resp_imagen)
     if(resp_edit_recipe.code >= 400) {
       swal("Opps!", "Recipe was not created", "error");
     } else {
       swal("Amazing!", "Recipe has been created", "success");
       navigate("/recipeDetail/" + recipeId)
     }
-    
+    swal("Amazing!", "Recipe has been created", "success");
   }
 
   async function callChatGPT() {
@@ -78,7 +88,7 @@ export const CreateRecipe = () => {
     Object.keys(recipeChatGPT).map((key) => {
       if(key == "code"){
         console.log("code  " + key)
-        if(recipeChatGPT[key] == 500) navigate("/createRecipe")
+        //if(recipeChatGPT[key] == 500) navigate("/createRecipe")
       }
       console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
@@ -129,6 +139,24 @@ export const CreateRecipe = () => {
     })
 
     return text
+  }
+
+  function createImageFromUrl(imageUrl) {
+    //const imageUrl = 'https://example.com/image.jpg'; // Replace with your image URL
+    // Create a new FormData object
+    const formData = new FormData();
+    // Fetch the image file
+    fetch(imageUrl)
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Append the image file to the FormData object
+        formData.append('image', blob, 'imagetest.jpg');
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+
+      return formData;
   }
 
   return (
