@@ -414,7 +414,7 @@ def recipe_create():
     user_id = get_jwt_identity()
     new_recipe = Recipe(
         name=data["name"], ingredients=data["ingredients"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], user_id=user_id, is_recommended=False
+        elaboration=data["elaboration"], image=data["image"], user_id=user_id, image_firebase=data["image"],is_recommended=False
     )
     db.session.add(new_recipe)
     db.session.commit()

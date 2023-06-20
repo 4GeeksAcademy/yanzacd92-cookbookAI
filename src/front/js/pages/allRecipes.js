@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faKitchenSet, faFireBurner } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { RecipeDetail } from "./recipeDetail";
+import cookbookAI from "./../../img/cookbookAI.jpg"
 
 export const AllRecipes = () => {
   const navigate = useNavigate()
@@ -32,6 +33,11 @@ export const AllRecipes = () => {
     return farHeartRegular
   }
 
+  function checkRecipePicture(imageFirebase, image) {
+    if(imageFirebase != "" && imageFirebase != undefined && imageFirebase != null) return image
+    return cookbookAI
+  }
+
   return (
     <div>
       <Navbar allrecipes={"active"} />
@@ -51,7 +57,7 @@ export const AllRecipes = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <img
-                      src={recipe.image}
+                      src={checkRecipePicture(recipe.image_firebase, recipe.image)}
                       alt={recipe.name}
                       className="img-fluid rounded shadow zoom-image"
                     />

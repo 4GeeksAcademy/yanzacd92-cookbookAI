@@ -18,7 +18,6 @@ export const RecipeDetail = () => {
     const [instructions, setInstructions] = useState("");
     const [recomendedname, setRecommendedName] = useState("");
     const [recipePicture, setRecipePicture] = useState("");
-    //if(recipeDetail.image != "") setRecipePictureAux(recipeDetail.image )
 
     useEffect( () => {
         if(!localStorage.getItem("accessToken")) navigate("/")
@@ -32,8 +31,7 @@ export const RecipeDetail = () => {
     }
 
     function checkRecipePicture(image) {
-        console.log("IMAGE -> " + image)
-        if(image != "" || image != undefined) return image
+        if(image != "" && image != undefined && image != null) return recipeDetail.image
         return cookbookAI
     }
 
@@ -108,7 +106,7 @@ export const RecipeDetail = () => {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="card">
-                                <img src={checkRecipePicture(recipeDetail.image)} className="card-img-top" />
+                                <img src={checkRecipePicture(recipeDetail.image_firebase)} className="card-img-top" />
                             </div>
                         </div>
                         <div className="col-sm-6">

@@ -5,7 +5,7 @@ import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUtensils } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
+import cookbookAI from "./../../img/cookbookAI.jpg"
 
 export const MyRecipes = () => {
   const navigate = useNavigate()
@@ -26,6 +26,11 @@ export const MyRecipes = () => {
     setHoveredImg(null);
   };
 
+  function checkRecipePicture(imageFirebase, image) {
+    if(imageFirebase != "" && imageFirebase != undefined && imageFirebase != null) return image
+    return cookbookAI
+  }
+
 
   return (
     <div>
@@ -43,7 +48,7 @@ export const MyRecipes = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <img
-                      src={recipe.image}
+                      src={checkRecipePicture(recipe.image_firebase, recipe.image)}
                       alt={recipe.name}
                       className="img-fluid rounded shadow zoom-image"
                     />
