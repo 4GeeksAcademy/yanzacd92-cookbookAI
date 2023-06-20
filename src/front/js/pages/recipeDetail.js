@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faBowlFood, faPepperHot, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate, useParams } from "react-router-dom";
+import cookbookAI from "./../../img/cookbookAI.jpg"
 import swal from 'sweetalert';
 
 export const RecipeDetail = () => {
@@ -17,6 +18,7 @@ export const RecipeDetail = () => {
     const [instructions, setInstructions] = useState("");
     const [recomendedname, setRecommendedName] = useState("");
     const [recipePicture, setRecipePicture] = useState("");
+    //if(recipeDetail.image != "") setRecipePictureAux(recipeDetail.image )
 
     useEffect( () => {
         if(!localStorage.getItem("accessToken")) navigate("/")
@@ -27,6 +29,12 @@ export const RecipeDetail = () => {
         checkEditDeleteButton(userId)
         if(store.favorites.some(item => item.recipe_id == recipeId)) return faHeart
         return farHeartRegular
+    }
+
+    function checkRecipePicture(image) {
+        console.log("IMAGE -> " + image)
+        if(image != "" || image != undefined) return image
+        return cookbookAI
     }
 
     function checkEditDeleteButton(userId) {
@@ -100,7 +108,7 @@ export const RecipeDetail = () => {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="card">
-                                <img src={recipeDetail.image} className="card-img-top" />
+                                <img src={checkRecipePicture(recipeDetail.image)} className="card-img-top" />
                             </div>
                         </div>
                         <div className="col-sm-6">
@@ -151,7 +159,7 @@ export const RecipeDetail = () => {
                         <div className="col-sm-6">
                             <div className="card-edit card">
                                 <div className="edit-picture-recipe">
-                                    <img className="recipe-picture card-img-edit-recipe-top" src={recipePicture}/>
+                                    <img className="recipe-picture card-img-edit-recipe-top" src={cookbookAI} />
                                     <div className="mb-3">
                                         <label htmlFor="formFileSm" className="form-label"></label>
                                         <input className="form-control form-control-sm" name="recipePicture" id="formFileSm" type="file" />
