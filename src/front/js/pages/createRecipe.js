@@ -28,6 +28,10 @@ export const CreateRecipe = () => {
     let resp_imagen = ""
 
     let new_recipe = await actions.userCreateRecipe(recomendedname, description, ingredient, instructions, recipePicture)
+    if(new_recipe.code >= 400) {
+      swal("Opps!", "Recipe was not created", "error");
+      navigate("/createRecipe")
+    }
     let recipeId = 0
     Object.keys(new_recipe).map((key) => {
       if(key == "data")
@@ -39,18 +43,22 @@ export const CreateRecipe = () => {
     // validate if user uploaded an image
     if (formFields['recipePicture'].files.length > 0) {
       resp_firebase = await actions.uploadRecipePicture(formData, recipeId)
+      if(resp_firebase.code >= 400) {
+        swal("Opps!", "Recipe was not created", "error");
+        navigate("/createRecipe")
+      } else {
       Object.keys(resp_firebase).map((key) => {
           if(key == "data") resp_imagen = (resp_firebase[key].filename)
-      })
+      }) }
     }
     //let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
     let resp_edit_recipe = await actions.userEditRecipe(recipeId, recomendedname, description, ingredient, instructions, resp_imagen)
     setRecipePicture(resp_imagen)
     if(resp_edit_recipe.code >= 400) {
+      swal("Opps!", "Recipe was not created", "error");
+    } else {
       swal("Amazing!", "Recipe has been created", "success");
       navigate("/recipeDetail/" + recipeId)
-    } else {
-      swal("Opps!", "Recipe was not created", "error");
     }
     
   }
@@ -71,9 +79,10 @@ export const CreateRecipe = () => {
     );
     document.getElementById("spinner-create").style.display = "none"
     Object.keys(recipeChatGPT).map((key) => {
-      /*if(key == "code"){
+      if(key == "code"){
+        console.log("code  " + key)
         if(recipeChatGPT[key] == 500) navigate("/createRecipe")
-      }*/
+      }
       console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
         let resp = recipeChatGPT[key]
