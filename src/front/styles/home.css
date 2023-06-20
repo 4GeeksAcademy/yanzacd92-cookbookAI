@@ -417,6 +417,7 @@ button.btn.col-4.dropdown-item {
 .form-control[type=file] {
     color: #adadad;
     padding-left: 7px;
+    border-radius: 15px !important;
 }
 
 .content-save-gpt{
@@ -751,6 +752,7 @@ button.btn.col-4.dropdown-item {
     max-height: 385px;
     min-height: 385px;
     object-fit: cover;
+    border-radius: 15px;
   }
 
   .card-img-edit-recipe-top {
@@ -773,6 +775,10 @@ button.btn.col-4.dropdown-item {
     min-height: 445px;
   }
 
+  .card {
+    border-radius: 15px;
+  }
+
   .update-recipe-btn {
     text-align: center;
     margin-left: 20px;
@@ -790,6 +796,35 @@ button.btn.col-4.dropdown-item {
 
   #delete-recipe-btn-show {
     display: block;
+  }
+
+  .modal-content {
+    border-radius: 15px;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
+  }
+
+  .modal-title {
+    font-weight: 700;
+  }
+
+  .confirmation-delete-btn {
+    background: orange;
+    border-color: orange;
+  }
+
+  .confirmation-delete-btn:hover {
+    background: black;
+    border-color: black;
+  }
+
+  .confirmation-close-btn {
+    background: var(--my_background);
+    border-color: var(--my_background);
+  }
+
+  .confirmation-close-btn:hover {
+    background: black;
+    border-color: black;
   }
 
 /* Spinner CSS */
