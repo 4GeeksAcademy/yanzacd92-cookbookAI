@@ -416,7 +416,7 @@ def recipe_create():
     user_id = get_jwt_identity()
     new_recipe = Recipe(
         name=data["name"], ingredients=data["ingredients"], description=data["description"], is_active=True,
-        elaboration=data["elaboration"], image=data["image"], user_id=user_id, is_recommended=True
+        elaboration=data["elaboration"], image=data["image"], user_id=user_id, is_recommended=False
     )
     db.session.add(new_recipe)
     db.session.commit()
@@ -518,7 +518,7 @@ def generateChatResponse():
         completion = response.json()['choices'][0]['message']['content']
         return json.loads(completion)
 
-    return jsonify({'error': 'Something went wrong.'}), 500
+    return response.json()
 
 @api.route('/createImageChatGPT', methods=['POST'])
 def generateImageResponse():

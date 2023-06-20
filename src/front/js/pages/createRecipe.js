@@ -25,7 +25,7 @@ export const CreateRecipe = () => {
   async function createRecipe(e) {
     const formData = new FormData(e.target)
     const formFields = document.getElementById('form-create-recipe-id').elements;
-    resp_imagen = ""
+    let resp_imagen = ""
 
     let new_recipe = await actions.userCreateRecipe(recomendedname, description, ingredient, instructions, recipePicture)
     let recipeId = 0
@@ -35,7 +35,7 @@ export const CreateRecipe = () => {
         if(k == "id") recipeId = new_recipe[key][k]
       })
     })
-
+    console.log("RECIPE ID ---> " + recipeId)
     // validate if user uploaded an image
     if (formFields['recipePicture'].files.length > 0) {
       resp_firebase = await actions.uploadRecipePicture(formData, recipeId)
@@ -44,10 +44,15 @@ export const CreateRecipe = () => {
       })
     }
     //let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
-    await actions.userEditRecipe(recipeId, recomendedname, description, ingredient, instructions, resp_imagen)
+    let resp_edit_recipe = await actions.userEditRecipe(recipeId, recomendedname, description, ingredient, instructions, resp_imagen)
     setRecipePicture(resp_imagen)
-    //navigate("/recipeDetail/" + recipeId)
-    swal("Amazing!", "Recipe has been created", "success");
+    if(resp_edit_recipe.code >= 400) {
+      swal("Amazing!", "Recipe has been created", "success");
+      navigate("/recipeDetail/" + recipeId)
+    } else {
+      swal("Opps!", "Recipe was not created", "error");
+    }
+    
   }
 
   async function callChatGPT() {

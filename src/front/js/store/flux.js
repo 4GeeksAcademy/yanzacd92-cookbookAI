@@ -220,6 +220,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.code >= 400) {
 					return resp
 				}
+				return resp
 				/*store.pictureUrl = resp.data.profile_pic
 				setStore({pictureUrl: store.pictureUrl})
 				setStore({userInfo: resp.data})*/
