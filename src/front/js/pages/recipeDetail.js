@@ -25,9 +25,6 @@ export const RecipeDetail = () => {
 
     function checkFavorites(recipeId, userId) {
         checkEditDeleteButton(userId)
-        /*if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
-        store.favorites.some(favorite => favorite.user_id == localStorage.getItem("id"))) return faHeart
-        return farHeartRegular*/
         if(store.favorites.some(item => item.recipe_id == recipeId)) return faHeart
         return farHeartRegular
     }
@@ -45,13 +42,6 @@ export const RecipeDetail = () => {
         }
     }
 
-    /*function ingredientText() {
-        let new_text = (recipeDetail.ingredients).split("Ingredient")
-        for(line in new_text) {
-            if(line !== "0") c += "Ingredient" + new_text[i] + "\n"
-        }
-        return new_text
-    }*/
     function showIdForm() {
         document.getElementById("ctn-detail-recipe").style.display = "none"
         document.getElementById("ctn-edit-recipe").style.display = "block"
@@ -83,7 +73,6 @@ export const RecipeDetail = () => {
                 if(key == "data") resp_imagen = (resp_firebase[key].filename)
             })
         }
-        console.log("IMAGEN IN EDIT RECIPE  ->  " + resp_imagen)
         // call to action to update he information in a recipe
         await actions.userEditRecipe(recipeDetail.id, recomendedname, description, ingredients, instructions, resp_imagen)
         setRecipePicture(resp_imagen)
@@ -92,7 +81,8 @@ export const RecipeDetail = () => {
         document.getElementById("spinner-update").style.display = "none"
         document.getElementById("ctn-edit-recipe").style.display = "none"
         document.getElementById("ctn-detail-recipe").style.display = "block"
-        //navigate("/recipeDetail/" + recipeDetail.id)
+        navigate("/recipeDetail/" + recipeDetail.id)
+        window.location.reload(false);
     }
 
     async function deleteRecipe() {

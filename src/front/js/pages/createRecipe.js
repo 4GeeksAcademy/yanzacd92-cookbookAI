@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
+import cookbookAI from "./../../img/cookbookAI.jpg"
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 
@@ -14,7 +14,7 @@ export const CreateRecipe = () => {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [recomendedname, setRecommendedName] = useState("");
+  const [recommendedname, setRecommendedName] = useState("");
   const [recipePicture, setRecipePicture] = useState("");
   const navigate = useNavigate()
 
@@ -27,7 +27,7 @@ export const CreateRecipe = () => {
     const formFields = document.getElementById('form-create-recipe-id').elements;
     let resp_imagen = ""
 
-    let new_recipe = await actions.userCreateRecipe(recomendedname, description, ingredient, instructions, recipePicture)
+    let new_recipe = await actions.userCreateRecipe(recommendedname, description, ingredient, instructions, recipePicture)
     if(new_recipe.code >= 400) {
       swal("Opps!", "Recipe was not created", "error");
       navigate("/createRecipe")
@@ -39,21 +39,20 @@ export const CreateRecipe = () => {
         if(k == "id") recipeId = new_recipe[key][k]
       })
     })
-    console.log("RECIPE ID ---> " + recipeId)
     // validate if user uploaded an image
     if (formFields['recipePicture'].files.length > 0) {
       resp_firebase = await actions.uploadRecipePicture(formData, recipeId)
       if(resp_firebase.code >= 400) {
         swal("Opps!", "Recipe was not created", "error");
-        navigate("/createRecipe")
+        //navigate("/createRecipe")
       } else {
       Object.keys(resp_firebase).map((key) => {
           if(key == "data") resp_imagen = (resp_firebase[key].filename)
       }) }
     }
     //let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
-    let resp_edit_recipe = await actions.userEditRecipe(recipeId, recomendedname, description, ingredient, instructions, resp_imagen)
-    setRecipePicture(resp_imagen)
+    let resp_edit_recipe = await actions.userEditRecipe(recipeId, recommendedname, description, ingredient, instructions, cookbookAI)
+    setRecipePicture(cookbookAI)
     if(resp_edit_recipe.code >= 400) {
       swal("Opps!", "Recipe was not created", "error");
     } else {
@@ -66,14 +65,12 @@ export const CreateRecipe = () => {
   async function callChatGPT() {
     document.getElementById("spinner-create").style.display = "block"
     document.getElementById("generate-gpt").style.display = "none"
-    if(recipePicture == ""){
-      let recipeImg = await actions.userCallChatGPTImage(ingredient)
-      Object.keys(recipeImg).map((key) => {
-        if(key == "data") {
-          setRecipePicture(recipeImg[key]['url'])
-        }
-      })
-    }
+    let recipeImg = await actions.userCallChatGPTImage(ingredient)
+    Object.keys(recipeImg).map((key) => {
+      if(key == "data") {
+        setRecipePicture(recipeImg[key]['url'])
+      }
+    })
     let recipeChatGPT = await actions.userCallChatGPT(
       ingredient
     );
@@ -167,12 +164,6 @@ export const CreateRecipe = () => {
                 onChange={(e) => setIngredient(e.target.value)}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="formFile" className="label-add-recipe form-label">
-                Image for recipe (<strong>optional</strong>)
-              </label>
-              <input className="form-control" type="file" id="formFile" name="recipePicture" onChange={(e) => setRecipePicture(e.target.value)}/>
-            </div>
             <div className="col-12">
               <button
                 type="submit"
@@ -197,9 +188,9 @@ export const CreateRecipe = () => {
                 <input
                   className="form-control"
                   id="exampleFormControlDescription"
-                  name="recomendedname"
+                  name="recommendedname"
                   rows="1"
-                  value={recomendedname || ""}
+                  value={recommendedname || ""}
                   onChange={(e) => setRecommendedName(e.target.value)}
                 ></input>
               </div>

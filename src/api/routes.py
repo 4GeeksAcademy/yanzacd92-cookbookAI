@@ -388,8 +388,6 @@ def recipe_update(recipeId):
     ingredients = request.json['ingredients']
     image = request.json['recipePicture']
     image_firebase = request.json['recipePicture']
-
-    print("imagen from python    "  + image)
     updated_recipe = Recipe.query.get(recipeId)
     if(updated_recipe is None):
         return jsonify({
