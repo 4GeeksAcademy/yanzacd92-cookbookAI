@@ -69,6 +69,7 @@ class Recipe(db.Model):
     ingredients = db.Column(db.String(10000), unique=False)
     elaboration = db.Column(db.String(10000), unique=False)
     image = db.Column(db.String(8000), unique=False)
+    image_firebase = db.Column(db.String(8000), unique=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     is_recommended = db.Column(db.Boolean(), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
@@ -92,6 +93,7 @@ class Recipe(db.Model):
             "name": self.name,
             "description": self.description,
             "image": recipe_picture_url,
+            "image_firebase": self.image_firebase,
             "ingredients": self.ingredients,
             "elaboration": self.elaboration,
             "user_id": self.user.id,

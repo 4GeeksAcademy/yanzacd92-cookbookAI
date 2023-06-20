@@ -22,8 +22,12 @@ export const CreateRecipe = () => {
     if(!localStorage.getItem("accessToken")) navigate("/")
   }, [localStorage.getItem("accessToken")])
 
-  async function createRecipe(name, description, ingredients, elaboration, recipePicture) {
-    let new_recipe = await actions.userCreateRecipe(name, description, ingredients, elaboration, recipePicture)
+  async function createRecipe(e) {
+    const formData = new FormData(e.target)
+    const formFields = document.getElementById('form-create-recipe-id').elements;
+    resp_imagen = ""
+
+    let new_recipe = await actions.userCreateRecipe(recomendedname, description, ingredient, instructions, recipePicture)
     let recipeId = 0
     Object.keys(new_recipe).map((key) => {
       if(key == "data")
@@ -31,8 +35,17 @@ export const CreateRecipe = () => {
         if(k == "id") recipeId = new_recipe[key][k]
       })
     })
-    let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
-    setRecipePicture(img_from_firebase)
+
+    // validate if user uploaded an image
+    if (formFields['recipePicture'].files.length > 0) {
+      resp_firebase = await actions.uploadRecipePicture(formData, recipeId)
+      Object.keys(resp_firebase).map((key) => {
+          if(key == "data") resp_imagen = (resp_firebase[key].filename)
+      })
+    }
+    //let img_from_firebase = await actions.uploadRecipePicture(recipePicture, recipeId)
+    await actions.userEditRecipe(recipeId, recomendedname, description, ingredient, instructions, resp_imagen)
+    setRecipePicture(resp_imagen)
     //navigate("/recipeDetail/" + recipeId)
     swal("Amazing!", "Recipe has been created", "success");
   }
@@ -53,9 +66,9 @@ export const CreateRecipe = () => {
     );
     document.getElementById("spinner-create").style.display = "none"
     Object.keys(recipeChatGPT).map((key) => {
-      if(key == "code"){
+      /*if(key == "code"){
         if(recipeChatGPT[key] == 500) navigate("/createRecipe")
-      }
+      }*/
       console.log("Call to Chat GPT successful!!  " + JSON.stringify(recipeChatGPT))
       if(key == "data") {
         let resp = recipeChatGPT[key]
@@ -122,7 +135,7 @@ export const CreateRecipe = () => {
                 <h3 className="title-snipper h3 text-white">Generating recipe ...</h3>
             </div>
         </div>
-        <div className="cnt-create-recipe container mt-4 mb-4">
+        <div className="cnt-create-recipe container mt-4 mb-4" id="form-create-recipe-id">
           <div className="content-generate-gpt" id="generate-gpt">
           <h1 className="login-title">Your Ingredients</h1>
             <div className="mb-3">
@@ -157,7 +170,7 @@ export const CreateRecipe = () => {
             </div>
           </div>
 
-          <div className="content-save-gpt" id="save-gpt">
+          <form className="content-save-gpt" onSubmit={createRecipe} id="save-gpt">
             <div className="mb-3">
             <h1 className="login-title">Congratulations your new recipe</h1>
               <div className="label-add-recipe mb-3">
@@ -217,8 +230,7 @@ export const CreateRecipe = () => {
             </div>
             <div className="recipe-buttons">
               <div className="recipe-btn col-12">
-                <button type="submit" className="save-btn btn btn-primary" onClick={
-                  () => createRecipe(recomendedname, description, quantity, instructions, recipePicture)}>
+                <button type="submit" className="save-btn btn btn-primary">
                   Save recipe
                 </button>
               </div>
@@ -228,7 +240,7 @@ export const CreateRecipe = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

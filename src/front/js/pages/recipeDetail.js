@@ -25,8 +25,10 @@ export const RecipeDetail = () => {
 
     function checkFavorites(recipeId, userId) {
         checkEditDeleteButton(userId)
-        if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
+        /*if(store.favorites.some(favorite => favorite.recipe_id == recipeId) && 
         store.favorites.some(favorite => favorite.user_id == localStorage.getItem("id"))) return faHeart
+        return farHeartRegular*/
+        if(store.favorites.some(item => item.recipe_id == recipeId)) return faHeart
         return farHeartRegular
     }
 
@@ -64,21 +66,33 @@ export const RecipeDetail = () => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const formFields = document.getElementById('form-edit-recipe-id').elements;
-        document.getElementById("spinner-create").style.display = "block"
+
+        // show spinner loading and hide recipe editin container
+        document.getElementById("spinner-update").style.display = "block"
         document.getElementById("ctn-edit-recipe").style.display = "none"
+        document.getElementById("ctn-detail-recipe").style.display = "none"
+
+        // call firebase to save image tha the user is uploading
         let resp_firebase = {}
-        let resp_imagen = ""
+        let resp_imagen = recipeDetail.image_firebase
+
+        // validate if user uploaded an image
         if (formFields['recipePicture'].files.length > 0) {
             resp_firebase = await actions.uploadRecipePicture(formData, recipeDetail.id)
             Object.keys(resp_firebase).map((key) => {
-                if(key == "data") resp_imagen = (resp_firebase[key].recipeImage)
+                if(key == "data") resp_imagen = (resp_firebase[key].filename)
             })
         }
+        console.log("IMAGEN IN EDIT RECIPE  ->  " + resp_imagen)
+        // call to action to update he information in a recipe
         await actions.userEditRecipe(recipeDetail.id, recomendedname, description, ingredients, instructions, resp_imagen)
         setRecipePicture(resp_imagen)
 
-        document.getElementById("spinner-create").style.display = "none"
-        document.getElementById("ctn-edit-recipe").style.display = "block"
+        // hide the sppiner and show the recipe container
+        document.getElementById("spinner-update").style.display = "none"
+        document.getElementById("ctn-edit-recipe").style.display = "none"
+        document.getElementById("ctn-detail-recipe").style.display = "block"
+        //navigate("/recipeDetail/" + recipeDetail.id)
     }
 
     async function deleteRecipe() {
@@ -132,18 +146,17 @@ export const RecipeDetail = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className="container mt-4 mb-4" id="ctn-edit-recipe">
-                    <div className="container-fluid bg-3" id="spinner-create">
-                        <div className="ctn-snipper container">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="loader-profile">Loading...</div>
-                                </div>
+                <div className="container-fluid bg-3" id="spinner-update">
+                    <div className="ctn-snipper container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="loader">Loading...</div>
                             </div>
-                            <h3 className="title-snipper-profile h3">Updating recipe ...</h3>
                         </div>
+                        <h3 className="title-snipper h3 text-white">Updating recipe ...</h3>
                     </div>
+                </div>
+                <div className="container mt-4 mb-4" id="ctn-edit-recipe">
                     <form className="row" onSubmit={editRecipe} id="form-edit-recipe-id">
                         <div className="col-sm-6">
                             <div className="card-edit card">

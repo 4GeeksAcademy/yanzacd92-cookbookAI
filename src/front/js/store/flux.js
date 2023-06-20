@@ -99,9 +99,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let resp = null
 				if(store.favorites.some(item => item.recipe_id == recipeId)) {
 					resp = await getActions().apiFetch("/api/deleteRecipeFromFavorites/" + recipeId, "DELETE")
-					new_favorites = store.favorites.filter(function( favorite ) {
-						return (favorite.recipe_id !== recipeId);
-					});
+					new_favorites = [...store.favorites]
+					let getIndex = new_favorites.findIndex(favorite => favorite.recipeId === recipeId)
+					new_favorites.splice(getIndex, 1)
 				} else {
 					resp = await getActions().apiFetch("/api/addRecipeToFavorite/" + recipeId, "POST")
 					new_favorites = [...store.favorites, resp.data]
