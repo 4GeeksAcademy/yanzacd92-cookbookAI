@@ -98,6 +98,7 @@ export const RecipeDetail = () => {
         } else {
             swal("Deleted!", "Your recipe has been deleted!", "success");
             navigate("/myrecipes")
+            window.location.reload(false);
         }
     }
 
@@ -113,29 +114,29 @@ export const RecipeDetail = () => {
                                 <img src={checkRecipePicture(recipeDetail.image_firebase)} className="card-img-top" />
                             </div>
                         </div>
+                        <div className="modal fade" id="exampleModalDetail" tabIndex="-1" aria-labelledby="exampleModalDeleteDetail" aria-hidden="true">
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalDeleteDetail">Are you sure?</h5>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body">
+                                    You will not be able to recover this recipe!
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="confirmation-close-btn btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" className="confirmation-delete-btn btn btn-primary" onClick={deleteRecipe}>Delete</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="col-sm-6">
                             <div className="card">
                                 <div className="icon-favorite card-body">
                                     <button className="add-favorite-detail-btn btn btn-primary" type="submit" onClick={() => actions.addOrRemoveFavorites(recipeId)}><FontAwesomeIcon className="add-favorite-detail" icon={checkFavorites(recipeDetail.id, recipeDetail.user_id)} /></button>
                                     <button className="edit-recipe-detail-btn btn btn-primary" id="edit-recipe-btn-show" type="submit" onClick={() => showIdForm()}><FontAwesomeIcon className="edit-recipe-detail" icon={faPencil} /></button>
                                     <button className="delete-recipe-detail-btn btn btn-primary" id="delete-recipe-btn-show" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalDetail"><FontAwesomeIcon className="delete-recipe-detail" icon={faTrashCan} /></button>
-                                </div>
-                                <div className="modal fade" id="exampleModalDetail" tabIndex="-1" aria-labelledby="exampleModalDeleteDetail" aria-hidden="true">
-                                    <div className="modal-dialog">
-                                        <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h5 className="modal-title" id="exampleModalDeleteDetail">Are you sure?</h5>
-                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div className="modal-body">
-                                            You will not be able to recover this recipe!
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="confirmation-close-btn btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" className="confirmation-delete-btn btn btn-primary" onClick={deleteRecipe}>Delete</button>
-                                        </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">{recipeDetail.name}</h5>

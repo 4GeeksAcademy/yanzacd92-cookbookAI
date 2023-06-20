@@ -4,9 +4,8 @@ import { Context } from "../store/appContext";
 import "../../styles/recommend.css";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faKitchenSet, faFireBurner } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faFireBurner } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
-import { RecipeDetail } from "./recipeDetail";
 import cookbookAI from "./../../img/cookbookAI.jpg"
 
 export const AllRecipes = () => {

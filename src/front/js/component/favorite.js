@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from "react";
 import {Context} from '../store/appContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const Favorite = () => {
     const {store, actions} = useContext(Context)

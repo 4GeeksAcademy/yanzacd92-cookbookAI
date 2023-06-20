@@ -777,6 +777,7 @@ button.btn.col-4.dropdown-item {
 
   .card {
     border-radius: 15px;
+    box-shadow: 14px 17px 24px 0px rgba(0,0,0,0.63);
   }
 
   .update-recipe-btn {
