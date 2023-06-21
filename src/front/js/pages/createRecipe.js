@@ -26,7 +26,7 @@ export const CreateRecipe = () => {
     e.preventDefault()
     let resp_imagen = ""
 
-    let new_recipe = await actions.userCreateRecipe(recommendedname, description, ingredient, instructions, resp_imagen)
+    let new_recipe = await actions.userCreateRecipe(recommendedname, description, quantity, instructions, resp_imagen)
     if(new_recipe.code >= 400) {
       swal("Opps!", "Recipe was not created", "error");
       navigate("/createRecipe")
