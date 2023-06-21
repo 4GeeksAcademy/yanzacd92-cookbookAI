@@ -214,7 +214,7 @@ export const CreateRecipe = () => {
                 </button>
               </div>
               <div className="recipe-btn col-12">
-                <button type="submit" className="generate-btn btn btn-primary" onClick={() => showHideDiv("none", "block")}>
+                <button type="button" className="generate-btn btn btn-primary" onClick={() => showHideDiv("none", "block")}>
                   Back to new recipe
                 </button>
               </div>

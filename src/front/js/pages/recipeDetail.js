@@ -179,7 +179,7 @@ export const RecipeDetail = () => {
                         <div className="col-sm-6">
                             <div className="card-edit card">
                                 <div className="edit-picture-recipe">
-                                    <img className="recipe-picture card-img-edit-recipe-top" src={cookbookAI} />
+                                    <img className="recipe-picture card-img-edit-recipe-top" src={checkRecipePicture(recipeDetail.image_firebase)} />
                                     <div className="mb-3">
                                         <label htmlFor="formFileSm" className="form-label"></label>
                                         <input className="form-control form-control-sm" name="recipePicture" id="formFileSm" type="file" />
