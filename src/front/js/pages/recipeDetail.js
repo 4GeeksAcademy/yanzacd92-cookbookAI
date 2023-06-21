@@ -97,8 +97,11 @@ export const RecipeDetail = () => {
             swal("Sorry!", resp.data.message, "error");
         } else {
             swal("Deleted!", "Your recipe has been deleted!", "success");
-            navigate("/myrecipes")
-            window.location.reload(false);
+            setTimeout(function () {
+                navigate("/myrecipes")
+                window.location.reload(false);
+              }, 2000);
+            
         }
     }
 
