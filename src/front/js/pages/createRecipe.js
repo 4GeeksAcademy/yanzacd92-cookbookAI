@@ -39,12 +39,12 @@ export const CreateRecipe = () => {
   async function callChatGPT() {
     document.getElementById("spinner-create").style.display = "block"
     document.getElementById("generate-gpt").style.display = "none"
-    let recipeImg = await actions.userCallChatGPTImage(ingredient)
+    /*let recipeImg = await actions.userCallChatGPTImage(ingredient)
     Object.keys(recipeImg).map((key) => {
       if(key == "data") {
         setRecipePicture(recipeImg[key]['url'])
       }
-    })
+    })*/
     let recipeChatGPT = await actions.userCallChatGPT(
       ingredient
     );
