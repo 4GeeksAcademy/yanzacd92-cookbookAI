@@ -37,19 +37,19 @@ export const Signup = () => {
 				<h1 className="signup-title">Signup</h1>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
+					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required />
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-					<input type="password" className="form-control" name="password" id="exampleInputPassword1" />
+					<input type="password" className="form-control" name="password" id="exampleInputPassword1" required />
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputFirstName" className="form-label">First name</label>
-					<input type="text" className="form-control" name="first_name" id="exampleInputFirstName" />
+					<input type="text" className="form-control" name="first_name" id="exampleInputFirstName" required />
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputLastName" className="form-label">Last name</label>
-					<input type="text" className="form-control" name="last_name" id="exampleInputLastName" />
+					<input type="text" className="form-control" name="last_name" id="exampleInputLastName" required />
 				</div>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputQuestion" className="form-label">Security question</label>

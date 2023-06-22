@@ -136,6 +136,7 @@ export const CreateRecipe = () => {
                 value={ingredient}
                 placeholder="Ingredient 1, ingredient 2, ..."
                 onChange={(e) => setIngredient(e.target.value)}
+                required
               />
             </div>
             <div className="col-12">

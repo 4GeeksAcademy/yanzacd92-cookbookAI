@@ -35,7 +35,7 @@ export const RecoveryPassword = () => {
 				<h1 className="signup-title">Password Recovery</h1>
 				<div className="info mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
+					<input type="email" className="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required/>
 				</div>
                 <div className="signup">
 				    <button type="submit" className="signup-button btn btn-primary">Send</button>
